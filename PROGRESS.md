@@ -8,6 +8,7 @@
 - Job `44a6e3a0-171` verified the full train/evaluate loop for EFNN on both reproduced three-spin settings.
 - Updated the job script to score the validated binary EFNN core-claim artifact in the official `scoring/scores.json` schema.
 - Confirmed the current implementation matches the supplement's continued-function EFNN structure: linear-tanh-linear `f`/`g` transforms, recursive effective fields, multiplicative injection of `S_0`, and final summation.
+- Continuing-agent audit on 2026-05-26 restored `core_claim`: the implementation is not a surrogate, evaluation is artifact-based, and structural validation passes.
 
 ## Results
 

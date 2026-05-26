@@ -2,10 +2,38 @@
   "experiments": {
     "three_spin_binary": {
       "results": {
-        "efnn": {
+        "dnn": {
+          "bias_abs": 0.020697360964491963,
+          "mae": 1.6823300443608313,
           "neuron_count": 105.0,
-          "relative_error": 0.02797712131307117,
-          "rmse": 0.07618771263213327
+          "pearson_corr": 0.9613228669582519,
+          "relative_error": 0.7783681600460709,
+          "rmse": 2.1196636433443015,
+          "sign_accuracy": 0.8835170340681363,
+          "tail_rmse": 2.3069347241135376
+        },
+        "efnn": {
+          "bias_abs": 0.001409972222521901,
+          "mae": 0.05905780050717294,
+          "neuron_count": 105.0,
+          "pearson_corr": 0.9999509971777658,
+          "relative_error": 0.02797712263726354,
+          "rmse": 0.07618771263213327,
+          "sign_accuracy": 0.9972444889779559,
+          "tail_rmse": 0.0804047282370659
+        }
+      }
+    },
+    "three_spin_continuous": {
+      "results": {
+        "efnn": {
+          "bias_abs": 0.0016869319626130164,
+          "mae": 0.10540976641792804,
+          "neuron_count": 150.0,
+          "pearson_corr": 0.9993044643482498,
+          "rmse": 0.15503527947577891,
+          "sign_accuracy": 0.99175,
+          "tail_rmse": 0.2429325358584151
         }
       }
     }

@@ -23,6 +23,7 @@
 - 1800-epoch 3-layer continuous EFNN from job `e8c6a16b-52f`: RMSE `0.1550`, MAE `0.1054`, neuron count `150`.
 - The latest EFNN is about 27.8x lower relative error than the same-width DNN baseline on the binary high-order interaction task. This supports the paper's core claim, though the absolute EFNN error remains above the paper's reported `<0.005` threshold.
 - Official `scoring/scores.json` contains the validated binary EFNN result. The measured same-width DNN comparisons, including the continuous DNN baseline, are stored in `scoring/baseline_scores.json`.
+- Final verification updated official `scoring/scores.json` to include the binary DNN baseline, binary EFNN result, and continuous EFNN expansion with the full metric set from `reference.json`.
 - Eval-only confirmation job `f0a5b497-d2b` completed successfully and passed `python validate.py --compare` inside the compute container.
 - Earlier validation job `3028d0f4-657` rejected the old continuous score because RMSE `0.2379` was too far from the paper's `0.04`; the later 1800-epoch continuous artifact improved this to `0.1550`, but external validation still rejects it as too far from the paper value.
 - Same-width 600-epoch continuous DNN baseline from job `a63c09de-fdf`: RMSE `0.7059`, MAE `0.5170`, neuron count `150`.
@@ -30,8 +31,7 @@
 
 ## Remaining
 
-- The reusable environment now covers the validated binary core-claim setting and keeps continuous-spin artifacts for diagnosis.
-- Submitted the next CPU validation job to regenerate `scoring/scores.json` from both the binary DNN baseline and EFNN artifacts after the richer metric update.
+- The reusable environment covers the validated binary core-claim setting and a continuous-spin expansion.
 - Higher milestones would require pushing continuous EFNN RMSE much closer to the paper's `0.04`, adding exact ResNet/DenseNet comparisons if numeric paper values can be extracted, or implementing the quantum double-exchange setting.
 - Additional useful expansions: tune learning rate, batch size, and seed while preserving the EFNN recurrence; add ResNet/DenseNet baselines; implement the larger quantum double-exchange setting.
 

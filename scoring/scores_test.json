@@ -30,24 +30,51 @@
       },
       "results": {
         "dnn": {
-          "bias_abs": 0.010603119049221277,
-          "mae": 1.7066088077165187,
+          "bias_abs": 0.01060311833396554,
+          "mae": 1.7066088065244258,
           "neuron_count": 105.0,
-          "pearson_corr": 0.9603700715369916,
-          "relative_error": 0.7861996183071808,
-          "rmse": 2.155202161590783,
+          "pearson_corr": 0.9603700715320154,
+          "relative_error": 0.7861996353153394,
+          "rmse": 2.155202161567754,
           "sign_accuracy": 0.8822055137844611,
-          "tail_rmse": 2.3465277962419835
+          "tail_rmse": 2.3465277954178587
         },
         "efnn": {
-          "bias_abs": 0.002180483613163233,
-          "mae": 0.0594971193484962,
+          "bias_abs": 0.0021804828979074954,
+          "mae": 0.05949711863324046,
           "neuron_count": 105.0,
-          "pearson_corr": 0.9999499916903167,
-          "relative_error": 0.028246464005072126,
-          "rmse": 0.07743178559677466,
+          "pearson_corr": 0.9999499916915439,
+          "relative_error": 0.028246464252451125,
+          "rmse": 0.0774317845989736,
           "sign_accuracy": 0.9959899749373433,
-          "tail_rmse": 0.08239436145478497
+          "tail_rmse": 0.08239435671494454
+        }
+      }
+    },
+    "three_spin_continuous": {
+      "_artifacts": {
+        "efnn": {
+          "method_name": "efnn",
+          "prediction": "outputs/continuous_efnn.npz",
+          "selected_rows": 2000,
+          "slice": "test",
+          "source_rows": 4000,
+          "split_seed": 25021765,
+          "task": "continuous"
+        }
+      },
+      "_meta": {
+        "slice": "test"
+      },
+      "results": {
+        "efnn": {
+          "bias_abs": 0.000993164581246674,
+          "mae": 0.10561243513971567,
+          "neuron_count": 150.0,
+          "pearson_corr": 0.9993144896497176,
+          "rmse": 0.15618611969810534,
+          "sign_accuracy": 0.992,
+          "tail_rmse": 0.24304019334121055
         }
       }
     }

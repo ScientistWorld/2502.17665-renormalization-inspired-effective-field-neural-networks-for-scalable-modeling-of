@@ -30,24 +30,51 @@
       },
       "results": {
         "dnn": {
-          "bias_abs": 0.03079160311818123,
-          "mae": 1.658051282674074,
+          "bias_abs": 0.030791603595018386,
+          "mae": 1.658051282197237,
           "neuron_count": 105.0,
-          "pearson_corr": 0.9622955159934147,
-          "relative_error": 0.7702079124942041,
-          "rmse": 2.0835190346546413,
+          "pearson_corr": 0.9622955160204462,
+          "relative_error": 0.7702079687173822,
+          "rmse": 2.083519033895528,
           "sign_accuracy": 0.8848272408612919,
           "tail_rmse": 2.2511244400798622
         },
         "efnn": {
-          "bias_abs": 0.0006394610702991486,
-          "mae": 0.058618481904268264,
+          "bias_abs": 0.0006394615471363068,
+          "mae": 0.058618482381105425,
           "neuron_count": 105.0,
-          "pearson_corr": 0.999952077231827,
-          "relative_error": 0.0276965438052458,
-          "rmse": 0.07492298543844156,
+          "pearson_corr": 0.9999520772309818,
+          "relative_error": 0.02769654608144781,
+          "rmse": 0.07492298609940205,
           "sign_accuracy": 0.9984977466199298,
           "tail_rmse": 0.07864525747838465
+        }
+      }
+    },
+    "three_spin_continuous": {
+      "_artifacts": {
+        "efnn": {
+          "method_name": "efnn",
+          "prediction": "outputs/continuous_efnn.npz",
+          "selected_rows": 2000,
+          "slice": "train",
+          "source_rows": 4000,
+          "split_seed": 25021765,
+          "task": "continuous"
+        }
+      },
+      "_meta": {
+        "slice": "train"
+      },
+      "results": {
+        "efnn": {
+          "bias_abs": 0.0023806993439793585,
+          "mae": 0.10520709769614041,
+          "neuron_count": 150.0,
+          "pearson_corr": 0.9992927911812679,
+          "rmse": 0.15387583233865823,
+          "sign_accuracy": 0.9915,
+          "tail_rmse": 0.24253466496760362
         }
       }
     }

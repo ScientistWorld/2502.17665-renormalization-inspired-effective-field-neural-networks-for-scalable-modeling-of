@@ -3,11 +3,11 @@
 ## Research Problem
 This benchmark studies compact neural energy predictors for many-body spin systems with high-order interactions. The scientific question is how to encode interaction structure so a model can fit nontrivial energy functions efficiently.
 
-## Core Contribution
-The paper's contribution is a renormalization-inspired, continued-function style neural computation for many-body energies. Future improvements should work on architectures or training methods that preserve this goal: structured high-order interaction modeling through recursive effective representations.
+## Direction Scope
+Future work should stay within compact, structured neural energy prediction for the same fixed spin-energy tasks. Improvements should make the predictor more accurate, more robust across the scored slices, or more parameter-efficient without changing the underlying generated data distribution.
 
-## Approach Scope
-Approaches may modify the recursive transforms, nonlinearities, initialization, normalization, optimizer, or regularization used for compact many-body energy models. They should remain in the family of structured neural energy predictors for the same spin-energy problem.
+## Allowed Changes
+Agents may change model architecture, optimization, initialization, normalization, regularization, or training schedule, provided the output remains an energy prediction artifact that can be scored by the standard evaluator. The fixed train/test splits and metric definitions must remain unchanged.
 
 ## Out of Bounds
-Do not replace the task with explicit enumeration of all cubic interaction features followed by direct linear regression as the final method. That solves this small benchmark by using privileged knowledge of the exact generator rather than improving the paper's approach family. Do not use external data or a much wider network to obtain gains.
+Do not use the closed-form generator or explicit enumeration of all cubic interaction features as the final predictor. That solves this small benchmark by using privileged knowledge of the labels rather than improving learned energy prediction. Do not use external data, train on the test split, or increase the reported width beyond the constraints just to obtain gains.

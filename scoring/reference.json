@@ -47,8 +47,15 @@
         }
       },
       "results": {
-        "dnn": {"type": "baseline", "neuron_count": 105},
-        "efnn": {"type": "proposed", "relative_error": 0.005, "rmse": 0.05, "neuron_count": 105}
+        "dnn": {
+          "type": "baseline",
+          "neuron_count": 105
+        },
+        "efnn": {
+          "type": "proposed",
+          "relative_error": 0.005,
+          "neuron_count": 105
+        }
       }
     },
     "three_spin_continuous": {
@@ -93,7 +100,11 @@
         }
       },
       "results": {
-        "efnn": {"type": "proposed", "rmse": 0.04, "mae": 0.032, "neuron_count": 150}
+        "efnn": {
+          "type": "proposed",
+          "rmse": 0.04,
+          "neuron_count": 150
+        }
       }
     }
   }

@@ -30,5 +30,9 @@
 - EFNN trained and evaluated end-to-end on both 15-site binary and continuous three-spin tasks.
 - Smoke-scale results were still far from the paper's reported errors, so the next run uses a corrected summation-output EFNN and longer GPU training.
 
+### [2026-05-26 06:36] - method_runs
+- CUDA PyTorch setup failed due to shared cache disk quota while extracting the wheel.
+- Reverted to the working CPU PyTorch setup and configured a longer binary-task core-claim run with larger batches.
+
 ## Stop Justification
-- Not stopped. A longer GPU core-claim run is being submitted.
+- Not stopped. A longer CPU core-claim run is being submitted.

@@ -28,7 +28,7 @@
 #   notes: "Reproduced the core claim. Environment packaged."
 
 action: submit
-gpus: 1
+gpus: 0
 test: false
 milestone: method_runs
-notes: "Method now runs end-to-end. Submit a 300-epoch GPU core-claim attempt with the corrected EFNN summation output and CUDA PyTorch setup."
+notes: "CUDA PyTorch setup exceeded shared cache disk quota. Revert to working CPU PyTorch and submit a 600-epoch binary EFNN core-claim attempt with larger batches."

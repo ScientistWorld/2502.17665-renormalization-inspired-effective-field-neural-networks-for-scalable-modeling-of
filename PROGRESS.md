@@ -15,7 +15,7 @@
 
 ## Remaining
 
-- Run the corrected summation-output EFNN for longer on one GPU and inspect `scoring/scores.json`.
+- Run the corrected summation-output EFNN longer on CPU after CUDA PyTorch installation exceeded the shared cache quota.
 - If the method still underperforms, tune learning rate, batch size, and seed while preserving the EFNN recurrence.
 - Add more baselines or quantum double-exchange coverage if budget remains after the core claim is demonstrated.
 
@@ -23,8 +23,9 @@
 
 - The manuscript does not specify the exact `J_ijk` values, random seed, batch size, epoch count, or learning-rate schedule for the three-spin experiments. The reproduction fixes a deterministic nontrivial `J_ijk` instance and uses Adam with exponential learning-rate decay.
 - The first EFNN implementation used a learned output projection. The paper specifies `q` as summation over the final quasi-particle layer, so `method/models.py` was corrected before the core-claim attempt.
+- A CUDA PyTorch setup attempt failed while extracting the wheel into the shared `uv_cache` due to disk quota. The environment was returned to the previously working CPU PyTorch setup.
 
 ## Deviations from Paper
 
 - The paper states `J_ijk` are constants but does not list them in the manuscript. This reproduction uses a fixed seeded set of Gaussian-plus-sign couplings in `data/three_spin.py`.
-- The completed smoke job used 20 epochs as a fast validation run rather than the unknown full paper training schedule. The next run increases training to 300 epochs.
+- The completed smoke job used 20 epochs as a fast validation run rather than the unknown full paper training schedule. The next run increases binary-task training to 600 epochs with larger CPU batches.

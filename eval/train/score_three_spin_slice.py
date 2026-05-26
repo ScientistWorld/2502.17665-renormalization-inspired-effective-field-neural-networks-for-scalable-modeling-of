@@ -30,6 +30,7 @@ TASK_FOR_EXP = {v: k for k, v in EXP_FOR_TASK.items()}
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
+    parser.add_argument("checkpoint_root", nargs="?", help="Accepted for scheduler interface compatibility; unused")
     parser.add_argument("--prediction", action="append", help="NPZ file written by a method or baseline")
     parser.add_argument("--method-name", action="append", help="Score name matching the method output")
     parser.add_argument("--task", action="append", choices=["binary", "continuous"], help="Three-spin task")
@@ -101,6 +102,21 @@ def discover_from_outputs(outputs_dir: Path = OUTPUTS_DIR) -> list[tuple[Path, s
     return entries
 
 
+def merge_entries(
+    score_entries: list[tuple[Path, str, str]],
+    output_entries: list[tuple[Path, str, str]],
+) -> list[tuple[Path, str, str]]:
+    entries: list[tuple[Path, str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    for pred_path, method_name, task in score_entries + output_entries:
+        key = (task, method_name)
+        if key in seen:
+            continue
+        seen.add(key)
+        entries.append((pred_path, method_name, task))
+    return entries
+
+
 def requested_entries(args: argparse.Namespace) -> list[tuple[Path, str, str]]:
     supplied = (args.prediction, args.method_name, args.task)
     if any(value is not None for value in supplied):
@@ -110,10 +126,7 @@ def requested_entries(args: argparse.Namespace) -> list[tuple[Path, str, str]]:
             raise SystemExit("--prediction, --method-name and --task must have the same length")
         return [(Path(p), m, t) for p, m, t in zip(args.prediction, args.method_name, args.task)]
 
-    entries = discover_from_score_file(args.score_source)
-    if entries:
-        return entries
-    entries = discover_from_outputs()
+    entries = merge_entries(discover_from_score_file(args.score_source), discover_from_outputs())
     if entries:
         return entries
     raise SystemExit("no prediction artifacts found; pass --prediction/--method-name/--task or write outputs/*.npz")

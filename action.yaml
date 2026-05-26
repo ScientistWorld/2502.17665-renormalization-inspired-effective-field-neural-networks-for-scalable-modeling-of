@@ -1,9 +1,6 @@
-# This iteration writes files only — do NOT submit compute jobs.
-# Once you set action to 'done', STOP immediately.
-# Do NOT sleep, poll, or wait. The system reads this file
-# only after your turn ends.
-action: done
+# This iteration submits the CPU scoring job for the train/test evaluation split.
+action: submit
 gpus: 0
 test: false
 milestone: core_claim_plus
-notes: "Improvements: evaluator-owned official targets, x_test verification, added correlation/sign metrics, completed metric metadata. Notes: see DESIGN_NOTES.md."
+notes: "Run evaluate_train.sh and evaluate_test.sh on saved final artifacts; populate scores_train.json and scores_test.json."

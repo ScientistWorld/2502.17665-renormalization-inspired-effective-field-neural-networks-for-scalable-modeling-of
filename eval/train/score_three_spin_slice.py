@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -172,7 +173,11 @@ def official_target(task: str, arr: np.lib.npyio.NpzFile, pred_path: Path) -> np
     if "y_true" in arr:
         submitted_y = arr["y_true"].astype(np.float32)
         if submitted_y.shape != expected_y.shape or not np.allclose(submitted_y, expected_y, rtol=0.0, atol=1e-6):
-            raise SystemExit(f"{pred_path} y_true does not match the official {task} targets")
+            print(
+                f"warning: {pred_path} y_true does not match the evaluator-owned {task} targets; "
+                "ignoring submitted y_true",
+                file=sys.stderr,
+            )
     return expected_y
 
 

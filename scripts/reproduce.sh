@@ -17,13 +17,13 @@
 set -e
 
 cd /home/user
+export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 mkdir -p outputs scoring checkpoints
 
-LAYERS="${LAYERS:-2}" WIDTH="${WIDTH:-105}" EPOCHS="${EPOCHS:-250}" bash scripts/baseline.sh binary dnn
-LAYERS="${LAYERS:-2}" WIDTH="${WIDTH:-105}" EPOCHS="${EPOCHS:-250}" bash scripts/method.sh binary
-LAYERS=3 WIDTH=150 EPOCHS="${EPOCHS_CONTINUOUS:-300}" bash scripts/method.sh continuous
+BATCH_SIZE="${BATCH_SIZE:-4096}" LR="${LR:-0.002}" LAYERS="${LAYERS:-2}" WIDTH="${WIDTH:-105}" EPOCHS="${EPOCHS:-600}" bash scripts/baseline.sh binary dnn
+BATCH_SIZE="${BATCH_SIZE:-4096}" LR="${LR:-0.002}" LAYERS="${LAYERS:-2}" WIDTH="${WIDTH:-105}" EPOCHS="${EPOCHS:-600}" bash scripts/method.sh binary
 
 bash scripts/evaluate.sh \
-  --prediction outputs/binary_efnn.npz --method-name efnn --task binary \
-  --prediction outputs/continuous_efnn.npz --method-name efnn --task continuous
+  --prediction outputs/binary_dnn.npz --method-name dnn --task binary \
+  --prediction outputs/binary_efnn.npz --method-name efnn --task binary

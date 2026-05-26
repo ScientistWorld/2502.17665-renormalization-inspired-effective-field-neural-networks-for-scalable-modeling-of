@@ -11,12 +11,13 @@
 
 - 20-epoch smoke run, binary EFNN: relative error `0.3908`, RMSE `1.0642` versus paper target relative error `< 0.005`.
 - 20-epoch smoke run, continuous EFNN: RMSE `0.3781`, MAE `0.2812` versus paper target RMSE `0.04`.
-- The smoke run reaches `method_runs` but not `core_claim`; errors remain too high after limited CPU training.
+- Corrected 600-epoch binary EFNN: relative error `0.0579`, RMSE `0.1576`, neuron count `105`.
+- The corrected binary EFNN is much better than the smoke run but remains about 11.6x above the paper's reported relative-error threshold, so `core_claim` is not yet claimed.
 
 ## Remaining
 
-- Run the corrected summation-output EFNN longer on CPU after CUDA PyTorch installation exceeded the shared cache quota.
-- If the method still underperforms, tune learning rate, batch size, and seed while preserving the EFNN recurrence.
+- Train and score the DNN baseline on the same binary split so the current gym measures EFNN's structural benefit directly.
+- If EFNN does not beat the baseline clearly, tune learning rate, batch size, and seed while preserving the EFNN recurrence.
 - Add more baselines or quantum double-exchange coverage if budget remains after the core claim is demonstrated.
 
 ## Issues
@@ -28,4 +29,4 @@
 ## Deviations from Paper
 
 - The paper states `J_ijk` are constants but does not list them in the manuscript. This reproduction uses a fixed seeded set of Gaussian-plus-sign couplings in `data/three_spin.py`.
-- The completed smoke job used 20 epochs as a fast validation run rather than the unknown full paper training schedule. The next run increases binary-task training to 600 epochs with larger CPU batches.
+- The completed smoke job used 20 epochs as a fast validation run rather than the unknown full paper training schedule. The current binary EFNN result uses 600 epochs with larger CPU batches.

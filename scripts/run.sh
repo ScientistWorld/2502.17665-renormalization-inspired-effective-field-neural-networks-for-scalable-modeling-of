@@ -16,10 +16,16 @@ export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 mkdir -p outputs scoring checkpoints
 
-# Core-claim attempt with the paper's EFNN recurrence and summation output.
-# CUDA PyTorch exceeded the shared cache quota, so this run stays on the
-# working CPU container and spends the wall time on the binary 3-spin setting.
-BATCH_SIZE=4096 LR=0.002 LAYERS=2 WIDTH=105 EPOCHS=600 bash scripts/method.sh binary
+# The corrected EFNN binary artifact already exists from the previous job. If
+# the workspace is fresh, regenerate it before training the comparison DNN.
+if [ ! -e outputs/binary_efnn.npz ]; then
+  BATCH_SIZE=4096 LR=0.002 LAYERS=2 WIDTH=105 EPOCHS=600 bash scripts/method.sh binary
+fi
+
+# Score a paper baseline on the same fixed data split. This verifies that the
+# evaluator captures EFNN's structural benefit, not just an absolute error.
+BATCH_SIZE=4096 LR=0.002 LAYERS=2 WIDTH=105 EPOCHS=600 bash scripts/baseline.sh binary dnn
 
 bash scripts/evaluate.sh \
+  --prediction outputs/binary_dnn.npz --method-name dnn --task binary \
   --prediction outputs/binary_efnn.npz --method-name efnn --task binary

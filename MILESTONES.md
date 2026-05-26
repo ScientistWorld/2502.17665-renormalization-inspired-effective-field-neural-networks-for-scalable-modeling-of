@@ -34,5 +34,10 @@
 - CUDA PyTorch setup failed due to shared cache disk quota while extracting the wheel.
 - Reverted to the working CPU PyTorch setup and configured a longer binary-task core-claim run with larger batches.
 
+### [2026-05-26 07:07] - method_runs
+- Job `d1f8f609-529` completed successfully with the corrected summation-output EFNN.
+- Binary relative error improved to `0.0579`, but this remains too far from the paper's `<0.005` report to claim `core_claim`.
+- Configured the next job to train and score the paper's DNN baseline on the same binary split.
+
 ## Stop Justification
-- Not stopped. A longer CPU core-claim run is being submitted.
+- Not stopped. A DNN baseline scoring job is being submitted.

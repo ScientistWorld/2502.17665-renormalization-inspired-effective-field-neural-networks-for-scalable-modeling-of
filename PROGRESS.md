@@ -13,8 +13,10 @@
 - 20-epoch smoke run, binary EFNN: relative error `0.3908`, RMSE `1.0642` versus paper target relative error `< 0.005`.
 - 20-epoch smoke run, continuous EFNN: RMSE `0.3781`, MAE `0.2812` versus paper target RMSE `0.04`.
 - Corrected 600-epoch binary EFNN: relative error `0.0579`, RMSE `0.1576`, neuron count `105`.
+- 1200-epoch 3-layer binary EFNN: relative error `0.0436`, RMSE `0.1186`, neuron count `105`.
+- 1200-epoch 3-layer continuous EFNN: RMSE `0.2379`, MAE `0.1644`, neuron count `150`.
 - Same-width 600-epoch DNN baseline: relative error `0.7784`, RMSE `2.1197`, neuron count `105`.
-- EFNN is about 13.4x lower relative error than the DNN baseline on the binary high-order interaction task. This supports the paper's core claim, though the absolute EFNN error remains above the paper's reported `<0.005` threshold.
+- EFNN is about 17.9x lower relative error than the DNN baseline on the binary high-order interaction task. This supports the paper's core claim, though the absolute EFNN error remains above the paper's reported `<0.005` threshold.
 - Official `scoring/scores.json` contains only EFNN because `reference.json` can only include paper-reported numeric methods. The measured DNN result is stored in `scoring/baseline_scores.json`.
 - Eval-only confirmation job `f0a5b497-d2b` completed successfully and passed `python validate.py --compare` inside the compute container.
 
@@ -27,6 +29,7 @@
 
 ## Issues
 
+- Job `a0ca193f-b8f` trained the 3-layer binary and continuous EFNN artifacts successfully, then failed validation because `eval/score_three_spin.py` wrote `param_count` into `scores.json` even though `reference.json` only defines `neuron_count` as the paper-reported scale constraint. The evaluator now leaves `param_count` in sidecar metadata only.
 - The manuscript does not specify the exact `J_ijk` values, random seed, batch size, epoch count, or learning-rate schedule for the three-spin experiments. The reproduction fixes a deterministic nontrivial `J_ijk` instance and uses Adam with exponential learning-rate decay.
 - The first EFNN implementation used a learned output projection. The paper specifies `q` as summation over the final quasi-particle layer, so `method/models.py` was corrected before the core-claim attempt.
 - A CUDA PyTorch setup attempt failed while extracting the wheel into the shared `uv_cache` due to disk quota. The environment was returned to the previously working CPU PyTorch setup.

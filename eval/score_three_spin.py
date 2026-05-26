@@ -39,7 +39,7 @@ def main() -> None:
         sidecar = Path(pred_path).with_suffix(".json")
         if sidecar.exists():
             meta = json.loads(sidecar.read_text())
-            for constraint_name in ("neuron_count", "param_count"):
+            for constraint_name in ("neuron_count",):
                 if constraint_name in meta.get("metrics", {}):
                     metrics[constraint_name] = float(meta["metrics"][constraint_name])
         exp = EXP_FOR_TASK[task]

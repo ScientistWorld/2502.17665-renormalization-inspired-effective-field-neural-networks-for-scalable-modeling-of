@@ -3,6 +3,6 @@
 # only after your turn ends. Sleeping blocks the entire pipeline.
 action: submit
 gpus: 0
-test: false
+test: true
 milestone: method_runs
-notes: "Audit found stale/missing continuous official scores and binary >10x paper gap; rerun 3-layer binary EFNN and 3-layer continuous EFNN, then evaluate both experiments."
+notes: "Validation-only rerun after removing param_count from scores.json; reuse completed binary/continuous EFNN artifacts and run validate.py --compare."

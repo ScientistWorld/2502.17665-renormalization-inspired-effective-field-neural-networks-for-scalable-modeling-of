@@ -23,19 +23,6 @@
           "tail_rmse": 0.0804047282370659
         }
       }
-    },
-    "three_spin_continuous": {
-      "results": {
-        "efnn": {
-          "bias_abs": 0.0016869319626130164,
-          "mae": 0.10540976641792804,
-          "neuron_count": 150.0,
-          "pearson_corr": 0.9993044643482498,
-          "rmse": 0.15503527947577891,
-          "sign_accuracy": 0.99175,
-          "tail_rmse": 0.2429325358584151
-        }
-      }
     }
   }
 }

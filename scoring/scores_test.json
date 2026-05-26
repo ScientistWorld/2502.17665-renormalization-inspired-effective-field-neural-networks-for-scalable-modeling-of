@@ -50,33 +50,6 @@
           "tail_rmse": 0.08239435671494454
         }
       }
-    },
-    "three_spin_continuous": {
-      "_artifacts": {
-        "efnn": {
-          "method_name": "efnn",
-          "prediction": "outputs/continuous_efnn.npz",
-          "selected_rows": 2000,
-          "slice": "test",
-          "source_rows": 4000,
-          "split_seed": 25021765,
-          "task": "continuous"
-        }
-      },
-      "_meta": {
-        "slice": "test"
-      },
-      "results": {
-        "efnn": {
-          "bias_abs": 0.000993164581246674,
-          "mae": 0.10561243513971567,
-          "neuron_count": 150.0,
-          "pearson_corr": 0.9993144896497176,
-          "rmse": 0.15618611969810534,
-          "sign_accuracy": 0.992,
-          "tail_rmse": 0.24304019334121055
-        }
-      }
     }
   }
 }

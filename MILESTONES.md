@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: core_claim_plus**
+**Current: core_claim**
 
 ## Progress Log
 
@@ -8,6 +8,11 @@
 - Final verification promoted the workspace header back to the claimed `core_claim_plus` milestone because binary and continuous three-spin artifacts both exist and support the same compact energy-prediction claim against the available baseline evidence.
 - Updated official `scores.json` to include the reproduced binary setting and the continuous-spin expansion, with the full metric set declared in `reference.json`.
 - Cleaned method-specific wording from high-level scientist guidance so from-scratch users see the problem direction without being handed the paper's algorithm.
+
+### [2026-05-26 09:52] - core_claim
+- External validation rejected official continuous scoring because RMSE `0.1550` is 3.88x above the paper's reported `0.04`.
+- Removed the continuous task from official `scores.json`, `scores_train.json`, and `scores_test.json`; continuous artifacts remain diagnostic only.
+- Final milestone is `core_claim`, supported by the binary three-spin result and same-width DNN baseline.
 
 ### [2026-05-26 09:43] - core_claim
 - Expanded the official metric helper to emit all binary metrics declared in `reference.json`: relative error, RMSE, MAE, tail RMSE, bias, correlation, sign accuracy, and neuron count.
@@ -39,4 +44,4 @@
 - `python validate.py --compare` passes with the current official binary score.
 
 ## Stop Justification
-- Final verification complete at milestone `core_claim_plus`. The workspace is ready as a partial gym centered on the three-spin reproduction.
+- Final verification complete at milestone `core_claim`. The workspace is ready as a partial gym centered on the validated binary three-spin reproduction.

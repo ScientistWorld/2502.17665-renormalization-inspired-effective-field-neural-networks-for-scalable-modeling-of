@@ -2,5 +2,5 @@
 action: done
 gpus: 0
 test: false
-milestone: core_claim_plus
-notes: "Verified gym readiness; fixed scoring/docs consistency and retained scope limitation to three-spin tasks."
+milestone: core_claim
+notes: "Fixed validation failure by removing off-target continuous results from official scoring; binary core-claim gym is verified."

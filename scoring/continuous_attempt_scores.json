@@ -1,0 +1,13 @@
+{
+  "experiments": {
+    "three_spin_continuous": {
+      "results": {
+        "efnn": {
+          "mae": 0.10540976641792804,
+          "neuron_count": 150.0,
+          "rmse": 0.15503527947577891
+        }
+      }
+    }
+  }
+}

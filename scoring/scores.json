@@ -4,8 +4,8 @@
       "results": {
         "efnn": {
           "neuron_count": 105.0,
-          "relative_error": 0.04355182747127517,
-          "rmse": 0.11860098395596928
+          "relative_error": 0.02797712131307117,
+          "rmse": 0.07618771263213327
         }
       }
     }

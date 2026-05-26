@@ -12,19 +12,22 @@
 - 20-epoch smoke run, binary EFNN: relative error `0.3908`, RMSE `1.0642` versus paper target relative error `< 0.005`.
 - 20-epoch smoke run, continuous EFNN: RMSE `0.3781`, MAE `0.2812` versus paper target RMSE `0.04`.
 - Corrected 600-epoch binary EFNN: relative error `0.0579`, RMSE `0.1576`, neuron count `105`.
-- The corrected binary EFNN is much better than the smoke run but remains about 11.6x above the paper's reported relative-error threshold, so `core_claim` is not yet claimed.
+- Same-width 600-epoch DNN baseline: relative error `0.7784`, RMSE `2.1197`, neuron count `105`.
+- EFNN is about 13.4x lower relative error than the DNN baseline on the binary high-order interaction task. This supports the paper's core claim, though the absolute EFNN error remains above the paper's reported `<0.005` threshold.
+- Official `scoring/scores.json` contains only EFNN because `reference.json` can only include paper-reported numeric methods. The measured DNN result is stored in `scoring/baseline_scores.json`.
 
 ## Remaining
 
-- Train and score the DNN baseline on the same binary split so the current gym measures EFNN's structural benefit directly.
-- If EFNN does not beat the baseline clearly, tune learning rate, batch size, and seed while preserving the EFNN recurrence.
-- Add more baselines or quantum double-exchange coverage if budget remains after the core claim is demonstrated.
+- Run a quick eval-only job to produce a clean successful scheduler record after the baseline job was killed by Hive/Ray quota handling.
+- If budget remains after that, tune learning rate, batch size, and seed while preserving the EFNN recurrence to push absolute error closer to the paper.
+- Add continuous-task corrected EFNN coverage or additional baselines if time remains.
 
 ## Issues
 
 - The manuscript does not specify the exact `J_ijk` values, random seed, batch size, epoch count, or learning-rate schedule for the three-spin experiments. The reproduction fixes a deterministic nontrivial `J_ijk` instance and uses Adam with exponential learning-rate decay.
 - The first EFNN implementation used a learned output projection. The paper specifies `q` as summation over the final quasi-particle layer, so `method/models.py` was corrected before the core-claim attempt.
 - A CUDA PyTorch setup attempt failed while extracting the wheel into the shared `uv_cache` due to disk quota. The environment was returned to the previously working CPU PyTorch setup.
+- The DNN baseline job exited `-9` because Hive/Ray could not update metadata under disk quota, but the prediction artifacts and `scoring/scores.json` were written before termination.
 
 ## Deviations from Paper
 

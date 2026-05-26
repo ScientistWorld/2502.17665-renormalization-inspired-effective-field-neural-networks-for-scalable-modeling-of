@@ -16,16 +16,24 @@ export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 mkdir -p outputs scoring checkpoints
 
-# The corrected EFNN binary artifact already exists from the previous job. If
-# the workspace is fresh, regenerate it before training the comparison DNN.
+# Fast validation path: the latest training jobs already produced both binary
+# prediction artifacts. If a fresh workspace lacks either artifact, regenerate
+# the missing one before scoring.
 if [ ! -e outputs/binary_efnn.npz ]; then
   BATCH_SIZE=4096 LR=0.002 LAYERS=2 WIDTH=105 EPOCHS=600 bash scripts/method.sh binary
 fi
 
-# Score a paper baseline on the same fixed data split. This verifies that the
-# evaluator captures EFNN's structural benefit, not just an absolute error.
-BATCH_SIZE=4096 LR=0.002 LAYERS=2 WIDTH=105 EPOCHS=600 bash scripts/baseline.sh binary dnn
+if [ ! -e outputs/binary_dnn.npz ]; then
+  BATCH_SIZE=4096 LR=0.002 LAYERS=2 WIDTH=105 EPOCHS=600 bash scripts/baseline.sh binary dnn
+fi
 
+# Keep the measured DNN comparison separate because the paper figure does not
+# provide exact DNN numbers for reference.json.
 bash scripts/evaluate.sh \
   --prediction outputs/binary_dnn.npz --method-name dnn --task binary \
+  --output scoring/baseline_scores.json
+
+bash scripts/evaluate.sh \
   --prediction outputs/binary_efnn.npz --method-name efnn --task binary
+
+python validate.py --compare

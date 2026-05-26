@@ -1,0 +1,13 @@
+{
+  "experiments": {
+    "three_spin_binary": {
+      "results": {
+        "dnn": {
+          "neuron_count": 105.0,
+          "relative_error": 0.7783681232049277,
+          "rmse": 2.119663643344301
+        }
+      }
+    }
+  }
+}

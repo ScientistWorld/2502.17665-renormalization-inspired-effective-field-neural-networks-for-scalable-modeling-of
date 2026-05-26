@@ -26,4 +26,7 @@ BATCH_SIZE="${BATCH_SIZE:-4096}" LR="${LR:-0.002}" LAYERS="${LAYERS:-2}" WIDTH="
 
 bash scripts/evaluate.sh \
   --prediction outputs/binary_dnn.npz --method-name dnn --task binary \
+  --output scoring/baseline_scores.json
+
+bash scripts/evaluate.sh \
   --prediction outputs/binary_efnn.npz --method-name efnn --task binary

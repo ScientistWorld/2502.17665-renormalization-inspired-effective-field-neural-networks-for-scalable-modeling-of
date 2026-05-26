@@ -29,6 +29,6 @@
 
 action: submit
 gpus: 0
-test: false
-milestone: method_runs
-notes: "Corrected EFNN reached binary relative_error 0.0579 but not the paper threshold. Train and score a same-split DNN baseline to test the structural comparison claim."
+test: true
+milestone: core_claim
+notes: "DNN artifacts and scores were written before Hive/Ray killed the job. Run eval-only confirmation to record a clean successful scores.json with EFNN vs DNN."

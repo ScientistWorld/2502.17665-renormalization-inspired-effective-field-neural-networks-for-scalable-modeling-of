@@ -4,8 +4,19 @@
       "results": {
         "efnn": {
           "neuron_count": 105.0,
-          "relative_error": 0.057880042088783494,
-          "rmse": 0.15761979098742157
+          "param_count": 95760.0,
+          "relative_error": 0.04355182747127517,
+          "rmse": 0.11860098395596928
+        }
+      }
+    },
+    "three_spin_continuous": {
+      "results": {
+        "efnn": {
+          "mae": 0.16444755709578748,
+          "neuron_count": 150.0,
+          "param_count": 190800.0,
+          "rmse": 0.2379490594382169
         }
       }
     }

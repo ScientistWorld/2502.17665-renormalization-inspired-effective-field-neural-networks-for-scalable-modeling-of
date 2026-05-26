@@ -5,4 +5,4 @@ action: done
 gpus: 0
 test: true
 milestone: core_claim
-notes: "Validated EFNN reproduction on binary and continuous three-spin tasks; binary EFNN strongly outperforms same-width DNN baseline, environment packaged."
+notes: "Validated EFNN reproduction on the binary three-spin core task; continuous-spin artifact remains an attempted expansion because its RMSE is too far from the paper target."

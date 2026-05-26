@@ -50,4 +50,4 @@
 - Official `scoring/scores.json` contains the EFNN reproduction result, and `scoring/baseline_scores.json` records the measured DNN comparison.
 
 ## Stop Justification
-- Stopping at `core_claim`: the paper's EFNN computation is implemented, the minimum binary three-spin claim is supported against a same-width DNN baseline, and the environment validates end-to-end.
+- Completed at milestone `core_claim`.

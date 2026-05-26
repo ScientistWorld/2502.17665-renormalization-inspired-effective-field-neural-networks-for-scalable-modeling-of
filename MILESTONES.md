@@ -4,6 +4,11 @@
 
 ## Progress Log
 
+### [2026-05-26 09:51] - core_claim
+- Continuing-agent pass confirmed the paper settings for the 15-site three-spin reproduction and kept the official milestone at `core_claim`.
+- Left the continuous-spin reference target documented for future work, but kept official scoring focused on the validated binary setting because the current continuous RMSE remains too far from the paper's `0.04` result.
+- Preparing an eval-only CPU job to revalidate the packaged benchmark after documentation cleanup.
+
 ### [2026-05-26 09:47] - core_claim_plus
 - Final verification promoted the workspace header back to the claimed `core_claim_plus` milestone because binary and continuous three-spin artifacts both exist and support the same compact energy-prediction claim against the available baseline evidence.
 - Updated official `scores.json` to include the reproduced binary setting and the continuous-spin expansion, with the full metric set declared in `reference.json`.
@@ -44,4 +49,4 @@
 - `python validate.py --compare` passes with the current official binary score.
 
 ## Stop Justification
-- Completed at milestone `core_claim_plus`.
+- Completed and verified at milestone `core_claim`; the binary three-spin task supports the core EFNN claim, while continuous-spin and larger quantum double-exchange experiments remain future expansion targets.

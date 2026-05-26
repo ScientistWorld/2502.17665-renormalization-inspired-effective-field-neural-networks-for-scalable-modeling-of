@@ -5,6 +5,7 @@
 - Implemented the paper's EFNN computation for vector spin inputs: each layer computes an effective field from the previous quasi-particle layer, transforms the original input, multiplies them elementwise, and predicts energy from the final quasi-particle layer.
 - Implemented deterministic 15-site binary and continuous three-spin data generation.
 - Implemented artifact-based evaluation that reads saved predictions from `outputs/*.npz` and writes `scoring/scores.json`.
+- Hardened the official evaluator so it verifies submitted `x_test` rows against the deterministic benchmark split and uses evaluator-owned labels instead of trusting `y_true` from prediction artifacts.
 - Updated the shared metric helper so official scoring can report all binary metrics advertised in `reference.json`, not only RMSE and relative error.
 - Job `44a6e3a0-171` verified the full train/evaluate loop for EFNN on both reproduced three-spin settings.
 - Updated the job script to score the validated binary EFNN core-claim artifact in the official `scoring/scores.json` schema.
@@ -28,6 +29,7 @@
 - Earlier validation job `3028d0f4-657` rejected the old continuous score because RMSE `0.2379` was too far from the paper's `0.04`; the later 1800-epoch continuous artifact improved this to `0.1550`, but external validation still rejects it as too far from the paper value.
 - Same-width 600-epoch continuous DNN baseline from job `a63c09de-fdf`: RMSE `0.7059`, MAE `0.5170`, neuron count `150`.
 - Current milestone is `core_claim`: EFNN is much better than the same-width DNN baseline on the binary high-order interaction task, while the continuous run is retained as a diagnostic expansion rather than an official milestone.
+- On 2026-05-26 09:51, a continuing-agent pass kept `core_claim` as the highest defensible milestone and prepared an eval-only container job to revalidate the hardened official evaluator.
 
 ## Remaining
 
@@ -46,6 +48,7 @@
 - The clean confirmation job after that failure exited `0`, so the final score artifacts are verified.
 - Job `e8c6a16b-52f` was preempted once during the first binary refinement attempt, restarted automatically, and then completed with exit code `0`.
 - Job `a63c09de-fdf` completed with exit code `0`; it provided the continuous DNN comparison, but subsequent validation rejected promoting continuous EFNN to official scoring.
+- The previous official evaluator trusted submitted `y_true` labels in prediction artifacts. `eval/score_three_spin.py` now verifies the official split and recomputes labels evaluator-side before scoring predictions.
 
 ## Deviations from Paper
 

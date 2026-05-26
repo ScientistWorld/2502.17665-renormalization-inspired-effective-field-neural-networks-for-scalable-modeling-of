@@ -1,6 +1,6 @@
-# Final verification complete.
-action: done
+# Eval-only verification after hardening the official artifact evaluator.
+action: submit
 gpus: 0
-test: false
+test: true
 milestone: core_claim
-notes: "Fixed validation failure by removing off-target continuous results from official scoring; binary core-claim gym is verified."
+notes: "Regenerate binary scores with evaluator-owned labels and run validate.py --compare inside the packaged container."

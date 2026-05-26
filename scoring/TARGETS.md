@@ -10,3 +10,7 @@ Tests energy prediction on a fixed binary high-order spin interaction.
 Continuous-spin artifacts are documented in `PROGRESS.md`, but they are not a
 current optimization target because the reproduced RMSE is too far from the
 paper value for validation.
+
+`scoring/reference.json` still records the paper's continuous-spin headline
+number so future agents have the original target available. Official
+`scores.json` currently includes only experiments that passed validation.

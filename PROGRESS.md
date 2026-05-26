@@ -20,7 +20,8 @@
 
 ## Remaining
 
-- The submitted job will rerun or reuse the binary artifacts, train a longer 3-layer continuous-spin EFNN if needed, and write official scores for both paper three-spin settings.
+- Audit found that the current official `scoring/scores.json` still only contains the binary experiment even though `TARGETS.md` lists both binary and continuous. The next submitted job fixes this by retraining stale artifacts and writing both experiments through `scripts/evaluate.sh`.
+- The current binary EFNN score is more than 10x above the paper's plotted target, so the next job also reruns the paper-allowed 3-layer, 105-neuron binary EFNN with slower learning-rate decay before deciding whether the gap is just due to unpublished couplings/training details.
 - Higher milestones would require pushing absolute EFNN error closer to the paper and adding ResNet/DenseNet baselines or the quantum double-exchange setting.
 - Additional useful expansions: tune learning rate, batch size, and seed while preserving the EFNN recurrence; add ResNet/DenseNet baselines; implement the larger quantum double-exchange setting.
 

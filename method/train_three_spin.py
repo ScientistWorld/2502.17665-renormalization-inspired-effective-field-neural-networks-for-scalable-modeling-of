@@ -135,6 +135,8 @@ def main() -> None:
                 "width": args.width,
                 "seed": args.seed,
                 "epochs": args.epochs,
+                "lr": args.lr,
+                "lr_gamma": args.lr_gamma,
                 "train_size": args.train_size,
                 "test_size": args.test_size,
                 "metrics": metrics,

@@ -127,7 +127,12 @@ def requested_entries(args: argparse.Namespace) -> list[tuple[Path, str, str]]:
             raise SystemExit("--prediction, --method-name and --task must have the same length")
         return [(Path(p), m, t) for p, m, t in zip(args.prediction, args.method_name, args.task)]
 
-    entries = merge_entries(discover_from_score_file(args.score_source), discover_from_outputs())
+    score_entries = discover_from_score_file(args.score_source)
+    output_entries = discover_from_outputs()
+    if score_entries:
+        score_tasks = {task for _pred_path, _method_name, task in score_entries}
+        output_entries = [entry for entry in output_entries if entry[2] in score_tasks]
+    entries = merge_entries(score_entries, output_entries)
     if entries:
         return entries
     raise SystemExit("no prediction artifacts found; pass --prediction/--method-name/--task or write outputs/*.npz")

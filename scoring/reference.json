@@ -47,6 +47,7 @@
         }
       },
       "results": {
+        "dnn": {"type": "baseline", "neuron_count": 105},
         "efnn": {"type": "proposed", "relative_error": 0.005, "rmse": 0.05, "neuron_count": 105}
       }
     },

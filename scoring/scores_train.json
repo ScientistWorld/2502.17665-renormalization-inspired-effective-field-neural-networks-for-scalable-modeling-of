@@ -50,51 +50,6 @@
           "tail_rmse": 0.07864525747838465
         }
       }
-    },
-    "three_spin_continuous": {
-      "_artifacts": {
-        "dnn": {
-          "method_name": "dnn",
-          "prediction": "outputs/continuous_dnn.npz",
-          "selected_rows": 2000,
-          "slice": "train",
-          "source_rows": 4000,
-          "split_seed": 25021765,
-          "task": "continuous"
-        },
-        "efnn": {
-          "method_name": "efnn",
-          "prediction": "outputs/continuous_efnn.npz",
-          "selected_rows": 2000,
-          "slice": "train",
-          "source_rows": 4000,
-          "split_seed": 25021765,
-          "task": "continuous"
-        }
-      },
-      "_meta": {
-        "slice": "train"
-      },
-      "results": {
-        "dnn": {
-          "bias_abs": 0.0014076608065515756,
-          "mae": 0.517068468771875,
-          "neuron_count": 150.0,
-          "pearson_corr": 0.984395225356956,
-          "rmse": 0.7050447938782842,
-          "sign_accuracy": 0.96,
-          "tail_rmse": 1.0451217681560736
-        },
-        "efnn": {
-          "bias_abs": 0.002380697913467884,
-          "mae": 0.10520709817297756,
-          "neuron_count": 150.0,
-          "pearson_corr": 0.9992927911815707,
-          "rmse": 0.15387583155820703,
-          "sign_accuracy": 0.9915,
-          "tail_rmse": 0.24253466136346688
-        }
-      }
     }
   }
 }

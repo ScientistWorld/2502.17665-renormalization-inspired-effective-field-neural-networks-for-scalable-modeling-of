@@ -7,6 +7,7 @@
 - Implemented artifact-based evaluation that reads saved predictions from `outputs/*.npz` and writes `scoring/scores.json`.
 - Job `44a6e3a0-171` verified the full train/evaluate loop for EFNN on both reproduced three-spin settings.
 - Updated the job script to score the validated binary EFNN core-claim artifact in the official `scoring/scores.json` schema.
+- Confirmed the current implementation matches the supplement's continued-function EFNN structure: linear-tanh-linear `f`/`g` transforms, recursive effective fields, multiplicative injection of `S_0`, and final summation.
 
 ## Results
 
@@ -21,9 +22,11 @@
 - Eval-only confirmation job `f0a5b497-d2b` completed successfully and passed `python validate.py --compare` inside the compute container.
 - Validation job `3028d0f4-657` completed successfully with both EFNN artifacts, but external validation rejected the continuous score because RMSE `0.2379` is too far from the paper's `0.04`.
 - Official `scoring/scores.json` now includes only the validated binary core-claim experiment; the continuous artifact remains documented as an attempted expansion.
+- Current milestone is `core_claim`: EFNN is much better than the DNN baseline on the binary high-order interaction task at the same width, but the absolute error is still worse than the paper's figure.
 
 ## Remaining
 
+- The next submitted job reruns the binary EFNN longer with the same algorithm and width, and reattempts the continuous 150-neuron EFNN as a non-official expansion artifact.
 - Higher milestones would require pushing binary EFNN error closer to the paper, restoring continuous-spin scoring after its RMSE is within validator tolerance, and adding ResNet/DenseNet baselines or the quantum double-exchange setting.
 - Additional useful expansions: tune learning rate, batch size, and seed while preserving the EFNN recurrence; add ResNet/DenseNet baselines; implement the larger quantum double-exchange setting.
 

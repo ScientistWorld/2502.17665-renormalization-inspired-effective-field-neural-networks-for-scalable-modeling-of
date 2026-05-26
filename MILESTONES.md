@@ -4,6 +4,11 @@
 
 ## Progress Log
 
+### [2026-05-26 09:54] - core_claim
+- Final verification found the workspace usable as a binary three-spin research gym, with clean method/eval/data separation and passing validation.
+- Kept the final milestone at `core_claim` because continuous-spin results are diagnostic only and absent from official `scores.json`; this is a genuine scope limit relative to `core_claim_plus`.
+- Fixed `scripts/reproduce.sh` so its final official score regeneration preserves both the binary DNN baseline and the binary EFNN result.
+
 ### [2026-05-26 09:51] - core_claim
 - Continuing-agent pass confirmed the paper settings for the 15-site three-spin reproduction and kept the official milestone at `core_claim`.
 - Left the continuous-spin reference target documented for future work, but kept official scoring focused on the validated binary setting because the current continuous RMSE remains too far from the paper's `0.04` result.

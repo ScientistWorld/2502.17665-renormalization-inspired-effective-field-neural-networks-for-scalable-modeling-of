@@ -1,6 +1,6 @@
-# Eval-only verification after hardening the official artifact evaluator.
-action: submit
+# Final verification complete.
+action: done
 gpus: 0
-test: true
+test: false
 milestone: core_claim
-notes: "Regenerate binary scores with evaluator-owned labels and run validate.py --compare inside the packaged container."
+notes: "Verified binary three-spin gym, fixed reproduce.sh score regeneration, and documented the core_claim scope limit."

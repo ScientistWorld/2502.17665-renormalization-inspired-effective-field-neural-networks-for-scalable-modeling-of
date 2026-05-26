@@ -32,4 +32,5 @@ bash scripts/evaluate.sh \
   --output scoring/baseline_scores.json
 
 bash scripts/evaluate.sh \
+  --prediction outputs/binary_dnn.npz --method-name dnn --task binary \
   --prediction outputs/binary_efnn.npz --method-name efnn --task binary

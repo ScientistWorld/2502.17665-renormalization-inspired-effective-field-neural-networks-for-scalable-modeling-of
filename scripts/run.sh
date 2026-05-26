@@ -74,8 +74,7 @@ bash scripts/evaluate.sh \
   --output scoring/baseline_scores.json
 
 bash scripts/evaluate.sh \
-  --prediction outputs/binary_efnn.npz --method-name efnn --task binary \
-  --prediction outputs/continuous_efnn.npz --method-name efnn --task continuous
+  --prediction outputs/binary_efnn.npz --method-name efnn --task binary
 
 bash scripts/evaluate.sh \
   --prediction outputs/continuous_efnn.npz --method-name efnn --task continuous \

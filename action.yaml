@@ -4,5 +4,5 @@
 action: done
 gpus: 0
 test: false
-milestone: core_claim_plus
-notes: "Reproduced the core binary claim and an additional continuous-spin paper setting. Both EFNN results beat same-width DNN baselines, satisfy neuron-count constraints, and pass validate.py --compare."
+milestone: core_claim
+notes: "Fixed validation by keeping only the validated binary EFNN in official scores.json. Continuous EFNN remains documented as a diagnostic artifact because RMSE 0.1550 is too far from the paper's 0.04 despite beating the same-width DNN baseline."

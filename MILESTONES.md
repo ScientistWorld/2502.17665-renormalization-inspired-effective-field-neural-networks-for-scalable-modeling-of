@@ -1,13 +1,13 @@
 # Reproduction Milestones
 
-**Current: core_claim_plus**
+**Current: core_claim**
 
 ## Progress Log
 
-### [2026-05-26 09:16] - core_claim_plus
+### [2026-05-26 09:16] - core_claim
 - Job `a63c09de-fdf` completed successfully and added the same-width continuous DNN baseline.
 - Continuous EFNN scored RMSE `0.1550` and MAE `0.1054` at 150 neurons, compared with continuous DNN RMSE `0.7059` and MAE `0.5170` at the same reported width.
-- Official `scoring/scores.json` now contains both binary and continuous EFNN experiments, and `python validate.py --compare` passes with both.
+- Validation rejected promoting the continuous score because paper RMSE is `0.04`; continuous remains a diagnostic artifact, while the official milestone stays at `core_claim`.
 
 ### [2026-05-26 09:08] - core_claim
 - Job `e8c6a16b-52f` completed successfully after one automatic preemption/restart.
@@ -29,4 +29,4 @@
 - `python validate.py --compare` passes with the current official binary score.
 
 ## Stop Justification
-- Stopping at `core_claim_plus`: both validated classical three-spin settings in `reference.json` now run end to end, beat same-width DNN baselines, satisfy the neuron-count constraints, and pass structural validation. Higher milestones would require implementing the much larger quantum double-exchange setting or extracting additional exact baseline values from paper figures.
+- Stopping at `core_claim`: the validated binary three-spin setting runs end to end, beats the same-width DNN baseline, satisfies the neuron-count constraint, and passes structural validation. The continuous setting runs and beats its DNN baseline but is not close enough to the paper's `0.04` RMSE for official scoring.

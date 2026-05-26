@@ -1,6 +1,6 @@
-# This iteration submits the CPU scoring job for the train/test evaluation split.
-action: submit
+# Train/test split scoring is complete.
+action: done
 gpus: 0
 test: false
 milestone: core_claim_plus
-notes: "Retry split scoring after fixing evaluator-owned target handling for stale submitted y_true fields."
+notes: "Deterministic half/half row split; 30 train metrics, 30 test metrics; EFNN/DNN ordering stable with binary EFNN relative_error 0.0277 train vs 0.0282 test and continuous EFNN RMSE 0.1539 train vs 0.1562 test; caveat: stale artifact y_true fields are ignored after x_test verification."

@@ -26,6 +26,7 @@ EPOCHS="${EPOCHS:-250}"
 SEED="${SEED:-20250217}"
 BATCH_SIZE="${BATCH_SIZE:-512}"
 LR="${LR:-0.001}"
+LR_GAMMA="${LR_GAMMA:-0.985}"
 
 mkdir -p outputs
 
@@ -37,5 +38,6 @@ python baseline/train_three_spin.py \
   --epochs "$EPOCHS" \
   --batch-size "$BATCH_SIZE" \
   --lr "$LR" \
+  --lr-gamma "$LR_GAMMA" \
   --seed "$SEED" \
   --output "outputs/${TASK}_${MODEL}.npz"

@@ -21,12 +21,14 @@ export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 mkdir -p outputs scoring checkpoints
 
-BATCH_SIZE="${BATCH_SIZE:-4096}" LR="${LR:-0.002}" LAYERS="${LAYERS:-2}" WIDTH="${WIDTH:-105}" EPOCHS="${EPOCHS:-600}" bash scripts/baseline.sh binary dnn
-BATCH_SIZE="${BATCH_SIZE:-4096}" LR="${LR:-0.002}" LAYERS="${LAYERS:-2}" WIDTH="${WIDTH:-105}" EPOCHS="${EPOCHS:-600}" bash scripts/method.sh binary
+BATCH_SIZE="${BATCH_SIZE:-4096}" LR="${LR:-0.001}" LR_GAMMA="${LR_GAMMA:-0.995}" LAYERS=2 WIDTH=105 EPOCHS="${BASELINE_EPOCHS:-600}" bash scripts/baseline.sh binary dnn
+BATCH_SIZE="${BATCH_SIZE:-4096}" LR="${LR:-0.001}" LR_GAMMA="${LR_GAMMA:-0.995}" LAYERS=3 WIDTH=105 EPOCHS="${BINARY_EPOCHS:-1200}" bash scripts/method.sh binary
+BATCH_SIZE="${BATCH_SIZE:-4096}" LR="${LR:-0.001}" LR_GAMMA="${LR_GAMMA:-0.995}" LAYERS=3 WIDTH=150 EPOCHS="${CONTINUOUS_EPOCHS:-1200}" bash scripts/method.sh continuous
 
 bash scripts/evaluate.sh \
   --prediction outputs/binary_dnn.npz --method-name dnn --task binary \
   --output scoring/baseline_scores.json
 
 bash scripts/evaluate.sh \
-  --prediction outputs/binary_efnn.npz --method-name efnn --task binary
+  --prediction outputs/binary_efnn.npz --method-name efnn --task binary \
+  --prediction outputs/continuous_efnn.npz --method-name efnn --task continuous

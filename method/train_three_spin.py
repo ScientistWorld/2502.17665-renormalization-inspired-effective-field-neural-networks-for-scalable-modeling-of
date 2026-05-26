@@ -26,6 +26,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--epochs", type=int, default=250)
     p.add_argument("--batch-size", type=int, default=512)
     p.add_argument("--lr", type=float, default=1e-3)
+    p.add_argument("--lr-gamma", type=float, default=0.985)
     p.add_argument("--weight-decay", type=float, default=0.0)
     p.add_argument("--seed", type=int, default=20250217)
     p.add_argument("--train-size", type=int, default=16000)
@@ -56,7 +57,7 @@ def main() -> None:
     y_train_z, _, y_mean, y_std = standardize(split["y_train"], split["y_test"])
     print(
         f"device={device} model={args.model} task={args.task} layers={args.layers} "
-        f"width={args.width} epochs={args.epochs} train_size={args.train_size}",
+        f"width={args.width} epochs={args.epochs} train_size={args.train_size} lr_gamma={args.lr_gamma}",
         flush=True,
     )
 
@@ -67,7 +68,7 @@ def main() -> None:
     loader = DataLoader(TensorDataset(x_train, y_train), batch_size=args.batch_size, shuffle=True, drop_last=False)
     model = build_model(args.model, n_sites=cfg.n_sites, width=args.width, layers=args.layers).to(device)
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
-    sched = torch.optim.lr_scheduler.ExponentialLR(opt, gamma=0.985)
+    sched = torch.optim.lr_scheduler.ExponentialLR(opt, gamma=args.lr_gamma)
     loss_fn = nn.MSELoss()
 
     best_loss = float("inf")

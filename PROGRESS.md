@@ -6,6 +6,7 @@
 - Implemented deterministic 15-site binary and continuous three-spin data generation.
 - Implemented artifact-based evaluation that reads saved predictions from `outputs/*.npz` and writes `scoring/scores.json`.
 - Job `44a6e3a0-171` verified the full train/evaluate loop for EFNN on both reproduced three-spin settings.
+- Updated the job script to score both binary and continuous EFNN artifacts in the official `scoring/scores.json` schema.
 
 ## Results
 
@@ -19,7 +20,8 @@
 
 ## Remaining
 
-- Higher milestones would require pushing absolute EFNN error closer to the paper and rerunning the corrected continuous-spin experiment.
+- The submitted job will rerun or reuse the binary artifacts, train a longer 3-layer continuous-spin EFNN if needed, and write official scores for both paper three-spin settings.
+- Higher milestones would require pushing absolute EFNN error closer to the paper and adding ResNet/DenseNet baselines or the quantum double-exchange setting.
 - Additional useful expansions: tune learning rate, batch size, and seed while preserving the EFNN recurrence; add ResNet/DenseNet baselines; implement the larger quantum double-exchange setting.
 
 ## Issues
@@ -34,3 +36,4 @@
 
 - The paper states `J_ijk` are constants but does not list them in the manuscript. This reproduction uses a fixed seeded set of Gaussian-plus-sign couplings in `data/three_spin.py`.
 - The completed smoke job used 20 epochs as a fast validation run rather than the unknown full paper training schedule. The current binary EFNN result uses 600 epochs with larger CPU batches.
+- The current job uses slower exponential learning-rate decay (`LR_GAMMA=0.995`) than the initial run to avoid freezing the optimizer too early; this changes optimization, not the EFNN algorithm.

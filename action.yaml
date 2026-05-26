@@ -1,6 +1,6 @@
-# Train/test split scoring is complete.
-action: done
+# Regenerate richer artifact-based scores and validate inside the container.
+action: submit
 gpus: 0
-test: false
-milestone: core_claim_plus
-notes: "Packager audit complete: no external artifacts required; download.sh is executable/idempotent and code has no shared/ dependencies."
+test: true
+milestone: core_claim
+notes: "CPU validation job: regenerate official binary DNN+EFNN scores with the full metric contract, score train/test slices, and run validate.py --compare."

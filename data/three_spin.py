@@ -74,12 +74,38 @@ def make_split(kind: str, cfg: ThreeSpinConfig = ThreeSpinConfig()) -> dict[str,
 
 def metric_bundle(y_true: np.ndarray, y_pred: np.ndarray, kind: str) -> dict[str, float]:
     err = y_pred.astype(np.float64) - y_true.astype(np.float64)
+    y_true_f = y_true.astype(np.float64)
+    y_pred_f = y_pred.astype(np.float64)
+    abs_err = np.abs(err)
     rmse = float(np.sqrt(np.mean(err * err)))
-    mae = float(np.mean(np.abs(err)))
-    out = {"rmse": rmse}
+    out = {
+        "rmse": rmse,
+        "mae": float(np.mean(abs_err)),
+        "bias_abs": float(abs(np.mean(err))),
+    }
+
+    cutoff = float(np.quantile(np.abs(y_true_f), 0.75))
+    tail_mask = np.abs(y_true_f) >= cutoff
+    if bool(np.any(tail_mask)):
+        tail_err = err[tail_mask]
+        out["tail_rmse"] = float(np.sqrt(np.mean(tail_err * tail_err)))
+    else:
+        out["tail_rmse"] = rmse
+
+    true_std = float(np.std(y_true_f))
+    pred_std = float(np.std(y_pred_f))
+    if true_std > 0.0 and pred_std > 0.0:
+        out["pearson_corr"] = float(np.corrcoef(y_true_f, y_pred_f)[0, 1])
+    else:
+        out["pearson_corr"] = 0.0
+
+    nonzero_mask = y_true_f != 0.0
+    if bool(np.any(nonzero_mask)):
+        out["sign_accuracy"] = float(np.mean(np.sign(y_pred_f[nonzero_mask]) == np.sign(y_true_f[nonzero_mask])))
+    else:
+        out["sign_accuracy"] = 0.0
+
     if kind == "binary":
         denom = float(abs(np.mean(y_true)))
         out["relative_error"] = rmse / max(denom, 1e-12)
-    else:
-        out["mae"] = mae
     return out

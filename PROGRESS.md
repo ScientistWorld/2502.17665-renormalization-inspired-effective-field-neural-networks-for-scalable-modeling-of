@@ -5,6 +5,7 @@
 - Implemented the paper's EFNN computation for vector spin inputs: each layer computes an effective field from the previous quasi-particle layer, transforms the original input, multiplies them elementwise, and predicts energy from the final quasi-particle layer.
 - Implemented deterministic 15-site binary and continuous three-spin data generation.
 - Implemented artifact-based evaluation that reads saved predictions from `outputs/*.npz` and writes `scoring/scores.json`.
+- Updated the shared metric helper so official scoring can report all binary metrics advertised in `reference.json`, not only RMSE and relative error.
 - Job `44a6e3a0-171` verified the full train/evaluate loop for EFNN on both reproduced three-spin settings.
 - Updated the job script to score the validated binary EFNN core-claim artifact in the official `scoring/scores.json` schema.
 - Confirmed the current implementation matches the supplement's continued-function EFNN structure: linear-tanh-linear `f`/`g` transforms, recursive effective fields, multiplicative injection of `S_0`, and final summation.
@@ -30,6 +31,7 @@
 ## Remaining
 
 - The reusable environment now covers the validated binary core-claim setting and keeps continuous-spin artifacts for diagnosis.
+- Submitted the next CPU validation job to regenerate `scoring/scores.json` from both the binary DNN baseline and EFNN artifacts after the richer metric update.
 - Higher milestones would require pushing continuous EFNN RMSE much closer to the paper's `0.04`, adding exact ResNet/DenseNet comparisons if numeric paper values can be extracted, or implementing the quantum double-exchange setting.
 - Additional useful expansions: tune learning rate, batch size, and seed while preserving the EFNN recurrence; add ResNet/DenseNet baselines; implement the larger quantum double-exchange setting.
 

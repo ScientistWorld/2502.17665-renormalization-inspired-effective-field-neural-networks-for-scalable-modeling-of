@@ -4,6 +4,11 @@
 
 ## Progress Log
 
+### [2026-05-26 09:43] - core_claim
+- Expanded the official metric helper to emit all binary metrics declared in `reference.json`: relative error, RMSE, MAE, tail RMSE, bias, correlation, sign accuracy, and neuron count.
+- Prepared a CPU validation job that regenerates `scoring/scores.json` from both saved binary DNN and EFNN prediction artifacts and runs `python validate.py --compare` in the packaged container.
+- The current milestone remains `core_claim` until that validation job completes.
+
 ### [2026-05-26 09:16] - core_claim
 - Job `a63c09de-fdf` completed successfully and added the same-width continuous DNN baseline.
 - Continuous EFNN scored RMSE `0.1550` and MAE `0.1054` at 150 neurons, compared with continuous DNN RMSE `0.7059` and MAE `0.5170` at the same reported width.
@@ -29,4 +34,4 @@
 - `python validate.py --compare` passes with the current official binary score.
 
 ## Stop Justification
-- Completed at milestone `core_claim_plus`.
+- Not stopped. Continuing validation and packaging work from milestone `core_claim`.

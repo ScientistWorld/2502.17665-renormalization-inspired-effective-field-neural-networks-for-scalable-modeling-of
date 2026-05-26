@@ -64,14 +64,18 @@ if needs_artifact_rerun outputs/continuous_efnn.json 1800 3 150; then
   BATCH_SIZE=4096 LR=0.001 LR_GAMMA=0.997 LAYERS=3 WIDTH=150 EPOCHS=1800 bash scripts/method.sh continuous
 fi
 
-# Keep the measured DNN comparison separate because the paper figure does not
-# provide exact DNN numbers for reference.json.
+if needs_artifact_rerun outputs/continuous_dnn.json 600 2 150; then
+  BATCH_SIZE=4096 LR=0.001 LR_GAMMA=0.995 LAYERS=2 WIDTH=150 EPOCHS=600 bash scripts/baseline.sh continuous dnn
+fi
+
 bash scripts/evaluate.sh \
   --prediction outputs/binary_dnn.npz --method-name dnn --task binary \
+  --prediction outputs/continuous_dnn.npz --method-name dnn --task continuous \
   --output scoring/baseline_scores.json
 
 bash scripts/evaluate.sh \
-  --prediction outputs/binary_efnn.npz --method-name efnn --task binary
+  --prediction outputs/binary_efnn.npz --method-name efnn --task binary \
+  --prediction outputs/continuous_efnn.npz --method-name efnn --task continuous
 
 bash scripts/evaluate.sh \
   --prediction outputs/continuous_efnn.npz --method-name efnn --task continuous \

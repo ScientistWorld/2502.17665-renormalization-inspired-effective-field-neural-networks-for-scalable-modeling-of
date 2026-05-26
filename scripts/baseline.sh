@@ -41,3 +41,7 @@ python baseline/train_three_spin.py \
   --lr-gamma "$LR_GAMMA" \
   --seed "$SEED" \
   --output "outputs/${TASK}_${MODEL}.npz"
+
+bash scripts/evaluate.sh \
+  --prediction "outputs/${TASK}_${MODEL}.npz" --method-name "$MODEL" --task "$TASK" \
+  --output "${EVAL_OUTPUT:-scoring/baseline_scores.json}"

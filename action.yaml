@@ -5,4 +5,4 @@ action: submit
 gpus: 0
 test: false
 milestone: core_claim
-notes: "CPU compute-node refinement: train the validated 3-layer width-105 binary EFNN longer, keep DNN baseline scoring separate, and retry continuous EFNN as a non-official expansion artifact."
+notes: "CPU follow-up: keep the improved EFNN artifacts, train the same-width continuous DNN baseline, and evaluate binary plus continuous EFNN scores with separate DNN baseline scores."

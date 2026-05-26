@@ -18,7 +18,9 @@
 - 1200-epoch 3-layer binary EFNN: relative error `0.0436`, RMSE `0.1186`, neuron count `105`.
 - 1200-epoch 3-layer continuous EFNN: RMSE `0.2379`, MAE `0.1644`, neuron count `150`.
 - Same-width 600-epoch DNN baseline: relative error `0.7784`, RMSE `2.1197`, neuron count `105`.
-- EFNN is about 17.9x lower relative error than the DNN baseline on the binary high-order interaction task. This supports the paper's core claim, though the absolute EFNN error remains above the paper's reported `<0.005` threshold.
+- 2400-epoch 3-layer binary EFNN from job `e8c6a16b-52f`: relative error `0.0280`, RMSE `0.0762`, neuron count `105`.
+- 1800-epoch 3-layer continuous EFNN from job `e8c6a16b-52f`: RMSE `0.1550`, MAE `0.1054`, neuron count `150`.
+- The latest EFNN is about 27.8x lower relative error than the same-width DNN baseline on the binary high-order interaction task. This supports the paper's core claim, though the absolute EFNN error remains above the paper's reported `<0.005` threshold.
 - Official `scoring/scores.json` contains only EFNN because `reference.json` can only include paper-reported numeric methods. The measured DNN result is stored in `scoring/baseline_scores.json`.
 - Eval-only confirmation job `f0a5b497-d2b` completed successfully and passed `python validate.py --compare` inside the compute container.
 - Validation job `3028d0f4-657` completed successfully with both EFNN artifacts, but external validation rejected the continuous score because RMSE `0.2379` is too far from the paper's `0.04`.
@@ -27,8 +29,8 @@
 
 ## Remaining
 
-- The next submitted job reruns the binary EFNN longer with the same algorithm and width, and reattempts the continuous 150-neuron EFNN as a non-official expansion artifact.
-- Higher milestones would require pushing binary EFNN error closer to the paper, restoring continuous-spin scoring after its RMSE is within validator tolerance, and adding ResNet/DenseNet baselines or the quantum double-exchange setting.
+- The next submitted job keeps the improved EFNN artifacts, trains a same-width DNN baseline for the continuous task, and then evaluates binary and continuous EFNN official scores plus separate baseline-score artifacts.
+- Higher milestones would require demonstrating the continuous-spin EFNN has a clear same-width baseline gap, pushing binary EFNN error closer to the paper, adding ResNet/DenseNet baselines, or implementing the quantum double-exchange setting.
 - Additional useful expansions: tune learning rate, batch size, and seed while preserving the EFNN recurrence; add ResNet/DenseNet baselines; implement the larger quantum double-exchange setting.
 
 ## Issues
@@ -40,9 +42,10 @@
 - A CUDA PyTorch setup attempt failed while extracting the wheel into the shared `uv_cache` due to disk quota. The environment was returned to the previously working CPU PyTorch setup.
 - The DNN baseline job exited `-9` because Hive/Ray could not update metadata under disk quota, but the prediction artifacts and `scoring/scores.json` were written before termination.
 - The clean confirmation job after that failure exited `0`, so the final score artifacts are verified.
+- Job `e8c6a16b-52f` was preempted once during the first binary refinement attempt, restarted automatically, and then completed with exit code `0`.
 
 ## Deviations from Paper
 
 - The paper states `J_ijk` are constants but does not list them in the manuscript. This reproduction uses a fixed seeded set of Gaussian-plus-sign couplings in `data/three_spin.py`.
-- The completed smoke job used 20 epochs as a fast validation run rather than the unknown full paper training schedule. The current binary EFNN result uses 600 epochs with larger CPU batches.
-- The current job uses slower exponential learning-rate decay (`LR_GAMMA=0.995`) than the initial run to avoid freezing the optimizer too early; this changes optimization, not the EFNN algorithm.
+- The completed smoke job used 20 epochs as a fast validation run rather than the unknown full paper training schedule.
+- The current binary EFNN result uses 2400 epochs with larger CPU batches and `LR_GAMMA=0.997`; this changes optimization length and schedule, not the EFNN algorithm.

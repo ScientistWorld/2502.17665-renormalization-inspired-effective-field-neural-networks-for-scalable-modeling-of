@@ -44,4 +44,4 @@
 - `python validate.py --compare` passes with the current official binary score.
 
 ## Stop Justification
-- Final verification complete at milestone `core_claim`. The workspace is ready as a partial gym centered on the validated binary three-spin reproduction.
+- Completed at milestone `core_claim_plus`.

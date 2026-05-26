@@ -18,7 +18,12 @@ set -e
 
 cd /home/user
 
-# TODO: implement full reproduction pipeline
-# e.g.:
-#   bash scripts/baseline.sh
-#   bash scripts/method.sh
+mkdir -p outputs scoring checkpoints
+
+LAYERS="${LAYERS:-2}" WIDTH="${WIDTH:-105}" EPOCHS="${EPOCHS:-250}" bash scripts/baseline.sh binary dnn
+LAYERS="${LAYERS:-2}" WIDTH="${WIDTH:-105}" EPOCHS="${EPOCHS:-250}" bash scripts/method.sh binary
+LAYERS=3 WIDTH=150 EPOCHS="${EPOCHS_CONTINUOUS:-300}" bash scripts/method.sh continuous
+
+bash scripts/evaluate.sh \
+  --prediction outputs/binary_efnn.npz --method-name efnn --task binary \
+  --prediction outputs/continuous_efnn.npz --method-name efnn --task continuous

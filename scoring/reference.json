@@ -1,0 +1,30 @@
+{
+  "experiments": {
+    "three_spin_binary": {
+      "description": "15-site binary three-spin infinite-range energy prediction; paper reports EFNN relative error below 5e-3 for 2/3 layers with at least 105 neurons.",
+      "weight": 0.55,
+      "primary_metric": "relative_error",
+      "metrics": {
+        "relative_error": {"higher_is_better": false, "coefficient": -1.0},
+        "rmse": {"higher_is_better": false, "coefficient": -0.4},
+        "neuron_count": {"higher_is_better": false, "coefficient": -0.1}
+      },
+      "results": {
+        "efnn": {"type": "proposed", "relative_error": 0.005, "rmse": 0.05, "neuron_count": 105}
+      }
+    },
+    "three_spin_continuous": {
+      "description": "15-site continuous-spin three-body energy prediction; paper reports best 3-layer 150-neuron EFNN RMSE around 4e-2.",
+      "weight": 0.45,
+      "primary_metric": "rmse",
+      "metrics": {
+        "rmse": {"higher_is_better": false, "coefficient": -1.0},
+        "mae": {"higher_is_better": false, "coefficient": -0.4},
+        "neuron_count": {"higher_is_better": false, "coefficient": -0.1}
+      },
+      "results": {
+        "efnn": {"type": "proposed", "rmse": 0.04, "mae": 0.032, "neuron_count": 150}
+      }
+    }
+  }
+}

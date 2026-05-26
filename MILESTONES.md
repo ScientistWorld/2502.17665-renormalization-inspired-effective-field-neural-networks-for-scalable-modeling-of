@@ -15,7 +15,10 @@
 
 ## Progress Log
 
-<!-- Write your progress here -->
+### [2026-05-26 05:34] - none
+- Read the paper and supplementary markdown.
+- Implemented the EFNN recurrence for the 15-site three-spin tasks.
+- Added deterministic data generation, scoring metadata, scripts, and a first CPU job for end-to-end validation.
 
 ## Stop Justification
-- Completed at milestone `none`.
+- Not stopped. First reproduction job is being submitted.

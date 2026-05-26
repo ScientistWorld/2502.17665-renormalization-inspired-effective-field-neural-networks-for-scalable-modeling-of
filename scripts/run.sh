@@ -13,8 +13,14 @@ set -e
 
 cd /home/user
 
-# Example: train a model
-python method/train.py --epochs 10 --lr 0.001
+mkdir -p outputs scoring checkpoints
 
-# Example: evaluate
-bash scripts/evaluate.sh checkpoints/best.pt
+# First job: quick end-to-end validation of the EFNN recurrence, a DNN
+# comparison baseline, and the evaluator that reads prediction artifacts.
+LAYERS=2 WIDTH=105 EPOCHS=80 bash scripts/baseline.sh binary dnn
+LAYERS=2 WIDTH=105 EPOCHS=80 bash scripts/method.sh binary
+LAYERS=3 WIDTH=150 EPOCHS=80 bash scripts/method.sh continuous
+
+bash scripts/evaluate.sh \
+  --prediction outputs/binary_efnn.npz --method-name efnn --task binary \
+  --prediction outputs/continuous_efnn.npz --method-name efnn --task continuous

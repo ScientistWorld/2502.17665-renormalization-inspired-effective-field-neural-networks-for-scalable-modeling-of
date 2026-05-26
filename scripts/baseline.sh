@@ -17,4 +17,20 @@ set -e
 
 cd /home/user
 
-# TODO: run baseline
+TASK="${1:-binary}"
+MODEL="${2:-dnn}"
+LAYERS="${LAYERS:-2}"
+WIDTH="${WIDTH:-105}"
+EPOCHS="${EPOCHS:-250}"
+SEED="${SEED:-20250217}"
+
+mkdir -p outputs
+
+python baseline/train_three_spin.py \
+  --task "$TASK" \
+  --model "$MODEL" \
+  --layers "$LAYERS" \
+  --width "$WIDTH" \
+  --epochs "$EPOCHS" \
+  --seed "$SEED" \
+  --output "outputs/${TASK}_${MODEL}.npz"

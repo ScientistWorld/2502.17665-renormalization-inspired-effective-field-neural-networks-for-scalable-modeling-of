@@ -1,17 +1,13 @@
 # Problem Definition
 
-What problem does this paper address? Write this so that someone with no knowledge of the paper can understand what needs to be solved and how success is measured.
-
-Do NOT describe the paper's method or solution here — only the problem itself. Think about if a future scientist agent try to solve this problem from scratch without knowing what approach the paper took. If you leak the solution, you compromise the benchmark.
-
 ## Research Question
 
-<!-- What problem or challenge does this paper tackle? What gap in existing work does it address? -->
+Learn accurate, scalable energy functions for classical and quantum many-body spin systems from sampled configurations. The central challenge is to model high-order interactions without enumerating all interaction terms, while keeping the learned energy predictor compact enough to evaluate quickly.
 
 ## Why It Matters
 
-<!-- Why is this problem important? What would a good solution enable? Make it short -->
+Many-body simulations often require repeated energy evaluations. Exact or high-order calculations can become prohibitively expensive as system size grows, so a successful learned surrogate can accelerate Monte Carlo and related workflows while preserving physically meaningful energy differences.
 
 ## Success Criteria
 
-<!-- What would a successful solution look like? What properties should it have? This is about the goal, not the paper's specific approach. Make it short -->
+A successful solution predicts held-out energies with low RMSE or relative error, beats ordinary neural-network baselines at comparable scale, and does not rely on a much larger parameter count to obtain the gain.

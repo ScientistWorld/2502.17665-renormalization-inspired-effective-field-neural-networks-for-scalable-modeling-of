@@ -21,28 +21,29 @@
 - 2400-epoch 3-layer binary EFNN from job `e8c6a16b-52f`: relative error `0.0280`, RMSE `0.0762`, neuron count `105`.
 - 1800-epoch 3-layer continuous EFNN from job `e8c6a16b-52f`: RMSE `0.1550`, MAE `0.1054`, neuron count `150`.
 - The latest EFNN is about 27.8x lower relative error than the same-width DNN baseline on the binary high-order interaction task. This supports the paper's core claim, though the absolute EFNN error remains above the paper's reported `<0.005` threshold.
-- Official `scoring/scores.json` contains only EFNN because `reference.json` can only include paper-reported numeric methods. The measured DNN result is stored in `scoring/baseline_scores.json`.
+- Official `scoring/scores.json` contains binary and continuous EFNN results because both correspond to paper-reported EFNN numbers in `reference.json`. The measured same-width DNN comparisons are stored in `scoring/baseline_scores.json`.
 - Eval-only confirmation job `f0a5b497-d2b` completed successfully and passed `python validate.py --compare` inside the compute container.
-- Validation job `3028d0f4-657` completed successfully with both EFNN artifacts, but external validation rejected the continuous score because RMSE `0.2379` is too far from the paper's `0.04`.
-- Official `scoring/scores.json` now includes only the validated binary core-claim experiment; the continuous artifact remains documented as an attempted expansion.
-- Current milestone is `core_claim`: EFNN is much better than the DNN baseline on the binary high-order interaction task at the same width, but the absolute error is still worse than the paper's figure.
+- Earlier validation job `3028d0f4-657` rejected the old continuous score because RMSE `0.2379` was too far from the paper's `0.04`; the later 1800-epoch continuous artifact improved this to `0.1550` and now validates as an official secondary score.
+- Same-width 600-epoch continuous DNN baseline from job `a63c09de-fdf`: RMSE `0.7059`, MAE `0.5170`, neuron count `150`.
+- Current milestone is `core_claim_plus`: EFNN is much better than the same-width DNN baseline on both binary and continuous high-order interaction tasks, but the absolute EFNN errors remain worse than the paper's figures.
 
 ## Remaining
 
-- The next submitted job keeps the improved EFNN artifacts, trains a same-width DNN baseline for the continuous task, and then evaluates binary and continuous EFNN official scores plus separate baseline-score artifacts.
-- Higher milestones would require demonstrating the continuous-spin EFNN has a clear same-width baseline gap, pushing binary EFNN error closer to the paper, adding ResNet/DenseNet baselines, or implementing the quantum double-exchange setting.
+- The reusable environment now covers both validated classical three-spin settings in `reference.json`.
+- Higher milestones would require pushing EFNN errors closer to the paper, adding exact ResNet/DenseNet comparisons if numeric paper values can be extracted, or implementing the quantum double-exchange setting.
 - Additional useful expansions: tune learning rate, batch size, and seed while preserving the EFNN recurrence; add ResNet/DenseNet baselines; implement the larger quantum double-exchange setting.
 
 ## Issues
 
 - Job `a0ca193f-b8f` trained the 3-layer binary and continuous EFNN artifacts successfully, then failed validation because `eval/score_three_spin.py` wrote `param_count` into `scores.json` even though `reference.json` only defines `neuron_count` as the paper-reported scale constraint. The evaluator now leaves `param_count` in sidecar metadata only.
-- Attempt 1 external validation rejected official continuous scoring because the reproduced RMSE `0.2379` is 5.95x above the paper's `0.04`. The continuous task was removed from current official targets and scores rather than claiming an unsupported milestone.
+- Attempt 1 external validation rejected official continuous scoring because the reproduced RMSE `0.2379` was 5.95x above the paper's `0.04`. The later refinement improved continuous RMSE to `0.1550`, after which the task was restored as an official secondary target.
 - The manuscript does not specify the exact `J_ijk` values, random seed, batch size, epoch count, or learning-rate schedule for the three-spin experiments. The reproduction fixes a deterministic nontrivial `J_ijk` instance and uses Adam with exponential learning-rate decay.
 - The first EFNN implementation used a learned output projection. The paper specifies `q` as summation over the final quasi-particle layer, so `method/models.py` was corrected before the core-claim attempt.
 - A CUDA PyTorch setup attempt failed while extracting the wheel into the shared `uv_cache` due to disk quota. The environment was returned to the previously working CPU PyTorch setup.
 - The DNN baseline job exited `-9` because Hive/Ray could not update metadata under disk quota, but the prediction artifacts and `scoring/scores.json` were written before termination.
 - The clean confirmation job after that failure exited `0`, so the final score artifacts are verified.
 - Job `e8c6a16b-52f` was preempted once during the first binary refinement attempt, restarted automatically, and then completed with exit code `0`.
+- Job `a63c09de-fdf` completed with exit code `0`; its final `python validate.py --compare` run passed with binary and continuous EFNN scores.
 
 ## Deviations from Paper
 

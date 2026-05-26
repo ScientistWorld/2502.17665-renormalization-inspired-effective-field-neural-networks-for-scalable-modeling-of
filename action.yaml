@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
+action: done
 gpus: 0
 test: false
-milestone: core_claim
-notes: "CPU follow-up: keep the improved EFNN artifacts, train the same-width continuous DNN baseline, and evaluate binary plus continuous EFNN scores with separate DNN baseline scores."
+milestone: core_claim_plus
+notes: "Reproduced the core binary claim and an additional continuous-spin paper setting. Both EFNN results beat same-width DNN baselines, satisfy neuron-count constraints, and pass validate.py --compare."

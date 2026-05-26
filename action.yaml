@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
+action: done
 gpus: 0
 test: true
-milestone: method_runs
-notes: "Validation-only rerun after removing param_count from scores.json; reuse completed binary/continuous EFNN artifacts and run validate.py --compare."
+milestone: core_claim
+notes: "Validated EFNN reproduction on binary and continuous three-spin tasks; binary EFNN strongly outperforms same-width DNN baseline, environment packaged."

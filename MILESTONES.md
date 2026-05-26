@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 ## Progress Log
 
@@ -17,3 +17,8 @@
 ### [2026-05-26 07:56] - method_runs
 - Job `a0ca193f-b8f` produced improved 3-layer binary EFNN and full continuous EFNN artifacts.
 - Validation failed only because the evaluator exported an extra `param_count` key not declared in `reference.json`; fixed the evaluator and submitting a validation-only rerun.
+
+### [2026-05-26 08:02] - core_claim
+- Job `3028d0f4-657` validated the artifact-based scoring pipeline with both binary and continuous EFNN experiments.
+- Binary EFNN reached relative error `0.0436` versus same-width DNN baseline `0.7784`, supporting the paper's core claim that the EFNN recurrence captures high-order many-body interactions more effectively than an ordinary DNN.
+- Continuous EFNN was also scored in the official schema, with RMSE `0.2379`; this is worse than the paper target but comes from the actual EFNN method on the fixed reproduced task.

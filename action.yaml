@@ -29,6 +29,6 @@
 
 action: submit
 gpus: 0
-test: false
+test: true
 milestone: none
-notes: "CPU job to install dependencies, train EFNN on binary and continuous three-spin tasks plus a DNN baseline artifact, and write scoring/scores.json."
+notes: "Fixed PYTHONPATH/package import failure from job 6a740d14-621. Run a 20-epoch CPU smoke job to verify baseline, EFNN training, and artifact-based evaluation end-to-end."

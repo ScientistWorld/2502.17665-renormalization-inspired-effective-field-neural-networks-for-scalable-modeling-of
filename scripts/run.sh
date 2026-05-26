@@ -12,14 +12,16 @@
 set -e
 
 cd /home/user
+export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 mkdir -p outputs scoring checkpoints
 
-# First job: quick end-to-end validation of the EFNN recurrence, a DNN
-# comparison baseline, and the evaluator that reads prediction artifacts.
-LAYERS=2 WIDTH=105 EPOCHS=80 bash scripts/baseline.sh binary dnn
-LAYERS=2 WIDTH=105 EPOCHS=80 bash scripts/method.sh binary
-LAYERS=3 WIDTH=150 EPOCHS=80 bash scripts/method.sh continuous
+# Smoke-scale end-to-end validation of the EFNN recurrence, a DNN comparison
+# baseline artifact, and the evaluator that reads saved predictions. After
+# this succeeds, increase EPOCHS in a later job for the core-claim run.
+LAYERS=2 WIDTH=105 EPOCHS=20 bash scripts/baseline.sh binary dnn
+LAYERS=2 WIDTH=105 EPOCHS=20 bash scripts/method.sh binary
+LAYERS=3 WIDTH=150 EPOCHS=20 bash scripts/method.sh continuous
 
 bash scripts/evaluate.sh \
   --prediction outputs/binary_efnn.npz --method-name efnn --task binary \

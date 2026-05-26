@@ -76,8 +76,10 @@ def metric_bundle(y_true: np.ndarray, y_pred: np.ndarray, kind: str) -> dict[str
     err = y_pred.astype(np.float64) - y_true.astype(np.float64)
     rmse = float(np.sqrt(np.mean(err * err)))
     mae = float(np.mean(np.abs(err)))
-    out = {"rmse": rmse, "mae": mae}
+    out = {"rmse": rmse}
     if kind == "binary":
         denom = float(abs(np.mean(y_true)))
         out["relative_error"] = rmse / max(denom, 1e-12)
+    else:
+        out["mae"] = mae
     return out

@@ -16,6 +16,7 @@
 set -e
 
 cd /home/user
+export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 TASK="${1:-binary}"
 MODEL="${2:-dnn}"

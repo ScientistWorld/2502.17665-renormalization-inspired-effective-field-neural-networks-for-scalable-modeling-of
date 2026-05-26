@@ -9,6 +9,7 @@
 set -e
 
 cd /home/user
+export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 TASK="${1:-binary}"
 LAYERS="${LAYERS:-2}"

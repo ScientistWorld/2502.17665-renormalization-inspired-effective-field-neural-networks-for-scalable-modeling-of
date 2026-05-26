@@ -1,8 +1,9 @@
-# IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
-# Do NOT sleep, poll, or wait for jobs. The system reads this file
-# only after your turn ends. Sleeping blocks the entire pipeline.
-action: done
+# This iteration writes files only — do NOT submit compute jobs.
+# Once you set action to 'done', STOP immediately.
+# Do NOT sleep, poll, or wait. The system reads this file
+# only after your turn ends.
+action: pending
 gpus: 0
 test: false
-milestone: core_claim
-notes: "Fixed validation by keeping only the validated binary EFNN in official scores.json. Continuous EFNN remains documented as a diagnostic artifact because RMSE 0.1550 is too far from the paper's 0.04 despite beating the same-width DNN baseline."
+milestone: core_claim_plus
+notes: ""

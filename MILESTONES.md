@@ -29,4 +29,4 @@
 - `python validate.py --compare` passes with the current official binary score.
 
 ## Stop Justification
-- Stopping at `core_claim`: the validated binary three-spin setting runs end to end, beats the same-width DNN baseline, satisfies the neuron-count constraint, and passes structural validation. The continuous setting runs and beats its DNN baseline but is not close enough to the paper's `0.04` RMSE for official scoring.
+- Completed at milestone `core_claim_plus`.

@@ -2,8 +2,8 @@
 # Once you set action to 'done', STOP immediately.
 # Do NOT sleep, poll, or wait. The system reads this file
 # only after your turn ends.
-action: pending
+action: done
 gpus: 0
 test: false
 milestone: core_claim_plus
-notes: ""
+notes: "Deterministic 50/50 row-hash split over saved prediction artifacts; each slice scores 6 binary metrics and 5 continuous metrics; scripts written, scores produced later."

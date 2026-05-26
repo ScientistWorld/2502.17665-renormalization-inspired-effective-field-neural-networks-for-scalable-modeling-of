@@ -7,6 +7,21 @@
       "metrics": {
         "relative_error": {"higher_is_better": false, "coefficient": -1.0},
         "rmse": {"higher_is_better": false, "coefficient": -0.4},
+        "mae": {
+          "higher_is_better": false,
+          "coefficient": -0.25,
+          "description": "Mean absolute energy error on the scored slice; rewards broadly accurate regression rather than optimizing only squared error."
+        },
+        "tail_rmse": {
+          "higher_is_better": false,
+          "coefficient": -0.3,
+          "description": "RMSE on the highest-energy-magnitude quartile; catches methods that fit only easy near-center configurations."
+        },
+        "bias_abs": {
+          "higher_is_better": false,
+          "coefficient": -0.15,
+          "description": "Absolute mean signed prediction error; penalizes systematic energy offsets that can hide behind aggregate RMSE."
+        },
         "neuron_count": {"higher_is_better": false, "coefficient": -0.1}
       },
       "results": {
@@ -20,6 +35,16 @@
       "metrics": {
         "rmse": {"higher_is_better": false, "coefficient": -1.0},
         "mae": {"higher_is_better": false, "coefficient": -0.4},
+        "tail_rmse": {
+          "higher_is_better": false,
+          "coefficient": -0.3,
+          "description": "RMSE on the highest-energy-magnitude quartile; checks whether continuous-spin accuracy holds on harder configurations."
+        },
+        "bias_abs": {
+          "higher_is_better": false,
+          "coefficient": -0.15,
+          "description": "Absolute mean signed prediction error; penalizes systematic energy offsets in continuous-spin predictions."
+        },
         "neuron_count": {"higher_is_better": false, "coefficient": -0.1}
       },
       "results": {

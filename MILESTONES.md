@@ -54,4 +54,4 @@
 - `python validate.py --compare` passes with the current official binary score.
 
 ## Stop Justification
-- Completed and verified at milestone `core_claim`; the binary three-spin task supports the core EFNN claim, while continuous-spin and larger quantum double-exchange experiments remain future expansion targets.
+- Completed at milestone `core_claim`.

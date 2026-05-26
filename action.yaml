@@ -27,8 +27,8 @@
 #   milestone: core_claim
 #   notes: "Reproduced the core claim. Environment packaged."
 
-action: submit
+action: done
 gpus: 0
-test: true
+test: false
 milestone: core_claim
-notes: "DNN artifacts and scores were written before Hive/Ray killed the job. Run eval-only confirmation to record a clean successful scores.json with EFNN vs DNN."
+notes: "Reached core_claim. Eval-only confirmation job f0a5b497-d2b exited 0, scores validate, and EFNN beats the same-width DNN baseline on the binary three-spin task."

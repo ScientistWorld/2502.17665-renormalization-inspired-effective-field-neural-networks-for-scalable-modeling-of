@@ -15,12 +15,12 @@
 - Same-width 600-epoch DNN baseline: relative error `0.7784`, RMSE `2.1197`, neuron count `105`.
 - EFNN is about 13.4x lower relative error than the DNN baseline on the binary high-order interaction task. This supports the paper's core claim, though the absolute EFNN error remains above the paper's reported `<0.005` threshold.
 - Official `scoring/scores.json` contains only EFNN because `reference.json` can only include paper-reported numeric methods. The measured DNN result is stored in `scoring/baseline_scores.json`.
+- Eval-only confirmation job `f0a5b497-d2b` completed successfully and passed `python validate.py --compare` inside the compute container.
 
 ## Remaining
 
-- Run a quick eval-only job to produce a clean successful scheduler record after the baseline job was killed by Hive/Ray quota handling.
-- If budget remains after that, tune learning rate, batch size, and seed while preserving the EFNN recurrence to push absolute error closer to the paper.
-- Add continuous-task corrected EFNN coverage or additional baselines if time remains.
+- Higher milestones would require pushing absolute EFNN error closer to the paper and rerunning the corrected continuous-spin experiment.
+- Additional useful expansions: tune learning rate, batch size, and seed while preserving the EFNN recurrence; add ResNet/DenseNet baselines; implement the larger quantum double-exchange setting.
 
 ## Issues
 
@@ -28,6 +28,7 @@
 - The first EFNN implementation used a learned output projection. The paper specifies `q` as summation over the final quasi-particle layer, so `method/models.py` was corrected before the core-claim attempt.
 - A CUDA PyTorch setup attempt failed while extracting the wheel into the shared `uv_cache` due to disk quota. The environment was returned to the previously working CPU PyTorch setup.
 - The DNN baseline job exited `-9` because Hive/Ray could not update metadata under disk quota, but the prediction artifacts and `scoring/scores.json` were written before termination.
+- The clean confirmation job after that failure exited `0`, so the final score artifacts are verified.
 
 ## Deviations from Paper
 

@@ -28,7 +28,7 @@
 #   notes: "Reproduced the core claim. Environment packaged."
 
 action: submit
-gpus: 0
-test: true
-milestone: none
-notes: "Fixed PYTHONPATH/package import failure from job 6a740d14-621. Run a 20-epoch CPU smoke job to verify baseline, EFNN training, and artifact-based evaluation end-to-end."
+gpus: 1
+test: false
+milestone: method_runs
+notes: "Method now runs end-to-end. Submit a 300-epoch GPU core-claim attempt with the corrected EFNN summation output and CUDA PyTorch setup."

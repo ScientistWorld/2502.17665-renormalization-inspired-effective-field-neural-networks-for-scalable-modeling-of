@@ -54,6 +54,11 @@ def main() -> None:
     cfg = ThreeSpinConfig(seed=args.seed, train_size=args.train_size, test_size=args.test_size)
     split = make_split(args.task, cfg)
     y_train_z, _, y_mean, y_std = standardize(split["y_train"], split["y_test"])
+    print(
+        f"device={device} model={args.model} task={args.task} layers={args.layers} "
+        f"width={args.width} epochs={args.epochs} train_size={args.train_size}",
+        flush=True,
+    )
 
     x_train = torch.from_numpy(split["x_train"]).float()
     y_train = torch.from_numpy(y_train_z).float()

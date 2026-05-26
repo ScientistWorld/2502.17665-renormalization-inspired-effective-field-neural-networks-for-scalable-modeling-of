@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: none**
+**Current: method_runs**
 
 <!-- Milestone levels (update "Current" above as you progress):
   none             — just started, no meaningful progress yet
@@ -25,5 +25,10 @@
 - Added package markers and exported `PYTHONPATH=/home/user` from job scripts.
 - Reduced the next job to a 20-epoch smoke run to verify the full train/evaluate path quickly before scaling training.
 
+### [2026-05-26 06:26] - method_runs
+- Job `44a6e3a0-171` completed successfully.
+- EFNN trained and evaluated end-to-end on both 15-site binary and continuous three-spin tasks.
+- Smoke-scale results were still far from the paper's reported errors, so the next run uses a corrected summation-output EFNN and longer GPU training.
+
 ## Stop Justification
-- Not stopped. A fixed smoke-scale reproduction job is being submitted.
+- Not stopped. A longer GPU core-claim run is being submitted.

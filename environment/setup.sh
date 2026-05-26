@@ -17,4 +17,4 @@
 set -e
 
 uv pip install --system numpy
-uv pip install --system torch --index-url https://download.pytorch.org/whl/cpu
+uv pip install --system --reinstall torch --index-url https://download.pytorch.org/whl/cu121

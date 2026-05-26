@@ -6,8 +6,8 @@ import torch
 from torch import nn
 
 
-def mlp_block(width: int) -> nn.Sequential:
-    return nn.Sequential(nn.Linear(width, width), nn.Tanh(), nn.Linear(width, width))
+def mlp_block(in_features: int, width: int) -> nn.Sequential:
+    return nn.Sequential(nn.Linear(in_features, width), nn.Tanh(), nn.Linear(width, width))
 
 
 class EFNN(nn.Module):
@@ -16,23 +16,23 @@ class EFNN(nn.Module):
     For each field-particle layer i:
         F_i = f_{i-1}(S_{i-1})
         S_i = g_i(S_0) * F_i
-    The final energy is obtained by summing a learned per-site projection.
+    The final energy is q(S_n), the paper's elementwise summation over the
+    final quasi-particle layer.
     """
 
     def __init__(self, n_sites: int = 15, width: int = 105, layers: int = 2):
         super().__init__()
-        self.input = nn.Linear(n_sites, width) if width != n_sites else nn.Identity()
-        self.f_layers = nn.ModuleList([mlp_block(width) for _ in range(layers)])
-        self.g_layers = nn.ModuleList([mlp_block(width) for _ in range(layers)])
-        self.output = nn.Linear(width, 1, bias=False)
+        self.f_layers = nn.ModuleList(
+            [mlp_block(n_sites if i == 0 else width, width) for i in range(layers)]
+        )
+        self.g_layers = nn.ModuleList([mlp_block(n_sites, width) for _ in range(layers)])
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        s0 = self.input(x)
-        s = s0
+        s = x
         for f_layer, g_layer in zip(self.f_layers, self.g_layers):
             field = f_layer(s)
-            s = g_layer(s0) * field
-        return self.output(s).squeeze(-1)
+            s = g_layer(x) * field
+        return s.sum(dim=-1)
 
 
 class DNN(nn.Module):
@@ -52,7 +52,7 @@ class ResNet(nn.Module):
     def __init__(self, n_sites: int = 15, width: int = 105, layers: int = 2):
         super().__init__()
         self.input = nn.Linear(n_sites, width)
-        self.blocks = nn.ModuleList([mlp_block(width) for _ in range(layers)])
+        self.blocks = nn.ModuleList([mlp_block(width, width) for _ in range(layers)])
         self.output = nn.Linear(width, 1)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:

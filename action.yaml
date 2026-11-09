@@ -1,8 +1,8 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: pending
+action: submit
 gpus: 0
 test: false
 milestone: core_claim
-notes: ""
+notes: "Hardening audit (CPU): reproduce DNN baseline + EFNN reference on the new hidden instance from final code, train seed reruns / better (continued) / weaker (20-epoch) variants, build shortcut probes, score every case via scripts/evaluate_{train,test}.sh with no args, regenerate official scores, summarize, validate."

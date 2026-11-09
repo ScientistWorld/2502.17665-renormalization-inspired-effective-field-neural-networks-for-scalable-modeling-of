@@ -1,0 +1,133 @@
+{
+  "_meta": {
+    "slice": "train"
+  },
+  "experiments": {
+    "double_exchange": {
+      "_artifacts": {
+        "dnn": {
+          "constant_predictor_rmse_L10": 0.8930196984971712,
+          "constant_predictor_rmse_L16": 1.4717029631848968,
+          "constant_predictor_rmse_L24": 2.422308184707676,
+          "forbidden_ops": [],
+          "kind": "baseline",
+          "model": "/home/user/eval/train/baselines/de_dnn.pt",
+          "param_count": 1596,
+          "payload_bytes": 10092,
+          "pickles_parsed": true,
+          "rmse_L10": 0.13636376004776787,
+          "rmse_L16": 0.2395043090980821,
+          "rmse_L24": 0.3151435624857405,
+          "rows_L10": 2000,
+          "rows_L16": 300,
+          "rows_L24": 100,
+          "storage_bytes": 6384,
+          "stored_elements": 1596
+        },
+        "effective_model": {
+          "constant_predictor_rmse_L10": 0.8930196984971712,
+          "constant_predictor_rmse_L16": 1.4717029631848968,
+          "constant_predictor_rmse_L24": 2.422308184707676,
+          "forbidden_ops": [],
+          "kind": "baseline",
+          "model": "/home/user/eval/train/baselines/de_effective_model.pt",
+          "param_count": 1091,
+          "payload_bytes": 2709,
+          "pickles_parsed": true,
+          "rmse_L10": 0.05870582558718376,
+          "rmse_L16": 0.09017452951435417,
+          "rmse_L24": 0.13196899113501354,
+          "rows_L10": 2000,
+          "rows_L16": 300,
+          "rows_L24": 100,
+          "storage_bytes": 2636,
+          "stored_elements": 1091
+        },
+        "efnn": {
+          "constant_predictor_rmse_L10": 0.8930196984971712,
+          "constant_predictor_rmse_L16": 1.4717029631848968,
+          "constant_predictor_rmse_L24": 2.422308184707676,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/de_efnn.pt",
+          "param_count": 3414,
+          "payload_bytes": 13332,
+          "pickles_parsed": true,
+          "rmse_L10": 0.06119634485133366,
+          "rmse_L16": 0.10302656756943963,
+          "rmse_L24": 0.14879743925589306,
+          "rows_L10": 2000,
+          "rows_L16": 300,
+          "rows_L24": 100,
+          "storage_bytes": 13656,
+          "stored_elements": 3414
+        }
+      },
+      "_meta": {
+        "param_budget": 4000,
+        "payload_budget_bytes": 131072,
+        "rows": {
+          "L10": 2000,
+          "L16": 300,
+          "L24": 100
+        },
+        "rows_are": "public dev configurations of uniformly random unit spins on periodic 10x10, 16x16 and 24x24 lattices",
+        "slice": "train",
+        "submission_pattern": "outputs/de_<name>.pt"
+      },
+      "results": {
+        "dnn": {
+          "param_count": 1596.0,
+          "relative_error_L10": 0.0026670306830911183,
+          "relative_error_L16": 0.001830071382394582,
+          "relative_error_L24": 0.0010699981383011632
+        },
+        "effective_model": {
+          "param_count": 1091.0,
+          "relative_error_L10": 0.001148180704773531,
+          "relative_error_L16": 0.0006890307172616824,
+          "relative_error_L24": 0.0004480706307758911
+        },
+        "efnn": {
+          "param_count": 3414.0,
+          "relative_error_L10": 0.0011968907967509778,
+          "relative_error_L16": 0.0007872341572692107,
+          "relative_error_L24": 0.0005052077907984873
+        }
+      }
+    },
+    "three_spin_binary": {
+      "_artifacts": {
+        "dnn": {
+          "constant_predictor_rmse": 8.036698078709135,
+          "forbidden_ops": [],
+          "kind": "baseline",
+          "model": "/home/user/eval/train/baselines/binary_dnn.pt",
+          "param_count": 12918,
+          "payload_bytes": 4416,
+          "pickles_parsed": true,
+          "rmse": 1.42087732031612,
+          "rows": 2000,
+          "storage_bytes": 51672,
+          "stored_elements": 12918
+        }
+      },
+      "_meta": {
+        "param_budget": 100000,
+        "payload_budget_bytes": 131072,
+        "rows": 2000,
+        "rows_are": "public dev configurations (absent from the training file)",
+        "slice": "train",
+        "submission_pattern": "outputs/binary_<name>.pt"
+      },
+      "results": {
+        "dnn": {
+          "mae": 1.1406587208190992,
+          "param_count": 12918.0,
+          "relative_error": 0.4980023156485842,
+          "tail_rmse": 1.475535485842126
+        }
+      }
+    }
+  }
+}

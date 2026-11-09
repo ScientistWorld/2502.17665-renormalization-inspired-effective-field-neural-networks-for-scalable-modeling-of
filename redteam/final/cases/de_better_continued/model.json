@@ -1,0 +1,27 @@
+{
+  "note": "Informational only; evaluators recompute every score from the model file.",
+  "task": "double_exchange",
+  "model": "efnn",
+  "channels": 3,
+  "layers": 3,
+  "kernel": 5,
+  "epochs": 150,
+  "batch_size": 256,
+  "lr": 0.0005,
+  "lr_gamma": 0.97,
+  "seed": 20250217,
+  "threads": 1,
+  "train_limit": 0,
+  "init_checkpoint": "checkpoints/de_efnn.pt",
+  "output": "redteam/final/cases/de_better_continued/model.pt",
+  "checkpoint": "redteam/final/cases/de_better_continued/checkpoint.pt",
+  "progress": null,
+  "metrics": {
+    "best_train_mse_z": 0.004182762732356787,
+    "param_count": 3412.0,
+    "export_gap": 0.0,
+    "dev_L10_relative_error": 0.0011447147923484295,
+    "dev_L16_relative_error": 0.0007647166219952113,
+    "dev_L24_relative_error": 0.0005733235331559726
+  }
+}

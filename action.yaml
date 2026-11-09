@@ -3,6 +3,6 @@
 # only after your turn ends.
 action: submit
 gpus: 0
-test: true
+test: false
 milestone: core_claim
-notes: "Smoke test of the new double-exchange experiment: build ED data (public + hidden), fit effective-model baseline, time 1 training epoch of EFNN/DNN, run both combined scorers, validate."
+notes: "Final audit: train double-exchange EFNN reference (150 epochs), frozen DNN + effective-model baselines, 2 extra seeds, better (continued) and weaker variants; build and score ~27 cases (both experiments) through unmodified evaluate_train/test.sh; regenerate official scores; summarize ranks/seed spread/bootstrap; validate."

@@ -1,0 +1,17 @@
+{
+  "files": [
+    "de_dnnsub.pt"
+  ],
+  "train": {
+    "command": "bash scripts/evaluate_train.sh",
+    "exit": 0,
+    "seconds": 5.35,
+    "scores_written": true
+  },
+  "test": {
+    "command": "bash scripts/evaluate_test.sh",
+    "exit": 0,
+    "seconds": 6.01,
+    "scores_written": true
+  }
+}

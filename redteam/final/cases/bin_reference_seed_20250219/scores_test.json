@@ -1,0 +1,127 @@
+{
+  "_meta": {
+    "slice": "test"
+  },
+  "experiments": {
+    "double_exchange": {
+      "_artifacts": {
+        "dnn": {
+          "constant_predictor_rmse_L10": 0.87764200342903,
+          "constant_predictor_rmse_L16": 1.398854090846273,
+          "constant_predictor_rmse_L24": 2.1632485430846007,
+          "forbidden_ops": [],
+          "kind": "baseline",
+          "model": "/home/user/eval/test/baselines/de_dnn.pt",
+          "param_count": 1596,
+          "payload_bytes": 10092,
+          "pickles_parsed": true,
+          "rmse_L10": 0.13620975222556864,
+          "rmse_L16": 0.21543826070736954,
+          "rmse_L24": 0.35263217665962626,
+          "rows_L10": 4000,
+          "rows_L16": 600,
+          "rows_L24": 200,
+          "storage_bytes": 6384,
+          "stored_elements": 1596
+        },
+        "effective_model": {
+          "constant_predictor_rmse_L10": 0.87764200342903,
+          "constant_predictor_rmse_L16": 1.398854090846273,
+          "constant_predictor_rmse_L24": 2.1632485430846007,
+          "forbidden_ops": [],
+          "kind": "baseline",
+          "model": "/home/user/eval/test/baselines/de_effective_model.pt",
+          "param_count": 1091,
+          "payload_bytes": 2709,
+          "pickles_parsed": true,
+          "rmse_L10": 0.05963643246221876,
+          "rmse_L16": 0.08982364029436522,
+          "rmse_L24": 0.14182233744300687,
+          "rows_L10": 4000,
+          "rows_L16": 600,
+          "rows_L24": 200,
+          "storage_bytes": 2636,
+          "stored_elements": 1091
+        }
+      },
+      "_meta": {
+        "param_budget": 4000,
+        "payload_budget_bytes": 131072,
+        "rows": {
+          "L10": 4000,
+          "L16": 600,
+          "L24": 200
+        },
+        "rows_are": "hidden configurations of uniformly random unit spins on periodic 10x10, 16x16 and 24x24 lattices",
+        "slice": "test",
+        "submission_pattern": "outputs/de_<name>.pt"
+      },
+      "results": {
+        "dnn": {
+          "param_count": 1596.0,
+          "relative_error_L10": 0.002663263236571025,
+          "relative_error_L16": 0.0016448101486115077,
+          "relative_error_L24": 0.0011972968038096007
+        },
+        "effective_model": {
+          "param_count": 1091.0,
+          "relative_error_L10": 0.0011660510025291986,
+          "relative_error_L16": 0.000685778072364226,
+          "relative_error_L24": 0.00048153130249716094
+        }
+      }
+    },
+    "three_spin_binary": {
+      "_artifacts": {
+        "dnn": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "baseline",
+          "model": "/home/user/eval/test/baselines/binary_dnn.pt",
+          "param_count": 12918,
+          "payload_bytes": 4416,
+          "pickles_parsed": true,
+          "rmse": 1.4397300712329408,
+          "rows": 18162,
+          "storage_bytes": 51672,
+          "stored_elements": 12918
+        },
+        "efnn": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.094583804722809,
+          "rows": 18162,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        }
+      },
+      "_meta": {
+        "param_budget": 100000,
+        "payload_budget_bytes": 131072,
+        "rows": 18162,
+        "rows_are": "all 15-site configurations absent from the public train and dev files",
+        "slice": "test",
+        "submission_pattern": "outputs/binary_<name>.pt"
+      },
+      "results": {
+        "dnn": {
+          "mae": 1.1496152010446494,
+          "param_count": 12918.0,
+          "relative_error": 0.49868271753422583,
+          "tail_rmse": 1.5078377145951478
+        },
+        "efnn": {
+          "mae": 0.074557180064702,
+          "param_count": 95762.0,
+          "relative_error": 0.032761216644939764,
+          "tail_rmse": 0.09910257544324107
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "files": [
+    "de_nan.pt"
+  ],
+  "train": {
+    "command": "bash scripts/evaluate_train.sh",
+    "exit": 1,
+    "seconds": 5.86,
+    "scores_written": true
+  },
+  "test": {
+    "command": "bash scripts/evaluate_test.sh",
+    "exit": 1,
+    "seconds": 6.29,
+    "scores_written": true
+  }
+}

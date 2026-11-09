@@ -1,0 +1,18 @@
+{
+  "files": [
+    "binary_efnn.json",
+    "binary_efnn.pt"
+  ],
+  "train": {
+    "command": "bash scripts/evaluate_train.sh",
+    "exit": 0,
+    "seconds": 5.41,
+    "scores_written": true
+  },
+  "test": {
+    "command": "bash scripts/evaluate_test.sh",
+    "exit": 0,
+    "seconds": 5.63,
+    "scores_written": true
+  }
+}

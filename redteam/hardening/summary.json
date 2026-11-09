@@ -20,6 +20,8 @@
     "reference_seed_20250219": -0.017950341206576133,
     "shortcut_catastrophic_1e6": null,
     "shortcut_constant_train_mean": null,
+    "shortcut_fp16_width150": null,
+    "shortcut_list_attribute": null,
     "shortcut_move_baseline": 0.0,
     "shortcut_nan_output": null,
     "shortcut_not_torchscript": null,
@@ -27,6 +29,7 @@
     "shortcut_oversized_width150": null,
     "shortcut_padded_buffer": null,
     "shortcut_polynomial_regression": 0.1596988319974728,
+    "shortcut_reads_file": null,
     "shortcut_scaled_0p001": null,
     "shortcut_sidecar_claims": 0.0,
     "shortcut_train_lookup": null,
@@ -57,6 +60,8 @@
     "reference_seed_20250219": -0.020308517692822513,
     "shortcut_catastrophic_1e6": null,
     "shortcut_constant_train_mean": null,
+    "shortcut_fp16_width150": null,
+    "shortcut_list_attribute": null,
     "shortcut_move_baseline": 0.0,
     "shortcut_nan_output": null,
     "shortcut_not_torchscript": null,
@@ -64,6 +69,7 @@
     "shortcut_oversized_width150": null,
     "shortcut_padded_buffer": null,
     "shortcut_polynomial_regression": 0.18067576137234737,
+    "shortcut_reads_file": null,
     "shortcut_scaled_0p001": null,
     "shortcut_sidecar_claims": 0.0,
     "shortcut_train_lookup": null,
@@ -557,6 +563,90 @@
         }
       }
     },
+    "shortcut_fp16_width150": {
+      "case": "shortcut_fp16_width150",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "model stores 190802 values, above the budget of 100000"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "model stores 190802 values, above the budget of 100000"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_list_attribute": {
+      "case": "shortcut_list_attribute",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "code and pickled non-tensor attributes take 376308 bytes (limit 131072); numeric data must be stored in tensors"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "code and pickled non-tensor attributes take 376308 bytes (limit 131072); numeric data must be stored in tensors"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
     "shortcut_move_baseline": {
       "case": "shortcut_move_baseline",
       "files": [
@@ -905,6 +995,48 @@
           "stored_elements": 2151
         },
         "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_reads_file": {
+      "case": "shortcut_reads_file",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "model code uses forbidden operation(s) ['from_file']"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "model code uses forbidden operation(s) ['from_file']"
+        },
         "ignored": null,
         "baselines": {
           "dnn": {

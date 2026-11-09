@@ -19,3 +19,24 @@ evaluate_test.sh exit=0
 validate.py exit=0
 validate.py --post-design exit=0
 === done 2026-11-09T00:13:09-05:00
+=== start 2026-11-09T00:15:40-05:00 nproc=2 python=Python 3.11.15 torch=2.12.0+cpu
+_reference_and_better exit=0 seconds=0
+_baseline_dnn exit=0 seconds=0
+reference_seed_20250218 exit=0 seconds=0
+reference_seed_20250219 exit=0 seconds=0
+weaker_20_epochs exit=0 seconds=0
+=== training done 2026-11-09T00:15:51-05:00
+=== probes built (exit 0) 2026-11-09T00:16:00-05:00
+=== cases scored (exit 0) 2026-11-09T00:21:06-05:00
+total 418
+drwxrws---+  2 user lab   4096 Nov  9 00:21 .
+drwxrwsr-x+ 27 user lab   4096 Nov  9 00:21 ..
+-rw-rw----+  1 user lab    519 Nov  8 23:22 binary_efnn.json
+-rw-rw----+  1 user lab 423638 Nov  8 23:22 binary_efnn.pt
+evaluate.sh exit=0
+evaluate_train.sh exit=0
+evaluate_test.sh exit=0
+=== summarized (exit 0) 2026-11-09T00:21:36-05:00
+validate.py exit=0
+validate.py --post-design exit=0
+=== done 2026-11-09T00:21:37-05:00

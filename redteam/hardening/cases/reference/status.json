@@ -5,13 +5,13 @@
   "train": {
     "command": "bash scripts/evaluate_train.sh",
     "exit": 0,
-    "seconds": 5.68,
+    "seconds": 5.94,
     "scores_written": true
   },
   "test": {
     "command": "bash scripts/evaluate_test.sh",
     "exit": 0,
-    "seconds": 6.94,
+    "seconds": 6.13,
     "scores_written": true
   }
 }

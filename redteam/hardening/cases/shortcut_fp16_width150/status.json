@@ -1,0 +1,17 @@
+{
+  "files": [
+    "binary_submission.pt"
+  ],
+  "train": {
+    "command": "bash scripts/evaluate_train.sh",
+    "exit": 1,
+    "seconds": 6.24,
+    "scores_written": true
+  },
+  "test": {
+    "command": "bash scripts/evaluate_test.sh",
+    "exit": 1,
+    "seconds": 6.4,
+    "scores_written": true
+  }
+}

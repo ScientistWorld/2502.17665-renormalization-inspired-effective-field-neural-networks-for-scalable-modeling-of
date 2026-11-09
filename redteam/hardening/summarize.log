@@ -6,6 +6,8 @@
 | reference_seed_20250219 | 0 | 0 | 0.0327612 | 0.0745572 | 0.0991026 | 95762 | -0.01795 | -0.02031 |  |
 | shortcut_catastrophic_1e6 | 1 | 1 | - | - | - | - | - | - | submission: RMSE 999997 is no better than the best constant predictor (8.1062); task failed |
 | shortcut_constant_train_mean | 1 | 1 | - | - | - | - | - | - | submission: RMSE 8.10663 is no better than the best constant predictor (8.1062); task failed |
+| shortcut_fp16_width150 | 1 | 1 | - | - | - | - | - | - | submission: model stores 190802 values, above the budget of 100000 |
+| shortcut_list_attribute | 1 | 1 | - | - | - | - | - | - | submission: code and pickled non-tensor attributes take 376308 bytes (limit 131072); numeric data must be stored in tensors |
 | shortcut_move_baseline | 0 | 0 | 0.0294936 | 0.0670421 | 0.0886145 | 95762 | 0 | 0 |  |
 | shortcut_nan_output | 1 | 1 | - | - | - | - | - | - | submission: 18162 non-finite predictions |
 | shortcut_not_torchscript | 1 | 1 | - | - | - | - | - | - | submission: cannot load as a TorchScript module (RuntimeError: PytorchStreamReader failed locating file constants.pkl: file not found. This is an internal miniz |
@@ -13,6 +15,7 @@
 | shortcut_oversized_width150 | 1 | 1 | - | - | - | - | - | - | submission: model stores 190802 values, above the budget of 100000 |
 | shortcut_padded_buffer | 1 | 1 | - | - | - | - | - | - | submission: model stores 105764 values, above the budget of 100000 |
 | shortcut_polynomial_regression | 0 | 0 | 2.79793e-07 | 5.24354e-07 | 1.22477e-06 | 3726 | 0.1597 | 0.1807 |  |
+| shortcut_reads_file | 1 | 1 | - | - | - | - | - | - | submission: model code uses forbidden operation(s) ['from_file'] |
 | shortcut_scaled_0p001 | 1 | 1 | - | - | - | - | - | - | submission: RMSE 8.59637 is no better than the best constant predictor (8.1062); task failed |
 | shortcut_sidecar_claims | 0 | 0 | 0.0294936 | 0.0670421 | 0.0886145 | 95762 | 0 | 0 |  |
 | shortcut_train_lookup | 1 | 1 | - | - | - | - | - | - | submission: RMSE 8.10663 is no better than the best constant predictor (8.1062); task failed |

@@ -1,0 +1,21 @@
+{
+  "note": "Informational only; evaluators recompute every score from the model file.",
+  "task": "binary",
+  "model": "efnn",
+  "layers": 3,
+  "width": 105,
+  "seed": 20250217,
+  "epochs": 2400,
+  "batch_size": 4096,
+  "lr": 0.0001,
+  "lr_gamma": 0.999,
+  "init_checkpoint": "checkpoints/binary_efnn.pt",
+  "metrics": {
+    "dev_rmse": 0.06091231571174717,
+    "dev_relative_error": 0.021349116418870735,
+    "dev_mae": 0.04855773697700352,
+    "best_train_mse_z": 2.8536871628602966e-05,
+    "param_count": 95760.0,
+    "export_gap": 0.0
+  }
+}

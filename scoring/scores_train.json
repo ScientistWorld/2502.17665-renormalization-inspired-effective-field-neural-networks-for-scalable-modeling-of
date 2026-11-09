@@ -1,28 +1,39 @@
 {
   "_meta": {
-    "slice": "train",
-    "split_seed": 25021765
+    "param_budget": 100000,
+    "payload_budget_bytes": 131072,
+    "rows": 2000,
+    "rows_are": "public dev configurations (absent from the training file)",
+    "slice": "train"
   },
   "experiments": {
     "three_spin_binary": {
       "_artifacts": {
         "dnn": {
-          "method_name": "dnn",
-          "prediction": "outputs/binary_dnn.npz",
-          "selected_rows": 2000,
-          "slice": "train",
-          "source_rows": 4000,
-          "split_seed": 25021765,
-          "task": "binary"
+          "constant_predictor_rmse": 8.036698078709135,
+          "forbidden_ops": [],
+          "kind": "baseline",
+          "model": "/home/user/eval/train/baselines/binary_dnn.pt",
+          "param_count": 12918,
+          "payload_bytes": 4416,
+          "pickles_parsed": true,
+          "rmse": 1.42087732031612,
+          "rows": 2000,
+          "storage_bytes": 51672,
+          "stored_elements": 12918
         },
         "efnn": {
-          "method_name": "efnn",
-          "prediction": "outputs/binary_efnn.npz",
-          "selected_rows": 2000,
-          "slice": "train",
-          "source_rows": 4000,
-          "split_seed": 25021765,
-          "task": "binary"
+          "constant_predictor_rmse": 8.036698078709135,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.0855563399487341,
+          "rows": 2000,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
         }
       },
       "_meta": {
@@ -30,24 +41,16 @@
       },
       "results": {
         "dnn": {
-          "bias_abs": 0.030791603595018386,
-          "mae": 1.658051282197237,
-          "neuron_count": 105.0,
-          "pearson_corr": 0.9622955160204462,
-          "relative_error": 0.7702079687173822,
-          "rmse": 2.083519033895528,
-          "sign_accuracy": 0.8848272408612919,
-          "tail_rmse": 2.2511244400798622
+          "mae": 1.1406587208190992,
+          "param_count": 12918.0,
+          "relative_error": 0.4980023156485842,
+          "tail_rmse": 1.475535485842126
         },
         "efnn": {
-          "bias_abs": 0.0006394615471363068,
-          "mae": 0.058618482381105425,
-          "neuron_count": 105.0,
-          "pearson_corr": 0.9999520772309818,
-          "relative_error": 0.02769654608144781,
-          "rmse": 0.07492298609940205,
-          "sign_accuracy": 0.9984977466199298,
-          "tail_rmse": 0.07864525747838465
+          "mae": 0.06760286649695968,
+          "param_count": 95762.0,
+          "relative_error": 0.029986582799004558,
+          "tail_rmse": 0.08572214157730162
         }
       }
     }

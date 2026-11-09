@@ -1,0 +1,42 @@
+{
+  "_failures": {
+    "submission": "RMSE 8.03756 is no better than the best constant predictor (8.0367); task failed"
+  },
+  "_meta": {
+    "param_budget": 100000,
+    "payload_budget_bytes": 131072,
+    "rows": 2000,
+    "rows_are": "public dev configurations (absent from the training file)",
+    "slice": "train"
+  },
+  "experiments": {
+    "three_spin_binary": {
+      "_artifacts": {
+        "dnn": {
+          "constant_predictor_rmse": 8.036698078709135,
+          "forbidden_ops": [],
+          "kind": "baseline",
+          "model": "/home/user/eval/train/baselines/binary_dnn.pt",
+          "param_count": 12918,
+          "payload_bytes": 4416,
+          "pickles_parsed": true,
+          "rmse": 1.42087732031612,
+          "rows": 2000,
+          "storage_bytes": 51672,
+          "stored_elements": 12918
+        }
+      },
+      "_meta": {
+        "slice": "train"
+      },
+      "results": {
+        "dnn": {
+          "mae": 1.1406587208190992,
+          "param_count": 12918.0,
+          "relative_error": 0.4980023156485842,
+          "tail_rmse": 1.475535485842126
+        }
+      }
+    }
+  }
+}

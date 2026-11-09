@@ -1,0 +1,1270 @@
+{
+  "rank_formula": "weight * sum_m |coef_m| * dir_m * (x_m - ref_m) / std_cohort(m), nonzero-coefficient metrics",
+  "honest_cohort": [
+    "reference",
+    "reference_seed_20250218",
+    "reference_seed_20250219",
+    "better_continued",
+    "weaker_20_epochs",
+    "weaker_dnn_submitted"
+  ],
+  "honest_cohort_std": {
+    "relative_error": 0.28285761058112313,
+    "mae": 0.6465103092988937,
+    "tail_rmse": 0.9009909773112991
+  },
+  "rank_delta_honest_cohort": {
+    "better_continued": 0.04582452780341635,
+    "reference": 0.0,
+    "reference_seed_20250218": 0.006971406470500353,
+    "reference_seed_20250219": -0.017950341206576133,
+    "shortcut_catastrophic_1e6": null,
+    "shortcut_constant_train_mean": null,
+    "shortcut_move_baseline": 0.0,
+    "shortcut_nan_output": null,
+    "shortcut_not_torchscript": null,
+    "shortcut_old_public_generator": null,
+    "shortcut_oversized_width150": null,
+    "shortcut_padded_buffer": null,
+    "shortcut_polynomial_regression": 0.1596988319974728,
+    "shortcut_scaled_0p001": null,
+    "shortcut_sidecar_claims": 0.0,
+    "shortcut_train_lookup": null,
+    "shortcut_wrong_shape": null,
+    "weaker_20_epochs": -3.8205921686048017,
+    "weaker_dnn_submitted": -2.5499224751880694
+  },
+  "passing_cohort": [
+    "better_continued",
+    "reference",
+    "reference_seed_20250218",
+    "reference_seed_20250219",
+    "shortcut_move_baseline",
+    "shortcut_polynomial_regression",
+    "shortcut_sidecar_claims",
+    "weaker_20_epochs",
+    "weaker_dnn_submitted"
+  ],
+  "passing_cohort_std": {
+    "relative_error": 0.2500881656734186,
+    "mae": 0.5717310879256633,
+    "tail_rmse": 0.7952399564582693
+  },
+  "rank_delta_passing_cohort": {
+    "better_continued": 0.05184364399082383,
+    "reference": 0.0,
+    "reference_seed_20250218": 0.007887263685532494,
+    "reference_seed_20250219": -0.020308517692822513,
+    "shortcut_catastrophic_1e6": null,
+    "shortcut_constant_train_mean": null,
+    "shortcut_move_baseline": 0.0,
+    "shortcut_nan_output": null,
+    "shortcut_not_torchscript": null,
+    "shortcut_old_public_generator": null,
+    "shortcut_oversized_width150": null,
+    "shortcut_padded_buffer": null,
+    "shortcut_polynomial_regression": 0.18067576137234737,
+    "shortcut_scaled_0p001": null,
+    "shortcut_sidecar_claims": 0.0,
+    "shortcut_train_lookup": null,
+    "shortcut_wrong_shape": null,
+    "weaker_20_epochs": -4.322527641265077,
+    "weaker_dnn_submitted": -2.884864278447597
+  },
+  "seed_spread": {
+    "relative_error": {
+      "values": [
+        0.029493604412623508,
+        0.02822482962613103,
+        0.032761216644939764
+      ],
+      "range": 0.004536387018808735,
+      "std": 0.0019109592223115553
+    },
+    "mae": {
+      "values": [
+        0.06704212363992415,
+        0.06413066253553044,
+        0.074557180064702
+      ],
+      "range": 0.01042651752917155,
+      "std": 0.004392733224265753
+    },
+    "tail_rmse": {
+      "values": [
+        0.08861447617851868,
+        0.08452995556237551,
+        0.09910257544324107
+      ],
+      "range": 0.014572619880865556,
+      "std": 0.006137722931389737
+    },
+    "rank_delta_honest": {
+      "values": [
+        0.0,
+        0.006971406470500353,
+        -0.017950341206576133
+      ],
+      "range": 0.024921747677076486
+    }
+  },
+  "paired_bootstrap_vs_reference": {
+    "reference_seed_20250218": {
+      "relative_error_minus_reference": -0.001268774786492479,
+      "bootstrap_ci95": [
+        -0.0016922801966824286,
+        -0.0008511092420696181
+      ],
+      "bootstrap_sd": 0.00021972993554112764,
+      "fraction_better_than_reference": 1.0
+    },
+    "reference_seed_20250219": {
+      "relative_error_minus_reference": 0.003267612232316256,
+      "bootstrap_ci95": [
+        0.002775775730194703,
+        0.003764856196648917
+      ],
+      "bootstrap_sd": 0.00025635097363881413,
+      "fraction_better_than_reference": 0.0
+    },
+    "better_continued": {
+      "relative_error_minus_reference": -0.008479410907085067,
+      "bootstrap_ci95": [
+        -0.00884767990971789,
+        -0.008112493567519762
+      ],
+      "bootstrap_sd": 0.00019002512421241393,
+      "fraction_better_than_reference": 1.0
+    }
+  },
+  "train_vs_test": {
+    "reference": {
+      "train_relative_error": 0.029986582799004558,
+      "test_relative_error": 0.029493604412623508
+    },
+    "reference_seed_20250218": {
+      "train_relative_error": 0.028102878591537657,
+      "test_relative_error": 0.02822482962613103
+    },
+    "reference_seed_20250219": {
+      "train_relative_error": 0.032732000660656846,
+      "test_relative_error": 0.032761216644939764
+    },
+    "better_continued": {
+      "train_relative_error": 0.02134912013800675,
+      "test_relative_error": 0.02101419350553844
+    },
+    "weaker_20_epochs": {
+      "train_relative_error": 0.7312400507370979,
+      "test_relative_error": 0.7246772899963335
+    },
+    "weaker_dnn_submitted": {
+      "train_relative_error": 0.4980023156485842,
+      "test_relative_error": 0.49868271753422583
+    }
+  },
+  "records": {
+    "better_continued": {
+      "case": "better_continued",
+      "files": [
+        "binary_efnn.pt"
+      ],
+      "train": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 0.04855774799591828,
+          "param_count": 95762.0,
+          "relative_error": 0.02134912013800675,
+          "tail_rmse": 0.060676185644076536
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.036698078709135,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.06091232843624667,
+          "rows": 2000,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 0.047850083628728814,
+          "param_count": 95762.0,
+          "relative_error": 0.02101419350553844,
+          "tail_rmse": 0.0633102511061593
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.060669370019936976,
+          "rows": 18162,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      },
+      "training": {
+        "epochs": 2400,
+        "lr": 0.0001,
+        "lr_gamma": 0.999,
+        "seed": 20250217,
+        "init_checkpoint": "checkpoints/binary_efnn.pt"
+      }
+    },
+    "reference": {
+      "case": "reference",
+      "files": [
+        "binary_efnn.pt"
+      ],
+      "train": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 0.06760286649695968,
+          "param_count": 95762.0,
+          "relative_error": 0.029986582799004558,
+          "tail_rmse": 0.08572214157730162
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.036698078709135,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.0855563399487341,
+          "rows": 2000,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 0.06704212363992415,
+          "param_count": 95762.0,
+          "relative_error": 0.029493604412623508,
+          "tail_rmse": 0.08861447617851868
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.08514999154545252,
+          "rows": 18162,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "reference_seed_20250218": {
+      "case": "reference_seed_20250218",
+      "files": [
+        "binary_efnn.pt"
+      ],
+      "train": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 0.06293101424519348,
+          "param_count": 95762.0,
+          "relative_error": 0.028102878591537657,
+          "tail_rmse": 0.08096672068345034
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.036698078709135,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.0801818416733838,
+          "rows": 2000,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 0.06413066253553044,
+          "param_count": 95762.0,
+          "relative_error": 0.02822482962613103,
+          "tail_rmse": 0.08452995556237551
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.0814869546093269,
+          "rows": 18162,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      },
+      "training": {
+        "epochs": 2400,
+        "lr": 0.001,
+        "lr_gamma": 0.997,
+        "seed": 20250218,
+        "init_checkpoint": null
+      }
+    },
+    "reference_seed_20250219": {
+      "case": "reference_seed_20250219",
+      "files": [
+        "binary_efnn.pt"
+      ],
+      "train": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 0.07369238368094252,
+          "param_count": 95762.0,
+          "relative_error": 0.032732000660656846,
+          "tail_rmse": 0.10161591354497915
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.036698078709135,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.09338944002043173,
+          "rows": 2000,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 0.074557180064702,
+          "param_count": 95762.0,
+          "relative_error": 0.032761216644939764,
+          "tail_rmse": 0.09910257544324107
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.094583804722809,
+          "rows": 18162,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      },
+      "training": {
+        "epochs": 2400,
+        "lr": 0.001,
+        "lr_gamma": 0.997,
+        "seed": 20250219,
+        "init_checkpoint": null
+      }
+    },
+    "shortcut_catastrophic_1e6": {
+      "case": "shortcut_catastrophic_1e6",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "RMSE 999997 is no better than the best constant predictor (8.0367); task failed"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "RMSE 999997 is no better than the best constant predictor (8.1062); task failed"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_constant_train_mean": {
+      "case": "shortcut_constant_train_mean",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "RMSE 8.03756 is no better than the best constant predictor (8.0367); task failed"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "RMSE 8.10663 is no better than the best constant predictor (8.1062); task failed"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_move_baseline": {
+      "case": "shortcut_move_baseline",
+      "files": [
+        "binary_dnn.pt",
+        "binary_efnn.pt"
+      ],
+      "train": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 0.06760286649695968,
+          "param_count": 95762.0,
+          "relative_error": 0.029986582799004558,
+          "tail_rmse": 0.08572214157730162
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.036698078709135,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.0855563399487341,
+          "rows": 2000,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": {
+          "outputs/binary_dnn.pt": "'dnn' is an eval-owned baseline name; the frozen baseline is scored instead"
+        },
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 0.06704212363992415,
+          "param_count": 95762.0,
+          "relative_error": 0.029493604412623508,
+          "tail_rmse": 0.08861447617851868
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.08514999154545252,
+          "rows": 18162,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": {
+          "outputs/binary_dnn.pt": "'dnn' is an eval-owned baseline name; the frozen baseline is scored instead"
+        },
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_nan_output": {
+      "case": "shortcut_nan_output",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "2000 non-finite predictions"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "18162 non-finite predictions"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_not_torchscript": {
+      "case": "shortcut_not_torchscript",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "cannot load as a TorchScript module (RuntimeError: PytorchStreamReader failed locating file constants.pkl: file not found. This is an internal miniz error. If you are seeing this error, there is a high likelihood that your checkpoint file is corrupted. This can happen if the checkpoint was not saved properly, was transferred incorrectly, or the file was modified after saving.)"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "cannot load as a TorchScript module (RuntimeError: PytorchStreamReader failed locating file constants.pkl: file not found. This is an internal miniz error. If you are seeing this error, there is a high likelihood that your checkpoint file is corrupted. This can happen if the checkpoint was not saved properly, was transferred incorrectly, or the file was modified after saving.)"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_old_public_generator": {
+      "case": "shortcut_old_public_generator",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "RMSE 12.9726 is no better than the best constant predictor (8.0367); task failed"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "RMSE 12.7657 is no better than the best constant predictor (8.1062); task failed"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_oversized_width150": {
+      "case": "shortcut_oversized_width150",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "model stores 190802 values, above the budget of 100000"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "model stores 190802 values, above the budget of 100000"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_padded_buffer": {
+      "case": "shortcut_padded_buffer",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "model stores 105764 values, above the budget of 100000"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "model stores 105764 values, above the budget of 100000"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_polynomial_regression": {
+      "case": "shortcut_polynomial_regression",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 0,
+        "method": "submission",
+        "metrics": {
+          "mae": 5.898585251844224e-07,
+          "param_count": 3726.0,
+          "relative_error": 2.9926383458845637e-07,
+          "tail_rmse": 1.1997298194919665e-06
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.036698078709135,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_submission.pt",
+          "param_count": 3726,
+          "payload_bytes": 2110,
+          "pickles_parsed": true,
+          "rmse": 8.538458195797375e-07,
+          "rows": 2000,
+          "storage_bytes": 14904,
+          "stored_elements": 2151
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 0,
+        "method": "submission",
+        "metrics": {
+          "mae": 5.243539846883923e-07,
+          "param_count": 3726.0,
+          "relative_error": 2.7979329652330874e-07,
+          "tail_rmse": 1.2247704061531206e-06
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_submission.pt",
+          "param_count": 3726,
+          "payload_bytes": 2110,
+          "pickles_parsed": true,
+          "rmse": 8.077817990681733e-07,
+          "rows": 18162,
+          "storage_bytes": 14904,
+          "stored_elements": 2151
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_scaled_0p001": {
+      "case": "shortcut_scaled_0p001",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "RMSE 8.5196 is no better than the best constant predictor (8.0367); task failed"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "RMSE 8.59637 is no better than the best constant predictor (8.1062); task failed"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_sidecar_claims": {
+      "case": "shortcut_sidecar_claims",
+      "files": [
+        "binary_efnn.json",
+        "binary_efnn.pt"
+      ],
+      "train": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 0.06760286649695968,
+          "param_count": 95762.0,
+          "relative_error": 0.029986582799004558,
+          "tail_rmse": 0.08572214157730162
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.036698078709135,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.0855563399487341,
+          "rows": 2000,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 0.06704212363992415,
+          "param_count": 95762.0,
+          "relative_error": 0.029493604412623508,
+          "tail_rmse": 0.08861447617851868
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 0.08514999154545252,
+          "rows": 18162,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_train_lookup": {
+      "case": "shortcut_train_lookup",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "RMSE 8.03756 is no better than the best constant predictor (8.0367); task failed"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "RMSE 8.10663 is no better than the best constant predictor (8.1062); task failed"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "shortcut_wrong_shape": {
+      "case": "shortcut_wrong_shape",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "forward returned shape (1999,) for 2000 inputs; expected (2000,)"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 1,
+        "method": null,
+        "metrics": null,
+        "artifact": null,
+        "failures": {
+          "submission": "forward returned shape (4095,) for 4096 inputs; expected (4096,)"
+        },
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    },
+    "weaker_20_epochs": {
+      "case": "weaker_20_epochs",
+      "files": [
+        "binary_efnn.pt"
+      ],
+      "train": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 1.6439193085114099,
+          "param_count": 95762.0,
+          "relative_error": 0.7312400507370979,
+          "tail_rmse": 2.366408680291823
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.036698078709135,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 2.0863405071640755,
+          "rows": 2000,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 0,
+        "method": "efnn",
+        "metrics": {
+          "mae": 1.650415948945844,
+          "param_count": 95762.0,
+          "relative_error": 0.7246772899963335,
+          "tail_rmse": 2.342890998908189
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 2.0921913867522566,
+          "rows": 18162,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      },
+      "training": {
+        "epochs": 20,
+        "lr": 0.001,
+        "lr_gamma": 0.997,
+        "seed": 20250217,
+        "init_checkpoint": null
+      }
+    },
+    "weaker_dnn_submitted": {
+      "case": "weaker_dnn_submitted",
+      "files": [
+        "binary_submission.pt"
+      ],
+      "train": {
+        "exit": 0,
+        "method": "submission",
+        "metrics": {
+          "mae": 1.1406587208190992,
+          "param_count": 12918.0,
+          "relative_error": 0.4980023156485842,
+          "tail_rmse": 1.475535485842126
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.036698078709135,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_submission.pt",
+          "param_count": 12918,
+          "payload_bytes": 4416,
+          "pickles_parsed": true,
+          "rmse": 1.42087732031612,
+          "rows": 2000,
+          "storage_bytes": 51672,
+          "stored_elements": 12918
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1406587208190992,
+            "param_count": 12918.0,
+            "relative_error": 0.4980023156485842,
+            "tail_rmse": 1.475535485842126
+          }
+        }
+      },
+      "test": {
+        "exit": 0,
+        "method": "submission",
+        "metrics": {
+          "mae": 1.1496152010446494,
+          "param_count": 12918.0,
+          "relative_error": 0.49868271753422583,
+          "tail_rmse": 1.5078377145951478
+        },
+        "artifact": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_submission.pt",
+          "param_count": 12918,
+          "payload_bytes": 4416,
+          "pickles_parsed": true,
+          "rmse": 1.4397300712329408,
+          "rows": 18162,
+          "storage_bytes": 51672,
+          "stored_elements": 12918
+        },
+        "failures": null,
+        "ignored": null,
+        "baselines": {
+          "dnn": {
+            "mae": 1.1496152010446494,
+            "param_count": 12918.0,
+            "relative_error": 0.49868271753422583,
+            "tail_rmse": 1.5078377145951478
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "_meta": {
+    "param_budget": 100000,
+    "payload_budget_bytes": 131072,
+    "rows": 18162,
+    "rows_are": "all 15-site configurations absent from the public train and dev files",
+    "slice": "test"
+  },
+  "experiments": {
+    "three_spin_binary": {
+      "_artifacts": {
+        "dnn": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "baseline",
+          "model": "/home/user/eval/test/baselines/binary_dnn.pt",
+          "param_count": 12918,
+          "payload_bytes": 4416,
+          "pickles_parsed": true,
+          "rmse": 1.4397300712329408,
+          "rows": 18162,
+          "storage_bytes": 51672,
+          "stored_elements": 12918
+        },
+        "efnn": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_efnn.pt",
+          "param_count": 95762,
+          "payload_bytes": 15883,
+          "pickles_parsed": true,
+          "rmse": 2.0921913867522566,
+          "rows": 18162,
+          "storage_bytes": 383048,
+          "stored_elements": 95762
+        }
+      },
+      "_meta": {
+        "slice": "test"
+      },
+      "results": {
+        "dnn": {
+          "mae": 1.1496152010446494,
+          "param_count": 12918.0,
+          "relative_error": 0.49868271753422583,
+          "tail_rmse": 1.5078377145951478
+        },
+        "efnn": {
+          "mae": 1.650415948945844,
+          "param_count": 95762.0,
+          "relative_error": 0.7246772899963335,
+          "tail_rmse": 2.342890998908189
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "task": "binary",
+  "model": "efnn",
+  "layers": 3,
+  "width": 105,
+  "seed": 20250217,
+  "epochs": 2400,
+  "lr": 0.001,
+  "lr_gamma": 0.997,
+  "train_size": 16000,
+  "test_size": 4000,
+  "metrics": {
+    "rmse": 0.07618768787037734,
+    "mae": 0.0590578209515661,
+    "bias_abs": 0.0014099170882254839,
+    "tail_rmse": 0.08040466766350712,
+    "pearson_corr": 0.9999509972071682,
+    "sign_accuracy": 0.9972444889779559,
+    "relative_error": 0.027977112220231585,
+    "param_count": 95760.0,
+    "neuron_count": 105.0
+  }
+}

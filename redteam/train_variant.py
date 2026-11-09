@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 from pathlib import Path
 
@@ -80,7 +81,21 @@ def main() -> None:
 
     best_loss = float("inf")
     best_state = None
-    for epoch in range(1, args.epochs + 1):
+    first_epoch = 1
+    progress_path = args.output.with_suffix('.progress.pt')
+    if progress_path.exists():
+        progress = torch.load(progress_path, map_location=device, weights_only=False)
+        model.load_state_dict(progress['model'])
+        opt.load_state_dict(progress['optimizer'])
+        sched.load_state_dict(progress['scheduler'])
+        best_loss = progress['best_loss']
+        best_state = {k: v.cpu() for k, v in progress['best_state'].items()}
+        torch.set_rng_state(progress['torch_rng'].cpu())
+        np.random.set_state(progress['numpy_rng'])
+        random.setstate(progress['python_rng'])
+        first_epoch = progress['epoch'] + 1
+        print(f'resuming epoch={first_epoch} best_train_mse_z={best_loss}', flush=True)
+    for epoch in range(first_epoch, args.epochs + 1):
         model.train()
         total = 0.0
         for xb, yb in loader:
@@ -98,6 +113,17 @@ def main() -> None:
             best_state = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}
         if epoch == 1 or epoch % 50 == 0 or epoch == args.epochs:
             print(f"epoch={epoch} train_mse_z={avg:.6g} lr={sched.get_last_lr()[0]:.3g}", flush=True)
+        if epoch % 50 == 0 or epoch == args.epochs:
+            # Atomic full training state permits exact CPU continuation after a
+            # scheduler preemption, without changing the scientific procedure.
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            partial = progress_path.with_suffix('.partial.pt')
+            torch.save({'epoch': epoch, 'model': model.state_dict(),
+                        'optimizer': opt.state_dict(), 'scheduler': sched.state_dict(),
+                        'best_loss': best_loss, 'best_state': best_state,
+                        'torch_rng': torch.get_rng_state(), 'numpy_rng': np.random.get_state(),
+                        'python_rng': random.getstate()}, partial)
+            os.replace(partial, progress_path)
 
     if best_state is not None:
         model.load_state_dict(best_state)

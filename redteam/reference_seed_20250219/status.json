@@ -1,0 +1,10 @@
+{
+  "name": "reference_seed_20250219",
+  "test_command": "bash scripts/evaluate_test.sh",
+  "evaluator_modified": false,
+  "start": 1794190577.0582228,
+  "prediction_sha256": "4f4c2750d0690d90780025a1947dbf8e6e1dd149015a9d4cc28a4b5290560eed",
+  "train_exit": 0,
+  "test_exit": 0,
+  "elapsed_seconds": 1747.766288280487
+}

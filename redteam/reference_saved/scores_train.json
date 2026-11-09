@@ -1,0 +1,55 @@
+{
+  "_meta": {
+    "slice": "train",
+    "split_seed": 25021765
+  },
+  "experiments": {
+    "three_spin_binary": {
+      "_artifacts": {
+        "dnn": {
+          "method_name": "dnn",
+          "prediction": "outputs/binary_dnn.npz",
+          "selected_rows": 2000,
+          "slice": "train",
+          "source_rows": 4000,
+          "split_seed": 25021765,
+          "task": "binary"
+        },
+        "efnn": {
+          "method_name": "efnn",
+          "prediction": "outputs/binary_efnn.npz",
+          "selected_rows": 2000,
+          "slice": "train",
+          "source_rows": 4000,
+          "split_seed": 25021765,
+          "task": "binary"
+        }
+      },
+      "_meta": {
+        "slice": "train"
+      },
+      "results": {
+        "dnn": {
+          "bias_abs": 0.030791603595018386,
+          "mae": 1.658051282197237,
+          "neuron_count": 105.0,
+          "pearson_corr": 0.962295516020446,
+          "relative_error": 0.7702079122135851,
+          "rmse": 2.083519033895528,
+          "sign_accuracy": 0.8848272408612919,
+          "tail_rmse": 2.2511244400798622
+        },
+        "efnn": {
+          "bias_abs": 0.0006394615471363068,
+          "mae": 0.058618482381105425,
+          "neuron_count": 105.0,
+          "pearson_corr": 0.9999520772309819,
+          "relative_error": 0.027696544049580985,
+          "rmse": 0.07492298609940205,
+          "sign_accuracy": 0.9984977466199298,
+          "tail_rmse": 0.07864525747838465
+        }
+      }
+    }
+  }
+}

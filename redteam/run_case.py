@@ -50,7 +50,7 @@ def restore():
 
 
 def command(argv, log):
-    with log.open('w') as out:
+    with log.open('a') as out:
         result = subprocess.run(argv, cwd=ROOT, stdout=out, stderr=subprocess.STDOUT)
     return result.returncode
 
@@ -162,6 +162,12 @@ def run(name):
     folder.mkdir(exist_ok=True)
     snapshot()
     restore()
+    status_path = folder / 'status.json'
+    if status_path.exists():
+        previous = json.loads(status_path.read_text())
+        if 'test_exit' in previous and 'setup_error' not in previous:
+            print(f'reuse completed case: {name}', flush=True)
+            return
     status = {'name': name, 'test_command': 'bash scripts/evaluate_test.sh',
               'evaluator_modified': False, 'start': time.time()}
     try:

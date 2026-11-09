@@ -230,3 +230,16 @@ tmp/
 protocol.md
 *.egg-info
 core.[0-9]*
+
+# Frozen comparison baselines are eval-owned and tracked (small TorchScript files)
+!eval/train/baselines/
+!eval/train/baselines/*.pt
+!eval/test/baselines/
+!eval/test/baselines/*.pt
+
+# Hardening harness scratch (outputs/scoring swapped aside while scoring cases)
+redteam/hardening/_stash_outputs/
+redteam/hardening/_stash_scoring/
+
+# Agent client config
+.claude.json

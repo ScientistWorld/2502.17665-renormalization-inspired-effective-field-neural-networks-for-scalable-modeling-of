@@ -1,5 +1,6 @@
 #!/bin/bash
-# Evaluate saved method outputs on the visible train slice.
+# Score every submitted model (outputs/binary_<name>.pt) on the visible train slice
+# (public dev configurations). Takes no arguments.
 
 set -e
 

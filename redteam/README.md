@@ -1,3 +1,9 @@
+> **Pre-hardening audit.** The cases in this folder (except `hardening/`) were run in
+> iteration 10 against the earlier public coupling instance and the `.npz`
+> prediction interface. Iteration 11 replaced both (hidden instance, TorchScript
+> model submissions); these scripts no longer run against the current gym and are
+> kept as evidence. The current audit is `hardening/` (see `HARDENING.md`).
+
 # Benchmark audit runs
 
 `bash redteam/run_all.sh` runs the audit on a compute node. Each experiment has

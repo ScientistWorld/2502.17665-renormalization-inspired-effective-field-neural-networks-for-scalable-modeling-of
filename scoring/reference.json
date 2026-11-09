@@ -1,109 +1,55 @@
 {
+  "_paper_reported": {
+    "note": "Numbers the paper reports that are not scored results of this gym. The paper does not publish its coupling constants, so absolute errors on this gym's fixed instance are not on the paper's scale. Kept unchanged for context.",
+    "three_spin_binary": {
+      "efnn_relative_error_below": 0.005,
+      "efnn_setting": "2 or 3 layers, at least 105 neurons per layer",
+      "efnn_neuron_count": 105,
+      "dnn_neuron_count": 105,
+      "train_samples": 16000,
+      "test_samples": 4000
+    },
+    "three_spin_continuous": {
+      "efnn_rmse": 0.04,
+      "efnn_neuron_count": 150,
+      "efnn_layers": 3,
+      "status": "not scored: the reproduced continuous-spin EFNN (RMSE about 0.155 on the earlier public instance) did not validate against the paper, and the experiment was removed from official scoring in iteration 9"
+    }
+  },
   "experiments": {
     "three_spin_binary": {
-      "description": "15-site binary three-spin infinite-range energy prediction; paper reports EFNN relative error below 5e-3 for 2/3 layers with at least 105 neurons.",
-      "weight": 0.55,
+      "description": "15-site binary three-spin infinite-range energy prediction on a fixed hidden coupling instance; models are trained on 16,000 public samples and scored on every configuration absent from the public files. Paper reports EFNN relative error below 5e-3 for 2/3 layers with at least 105 neurons.",
+      "weight": 1.0,
       "primary_metric": "relative_error",
       "metrics": {
         "relative_error": {
           "higher_is_better": false,
           "coefficient": -1.0,
-          "description": "Normalized binary energy RMSE; the paper's headline accuracy metric for the binary task."
-        },
-        "rmse": {
-          "higher_is_better": false,
-          "coefficient": -0.4,
-          "description": "Root mean squared energy error on the scored slice."
+          "description": "RMSE of predicted energies on the scored configurations divided by the absolute mean true energy; the paper's headline accuracy metric for the binary task."
         },
         "mae": {
           "higher_is_better": false,
           "coefficient": -0.25,
-          "description": "Mean absolute energy error on the scored slice; rewards broadly accurate regression rather than optimizing only squared error."
+          "description": "Mean absolute energy error on the scored configurations; rewards broadly accurate regression rather than optimizing only squared error."
         },
         "tail_rmse": {
           "higher_is_better": false,
           "coefficient": -0.3,
-          "description": "RMSE on the highest-energy-magnitude quartile; catches methods that fit only easy near-center configurations."
+          "description": "RMSE on the quartile of scored configurations with the largest true energy magnitude; catches methods that fit only near-centre configurations."
         },
-        "bias_abs": {
+        "param_count": {
           "higher_is_better": false,
-          "coefficient": -0.15,
-          "description": "Absolute mean signed prediction error; penalizes systematic energy offsets that can hide behind aggregate RMSE."
-        },
-        "pearson_corr": {
-          "higher_is_better": true,
-          "coefficient": 0.25,
-          "description": "Linear correlation between predicted and true energies; catches constant-scale or collapsed-output shortcuts."
-        },
-        "sign_accuracy": {
-          "higher_is_better": true,
-          "coefficient": 0.15,
-          "description": "Fraction of nonzero-energy rows whose predicted energy has the correct sign."
-        },
-        "neuron_count": {
-          "higher_is_better": false,
-          "coefficient": -0.1,
-          "description": "Width of the submitted predictor; preserves the paper's compact-network constraint."
+          "coefficient": 0.0,
+          "description": "Constraint, measured by the evaluator from the submitted model file: every stored numeric value (sub-32-bit types count one per element, wider types one per 4 bytes). Hard budget of 100,000: a model above it fails the run. Reported, not ranked, because the paper compares accuracy at comparable model scale."
         }
       },
       "results": {
         "dnn": {
-          "type": "baseline",
-          "neuron_count": 105
+          "type": "baseline"
         },
         "efnn": {
           "type": "proposed",
-          "relative_error": 0.005,
-          "neuron_count": 105
-        }
-      }
-    },
-    "three_spin_continuous": {
-      "description": "15-site continuous-spin three-body energy prediction; paper reports best 3-layer 150-neuron EFNN RMSE around 4e-2.",
-      "weight": 0.45,
-      "primary_metric": "rmse",
-      "metrics": {
-        "rmse": {
-          "higher_is_better": false,
-          "coefficient": -1.0,
-          "description": "Root mean squared energy error; the paper's headline accuracy metric for the continuous task."
-        },
-        "mae": {
-          "higher_is_better": false,
-          "coefficient": -0.4,
-          "description": "Mean absolute energy error on the scored slice; rewards robust pointwise accuracy."
-        },
-        "tail_rmse": {
-          "higher_is_better": false,
-          "coefficient": -0.3,
-          "description": "RMSE on the highest-energy-magnitude quartile; checks whether continuous-spin accuracy holds on harder configurations."
-        },
-        "bias_abs": {
-          "higher_is_better": false,
-          "coefficient": -0.15,
-          "description": "Absolute mean signed prediction error; penalizes systematic energy offsets in continuous-spin predictions."
-        },
-        "pearson_corr": {
-          "higher_is_better": true,
-          "coefficient": 0.25,
-          "description": "Linear correlation between predicted and true energies; catches methods that match scale poorly or collapse predictions."
-        },
-        "sign_accuracy": {
-          "higher_is_better": true,
-          "coefficient": 0.15,
-          "description": "Fraction of nonzero-energy rows whose predicted energy has the correct sign."
-        },
-        "neuron_count": {
-          "higher_is_better": false,
-          "coefficient": -0.1,
-          "description": "Width of the submitted predictor; preserves the paper's compact-network constraint."
-        }
-      },
-      "results": {
-        "efnn": {
-          "type": "proposed",
-          "rmse": 0.04,
-          "neuron_count": 150
+          "relative_error": 0.005
         }
       }
     }

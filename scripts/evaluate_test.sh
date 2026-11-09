@@ -1,5 +1,7 @@
 #!/bin/bash
-# Evaluate saved method outputs on the held-out test slice.
+# Score every submitted model (outputs/binary_<name>.pt) on the held-out test slice:
+# all 15-site configurations that appear in no public file, labelled at test time
+# from the hidden instance in eval/test/. Takes no arguments.
 
 set -e
 

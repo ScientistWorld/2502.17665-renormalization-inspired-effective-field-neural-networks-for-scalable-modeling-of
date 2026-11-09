@@ -1,13 +1,31 @@
 # Research Direction
 
 ## Research Problem
-This benchmark studies compact neural energy predictors for many-body spin systems with high-order interactions. The scientific question is how to encode interaction structure so a model can fit nontrivial energy functions efficiently.
+This benchmark studies compact neural energy predictors for many-body spin
+systems with high-order interactions. The scientific question is how to encode
+interaction structure so that a learned model fits a nontrivial energy function
+accurately from samples, at a fixed model scale, and generalizes to unseen
+configurations.
 
 ## Direction Scope
-Future work should stay within compact, structured neural energy prediction for the same fixed spin-energy tasks. Improvements should make the predictor more accurate, more robust across the scored slices, or more parameter-efficient without changing the underlying generated data distribution.
+Future work should stay within compact, learned neural energy prediction for the
+fixed spin-energy task. Improvements should make the predictor more accurate on
+unseen configurations or more robust across the energy range, within the same
+size budget and the same training data.
 
 ## Allowed Changes
-Agents may change model architecture, optimization, initialization, normalization, regularization, or training schedule, provided the output remains an energy prediction artifact that can be scored by the standard evaluator. The fixed train/test splits and metric definitions must remain unchanged.
+Model architecture, optimization, initialization, normalization, regularization,
+training schedule, and model selection on the training data, provided the result
+is submitted as a TorchScript energy model scored by the standard evaluators.
 
 ## Out of Bounds
-Do not use the closed-form generator or explicit enumeration of all cubic interaction features as the final predictor. That solves this small benchmark by using privileged knowledge of the labels rather than improving learned energy prediction. Do not use external data, train on the test split, or increase the reported width beyond the constraints just to obtain gains.
+- Do not build the predictor from an explicit polynomial expansion of the spins
+  (for example, linear or kernel regression on enumerated products of up to three
+  spins, or fitting one coefficient per site triple). The energy function happens
+  to be such a polynomial; recovering its coefficients by regression solves this
+  small instance with privileged knowledge of its functional form rather than
+  advancing learned many-body energy prediction. The hidden test cannot tell such
+  a model apart from a learned one; reviewers check for it.
+- Do not use external data, train on configurations other than the public
+  training file, or exceed the size budget.
+- Do not try to read evaluator files or labels from inside the model.

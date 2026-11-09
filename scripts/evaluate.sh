@@ -1,29 +1,27 @@
 #!/bin/bash
 # Evaluation script — the standard way to evaluate work in this environment.
 #
-# This script must be SELF-CONTAINED using only code in eval/.
-# Do NOT import from method/ — evaluate.sh must work even when the
-# paper's method code is hidden from a scientist agent.
+# Self-contained: uses only code in eval/ (never method/).
 #
-# Design it so that anyone following the same output format can run
-# this script to evaluate their results.
+# Submission contract: every TorchScript energy model saved as
+#   outputs/binary_<name>.pt
+# (input float32 spins of shape (N, 15) in {0, 1}; output energies of shape (N,))
+# is loaded, run on the public dev configurations (data/three_spin_binary/dev.csv),
+# and scored from its raw predictions. The frozen comparison baseline in
+# eval/train/baselines/ is scored alongside. Runs that cannot be loaded, return a
+# wrong shape or non-finite values, exceed the stored-size budget, or are no better
+# than a constant predictor are reported as failed (exit status 1).
 #
-# OUTPUT CONTRACT: This script MUST write scoring/scores.json containing
-# a JSON dict nested by experiment, e.g.:
-#   {"imagenet_classification": {"top1_accuracy": 82.1, "top5_accuracy": 94.8}}
-# Experiment and metric names must match the keys in scoring/reference.json.
-# This file is read by the system for automated comparison.
+# Writes scoring/scores.json (same numbers as the visible train slice).
 #
-# Example usage:
-#   ./evaluate.sh <method_and_run_name>                             # evaluate with defaults
-#   ./evaluate.sh <method_and_run_name> checkpoints/epoch_10.pt     # evaluate a specific checkpoint
-#
-# Called from run.sh after training, or independently.
+# Usage:
+#   bash scripts/evaluate.sh
 
 set -e
 
 cd /home/user
+export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 mkdir -p scoring
 
-python eval/score_three_spin.py "$@"
+python eval/train/score_three_spin_slice.py "$@" --output scoring/scores.json

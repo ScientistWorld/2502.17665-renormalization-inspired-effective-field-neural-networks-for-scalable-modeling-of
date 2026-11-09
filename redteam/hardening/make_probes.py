@@ -8,8 +8,6 @@ submit models or files built here. A probe that cannot be built is recorded in
 ``cases/<name>/build_error.txt`` and skipped.
 """
 
-from __future__ import annotations
-
 import json
 import shutil
 import sys
@@ -138,6 +136,29 @@ class ListPadded(nn.Module):
         return self.inner(x) + self.pad[0] * 0.0
 
 
+class HalfStored(nn.Module):
+    """Network whose weights are stored in float16 and computed in float32."""
+
+    def __init__(self, net: nn.Module):
+        super().__init__()
+        self.net = net.half()
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.net(x.half()).float()
+
+
+class ReadsFile(nn.Module):
+    def __init__(self, inner: nn.Module):
+        super().__init__()
+        self.inner = inner
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        out = self.inner(x)
+        if x.shape[0] < 0:
+            out = out + torch.from_file("eval/test/hidden_instance.json", False, 1).sum()
+        return out
+
+
 class DropLast(nn.Module):
     def __init__(self, inner: nn.Module):
         super().__init__()
@@ -264,6 +285,17 @@ def main() -> None:
     build("shortcut_padded_buffer", lambda sub: save_traced(Padded(reference, 10000), sub / "binary_submission.pt"))
     build("shortcut_list_attribute", list_padded)
     build("shortcut_oversized_width150", oversized)
+
+    def half_stored(sub: Path) -> None:
+        torch.manual_seed(0)
+        net = HalfStored(build_model("efnn", n_sites=N_SITES, width=150, layers=3))
+        save_traced(Standardized(net, y_mean, y_std), sub / "binary_submission.pt")
+
+    def reads_file(sub: Path) -> None:
+        torch.jit.save(torch.jit.script(ReadsFile(reference)), str(sub / "binary_submission.pt"))
+
+    build("shortcut_fp16_width150", half_stored)
+    build("shortcut_reads_file", reads_file)
     build("shortcut_wrong_shape", lambda sub: save_traced(DropLast(reference), sub / "binary_submission.pt"))
     build("shortcut_not_torchscript", not_torchscript)
     build("shortcut_polynomial_regression", polynomial)

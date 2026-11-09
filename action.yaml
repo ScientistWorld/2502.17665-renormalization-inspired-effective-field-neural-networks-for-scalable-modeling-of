@@ -3,6 +3,6 @@
 # only after your turn ends.
 action: submit
 gpus: 0
-test: false
+test: true
 milestone: core_claim
-notes: "Hardening audit (CPU): reproduce DNN baseline + EFNN reference on the new hidden instance from final code, train seed reruns / better (continued) / weaker (20-epoch) variants, build shortcut probes, score every case via scripts/evaluate_{train,test}.sh with no args, regenerate official scores, summarize, validate."
+notes: "Rescore-only rerun of the hardening harness (all trainings skip): fixed list-attribute probe, new fp16-width150 and from_file probes; re-score all cases, official scores, summary, validate."

@@ -51,10 +51,10 @@ case "$WHAT" in
       --channels "${CHANNELS:-3}" \
       --layers "${LAYERS:-3}" \
       --kernel "${KERNEL:-5}" \
-      --epochs "${EPOCHS:-60}" \
+      --epochs "${EPOCHS:-150}" \
       --batch-size "${BATCH_SIZE:-256}" \
       --lr "${LR:-0.002}" \
-      --lr-gamma "${LR_GAMMA:-0.93}" \
+      --lr-gamma "${LR_GAMMA:-0.97}" \
       --seed "$SEED" \
       --threads "$THREADS" \
       --output checkpoints/baselines/de_dnn.pt \

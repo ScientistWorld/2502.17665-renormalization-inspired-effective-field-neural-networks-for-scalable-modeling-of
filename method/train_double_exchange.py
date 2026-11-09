@@ -33,10 +33,10 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--channels", type=int, default=3)
     p.add_argument("--layers", type=int, default=3)
     p.add_argument("--kernel", type=int, default=5)
-    p.add_argument("--epochs", type=int, default=60)
+    p.add_argument("--epochs", type=int, default=150)
     p.add_argument("--batch-size", type=int, default=256)
     p.add_argument("--lr", type=float, default=2e-3)
-    p.add_argument("--lr-gamma", type=float, default=0.93)
+    p.add_argument("--lr-gamma", type=float, default=0.97)
     p.add_argument("--seed", type=int, default=20250217, help="initialization and minibatch seed (data are fixed)")
     p.add_argument("--threads", type=int, default=1)
     p.add_argument("--train-limit", type=int, default=0, help="use only the first N training rows (smoke tests)")
@@ -199,8 +199,9 @@ def main() -> None:
                 "site_mean": site_mean,
                 "scale": scale,
             },
-            args.checkpoint,
+            args.checkpoint.with_name(args.checkpoint.name + ".tmp"),
         )
+        os.replace(args.checkpoint.with_name(args.checkpoint.name + ".tmp"), args.checkpoint)
     sidecar = args.output.with_suffix(".json")
     sidecar.write_text(
         json.dumps(

@@ -243,3 +243,7 @@ redteam/hardening/_stash_scoring/
 
 # Agent client config
 .claude.json
+
+# Final-audit harness scratch
+redteam/final/_stash_outputs/
+redteam/final/_stash_scoring/

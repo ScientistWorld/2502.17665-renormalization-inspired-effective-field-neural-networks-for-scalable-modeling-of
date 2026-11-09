@@ -1,0 +1,189 @@
+{
+  "start_commit": "103dc6bd090e623943428fc0c77d6d16b23781d7",
+  "unmodified_source_checks": {
+    "scripts/evaluate_test.sh": {
+      "start_sha256": "e902fb26c8280bf0d70ba19e97b164b69f6ee41c78fed4f1c48ca0b36f90cf97",
+      "final_sha256": "e902fb26c8280bf0d70ba19e97b164b69f6ee41c78fed4f1c48ca0b36f90cf97",
+      "identical": true
+    },
+    "eval/test/score_three_spin_slice.py": {
+      "start_sha256": "8181bca0fd825ba75e20fe5381d8481165d6a44a7da57a457951555bff50cd60",
+      "final_sha256": "8181bca0fd825ba75e20fe5381d8481165d6a44a7da57a457951555bff50cd60",
+      "identical": true
+    },
+    "eval/train/score_three_spin_slice.py": {
+      "start_sha256": "a1be7e2096ce1dbfe8c6065d0389125e083562feed85f920a8f520abf9a0f4e2",
+      "final_sha256": "a1be7e2096ce1dbfe8c6065d0389125e083562feed85f920a8f520abf9a0f4e2",
+      "identical": true
+    },
+    "method/models.py": {
+      "start_sha256": "646d9a42f07be8238ae2123493d0dcbc60652aa4804783ba38112637907729d3",
+      "final_sha256": "646d9a42f07be8238ae2123493d0dcbc60652aa4804783ba38112637907729d3",
+      "identical": true
+    },
+    "method/train_three_spin.py": {
+      "start_sha256": "7792a3d9f92e87f7d01ddf55566df1c2a147255bfb63d18ac2a338178b12a120",
+      "final_sha256": "7792a3d9f92e87f7d01ddf55566df1c2a147255bfb63d18ac2a338178b12a120",
+      "identical": true
+    },
+    "data/three_spin.py": {
+      "start_sha256": "7f5adeb733f374377b85ebebb1b559e4bb3a0be0575215d805b3f4a861401eb1",
+      "final_sha256": "7f5adeb733f374377b85ebebb1b559e4bb3a0be0575215d805b3f4a861401eb1",
+      "identical": true
+    },
+    "environment/setup.sh": {
+      "start_sha256": "719b03bb87d5440ffeb090143dfabb5adc4e9cd27bc89be1a7f782bb2df8992c",
+      "final_sha256": "719b03bb87d5440ffeb090143dfabb5adc4e9cd27bc89be1a7f782bb2df8992c",
+      "identical": true
+    }
+  },
+  "jobs": {
+    "78d80862-6ca": {
+      "status": "cancelled after two scheduler preemptions; three completed seed results reused"
+    },
+    "5f8bb769-30c": {
+      "run_id": "5f8bb769-30c",
+      "status": "completed",
+      "returncode": 0,
+      "duration": 1740.7647018432617,
+      "submitted_at": 1794193510.764176,
+      "completed_at": 1794195302.6308289
+    }
+  },
+  "observations": {
+    "better_continued": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "reference_saved": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "reference_seed_20250217": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "reference_seed_20250218": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "reference_seed_20250219": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "shortcut_catastrophic_output": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "shortcut_constant_output": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "shortcut_empty_output": {
+      "test_exit": 1,
+      "train_exit": 1,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": [
+        "official target/y_pred length mismatch: 4000 != 0"
+      ],
+      "actual_test_output": "official target/y_pred length mismatch: 4000 != 0"
+    },
+    "shortcut_failing_scaled_width": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "shortcut_forged_labels": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": [
+        "warning: outputs/binary_efnn.npz y_true does not match the evaluator-owned binary targets; ignoring submitted y_true"
+      ]
+    },
+    "shortcut_generator_answers": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "shortcut_impossible_width": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "shortcut_move_baseline": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "shortcut_nan_output": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "shortcut_reduced_test_size": {
+      "test_exit": 1,
+      "train_exit": 1,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": [
+        "outputs/binary_efnn.npz x_test does not match the official binary test split (4000 rows, seed 20250217)"
+      ],
+      "actual_test_output": "outputs/binary_efnn.npz x_test does not match the official binary test split (4000 rows, seed 20250217)"
+    },
+    "shortcut_replace_fixed_data": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "shortcut_score_files": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "shortcut_sidecar_scores": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "shortcut_width_metadata": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "weaker_20_epochs": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    },
+    "weaker_dnn_baseline": {
+      "test_exit": 0,
+      "train_exit": 0,
+      "test_command": "bash scripts/evaluate_test.sh",
+      "warnings_or_errors": []
+    }
+  }
+}

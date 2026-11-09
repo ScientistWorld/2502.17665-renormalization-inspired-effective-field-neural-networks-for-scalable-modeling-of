@@ -1,0 +1,9 @@
+{
+  "test_exit": 1,
+  "train_exit": 1,
+  "test_command": "bash scripts/evaluate_test.sh",
+  "warnings_or_errors": [
+    "outputs/binary_efnn.npz x_test does not match the official binary test split (4000 rows, seed 20250217)"
+  ],
+  "actual_test_output": "outputs/binary_efnn.npz x_test does not match the official binary test split (4000 rows, seed 20250217)"
+}

@@ -11,9 +11,17 @@ seeds vary independently of the fixed dataset seed (the original trainer's
 `--seed` changes both, which cannot be used for an official-split seed study).
 The stronger variant continues the saved reference checkpoint with a renewed
 learning rate. All model selection uses training loss.
-Completed cases are reused after preemption; unfinished CPU training saves
+The bundle reuses completed cases after preemption; unfinished CPU training saves
 model, optimizer, schedule, best training checkpoint, and RNG states every 50
-epochs. A completed case can be rerun by removing its `status.json` first.
+epochs. Individual case `run.sh` scripts rerun preparation and both evaluations
+by default; only `REDTEAM_REUSE_COMPLETED=1` enables case reuse. To retrain a
+finished model from epoch one, also remove its ignored `prediction.progress.pt`.
+
+Artifact-reuse probes require the gym's saved reference and baseline predictions
+and the saved reference checkpoint. On an environment without those artifacts,
+first regenerate them with the gym's reproduction script. The actual audit used
+the finished gym's artifacts, as permitted by the audit protocol. The prediction
+hash and unmodified evaluator hashes are recorded with the results.
 
 `scores_test.json`, `status.json`, and `summary.json` in each case are actual
 test results, including evaluator rejection where applicable. Generated models,

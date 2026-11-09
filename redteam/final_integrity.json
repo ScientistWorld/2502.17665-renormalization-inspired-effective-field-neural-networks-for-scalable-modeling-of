@@ -1,0 +1,20 @@
+{
+  "source_commit": "103dc6bd090e623943428fc0c77d6d16b23781d7",
+  "audited_source_and_official_score_diff": [],
+  "original_output_files_match_snapshot": true,
+  "protocol_exception": "action.yaml is set to done after this validation",
+  "preexisting_system_worktree_differences_untouched": [
+    "README.md device mount",
+    "manifest.json device mount",
+    "missing trajectory files",
+    "untracked .git-shims/"
+  ],
+  "restored_with_git": [
+    "scripts/run.sh",
+    "action.yaml",
+    "system-added jobs/ tracking"
+  ],
+  "audit_cases": 21,
+  "accepted_test_runs": 19,
+  "rejected_test_runs": 2
+}

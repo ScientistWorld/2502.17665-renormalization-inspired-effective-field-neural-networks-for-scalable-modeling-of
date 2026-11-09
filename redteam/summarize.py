@@ -27,7 +27,8 @@ def main():
     honest = [n for n in finite if not n.startswith('shortcut_')]
     without_catastrophic = [n for n in finite if n != 'shortcut_catastrophic_output']
     cohorts = {'honest_variants': honest, 'finite_audit_attempts': list(finite),
-               'without_catastrophic_output': without_catastrophic}
+               'without_catastrophic_output': without_catastrophic,
+               'finite_nonnegative_widths': [n for n in finite if finite[n]['neuron_count'] >= 0]}
     rank_data = {}
     for cohort, names in cohorts.items():
         sd = {k: statistics.pstdev(finite[n][k] for n in names) for k in metrics}

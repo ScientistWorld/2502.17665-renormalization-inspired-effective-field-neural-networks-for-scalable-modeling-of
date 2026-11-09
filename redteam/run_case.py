@@ -163,7 +163,7 @@ def run(name):
     snapshot()
     restore()
     status_path = folder / 'status.json'
-    if status_path.exists():
+    if os.environ.get('REDTEAM_REUSE_COMPLETED') == '1' and status_path.exists():
         previous = json.loads(status_path.read_text())
         if 'test_exit' in previous and 'setup_error' not in previous:
             print(f'reuse completed case: {name}', flush=True)

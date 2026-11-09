@@ -1,0 +1,8 @@
+{
+  "test_exit": 0,
+  "train_exit": 0,
+  "test_command": "bash scripts/evaluate_test.sh",
+  "warnings_or_errors": [
+    "warning: outputs/binary_efnn.npz y_true does not match the evaluator-owned binary targets; ignoring submitted y_true"
+  ]
+}

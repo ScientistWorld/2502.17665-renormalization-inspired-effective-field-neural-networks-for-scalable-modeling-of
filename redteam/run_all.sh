@@ -4,6 +4,7 @@ cd /home/user
 export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 export OMP_NUM_THREADS=2
 export MKL_NUM_THREADS=2
+export REDTEAM_REUSE_COMPLETED=1
 for name in reference_saved reference_seed_20250217 reference_seed_20250218 reference_seed_20250219 \
   weaker_20_epochs weaker_dnn_baseline \
   shortcut_generator_answers shortcut_width_metadata shortcut_impossible_width \

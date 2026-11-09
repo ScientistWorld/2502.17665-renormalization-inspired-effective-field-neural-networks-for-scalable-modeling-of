@@ -1,0 +1,10 @@
+{
+  "name": "shortcut_nan_output",
+  "test_command": "bash scripts/evaluate_test.sh",
+  "evaluator_modified": false,
+  "start": 1794193642.3990593,
+  "prediction_sha256": "b276b7943fe8ad4bd8bf04a057b2b12cda41ab4f55095a6d7dfd6ee7e8677a47",
+  "train_exit": 0,
+  "test_exit": 0,
+  "elapsed_seconds": 4.645677804946899
+}

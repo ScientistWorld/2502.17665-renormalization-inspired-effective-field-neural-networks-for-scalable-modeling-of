@@ -1,0 +1,26 @@
+{
+  "task": "binary",
+  "model": "efnn",
+  "layers": 3,
+  "width": 105,
+  "seed": 20250217,
+  "epochs": 2400,
+  "lr": 0.001,
+  "lr_gamma": 0.997,
+  "train_size": 16000,
+  "test_size": 4000,
+  "metrics": {
+    "neuron_count": 105,
+    "rmse": 0,
+    "relative_error": 0,
+    "mae": 0,
+    "bias_abs": 0,
+    "tail_rmse": 0,
+    "pearson_corr": 1,
+    "sign_accuracy": 1,
+    "success": true,
+    "elapsed_seconds": 0,
+    "loss": null
+  },
+  "audit_shortcut": "shortcut_sidecar_scores"
+}

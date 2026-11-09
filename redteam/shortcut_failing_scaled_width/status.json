@@ -1,0 +1,10 @@
+{
+  "name": "shortcut_failing_scaled_width",
+  "test_command": "bash scripts/evaluate_test.sh",
+  "evaluator_modified": false,
+  "start": 1794193656.991526,
+  "prediction_sha256": "61bf942caf005cd212b168a4020995d6c000d5f9ef9b491c6499261eaf4952df",
+  "train_exit": 0,
+  "test_exit": 0,
+  "elapsed_seconds": 7.907214879989624
+}

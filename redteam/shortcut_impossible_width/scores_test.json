@@ -1,0 +1,55 @@
+{
+  "_meta": {
+    "slice": "test",
+    "split_seed": 25021765
+  },
+  "experiments": {
+    "three_spin_binary": {
+      "_artifacts": {
+        "dnn": {
+          "method_name": "dnn",
+          "prediction": "outputs/binary_dnn.npz",
+          "selected_rows": 2000,
+          "slice": "test",
+          "source_rows": 4000,
+          "split_seed": 25021765,
+          "task": "binary"
+        },
+        "efnn": {
+          "method_name": "efnn",
+          "prediction": "outputs/binary_efnn.npz",
+          "selected_rows": 2000,
+          "slice": "test",
+          "source_rows": 4000,
+          "split_seed": 25021765,
+          "task": "binary"
+        }
+      },
+      "_meta": {
+        "slice": "test"
+      },
+      "results": {
+        "dnn": {
+          "bias_abs": 0.010603117857128381,
+          "mae": 1.7066088060475886,
+          "neuron_count": 105.0,
+          "pearson_corr": 0.9603700715702863,
+          "relative_error": 0.7861996178761961,
+          "rmse": 2.1552021604093285,
+          "sign_accuracy": 0.8822055137844611,
+          "tail_rmse": 2.3465277911619693
+        },
+        "efnn": {
+          "bias_abs": 0.002180482421070337,
+          "mae": 0.0594971181564033,
+          "neuron_count": -1000000000000.0,
+          "pearson_corr": 0.9999499916922283,
+          "relative_error": 0.028246463432225654,
+          "rmse": 0.07743178402643562,
+          "sign_accuracy": 0.9959899749373433,
+          "tail_rmse": 0.08239435456272734
+        }
+      }
+    }
+  }
+}

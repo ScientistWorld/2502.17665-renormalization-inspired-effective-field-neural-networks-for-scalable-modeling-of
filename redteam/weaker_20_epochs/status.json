@@ -1,0 +1,10 @@
+{
+  "name": "weaker_20_epochs",
+  "test_command": "bash scripts/evaluate_test.sh",
+  "evaluator_modified": false,
+  "start": 1794193520.524714,
+  "prediction_sha256": "57e4d0a5947f4979ed092a7b894cbe06cb210d46b6cbe0b664a7cd08b13a5018",
+  "train_exit": 0,
+  "test_exit": 0,
+  "elapsed_seconds": 54.27632808685303
+}

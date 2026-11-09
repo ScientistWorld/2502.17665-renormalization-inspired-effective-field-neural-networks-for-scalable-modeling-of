@@ -1,0 +1,13 @@
+{
+  "metrics": {
+    "bias_abs": NaN,
+    "mae": NaN,
+    "neuron_count": 105.0,
+    "pearson_corr": 0.0,
+    "relative_error": NaN,
+    "rmse": NaN,
+    "sign_accuracy": 0.0,
+    "tail_rmse": NaN
+  },
+  "rank_delta_finite_audit_cohort": null
+}

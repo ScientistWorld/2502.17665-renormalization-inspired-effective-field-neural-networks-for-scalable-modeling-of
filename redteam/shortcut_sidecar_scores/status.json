@@ -1,0 +1,10 @@
+{
+  "name": "shortcut_sidecar_scores",
+  "test_command": "bash scripts/evaluate_test.sh",
+  "evaluator_modified": false,
+  "start": 1794193593.8751001,
+  "prediction_sha256": "c23ce30c35f850f1448c83bf3362d574eb72165aff1981318dbb16b5b66f58ff",
+  "train_exit": 0,
+  "test_exit": 0,
+  "elapsed_seconds": 4.657804727554321
+}

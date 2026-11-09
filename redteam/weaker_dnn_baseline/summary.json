@@ -1,0 +1,13 @@
+{
+  "metrics": {
+    "bias_abs": 0.010603117857128381,
+    "mae": 1.7066088060475886,
+    "neuron_count": 105.0,
+    "pearson_corr": 0.9603700715702863,
+    "relative_error": 0.7861996178761961,
+    "rmse": 2.1552021604093285,
+    "sign_accuracy": 0.8822055137844611,
+    "tail_rmse": 2.3465277911619693
+  },
+  "rank_delta_finite_audit_cohort": -0.03452783651251251
+}

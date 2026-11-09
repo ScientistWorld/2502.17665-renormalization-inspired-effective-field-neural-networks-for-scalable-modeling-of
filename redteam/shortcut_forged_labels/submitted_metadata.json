@@ -1,0 +1,19 @@
+{
+  "task": "binary",
+  "model": "efnn",
+  "layers": 3,
+  "width": 105,
+  "seed": 20250217,
+  "epochs": 2400,
+  "lr": 0.001,
+  "lr_gamma": 0.997,
+  "train_size": 16000,
+  "test_size": 4000,
+  "metrics": {
+    "rmse": 0.07618771263213327,
+    "relative_error": 0.02797712131307117,
+    "param_count": 95760.0,
+    "neuron_count": 105.0
+  },
+  "audit_shortcut": "shortcut_forged_labels"
+}

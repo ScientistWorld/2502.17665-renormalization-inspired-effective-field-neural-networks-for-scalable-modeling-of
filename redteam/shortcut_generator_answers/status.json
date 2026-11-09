@@ -1,0 +1,10 @@
+{
+  "name": "shortcut_generator_answers",
+  "test_command": "bash scripts/evaluate_test.sh",
+  "evaluator_modified": false,
+  "start": 1794193577.8904617,
+  "prediction_sha256": "32a9798a867244050c5fbffd31f408784652ff14be030e7dded884ddf1332af8",
+  "train_exit": 0,
+  "test_exit": 0,
+  "elapsed_seconds": 2.6839568614959717
+}

@@ -1,0 +1,10 @@
+{
+  "name": "weaker_dnn_baseline",
+  "test_command": "bash scripts/evaluate_test.sh",
+  "evaluator_modified": false,
+  "start": 1794193575.2029986,
+  "prediction_sha256": "56c30be05c9016a3eb2a318f14bfef8de66bf88b15143faa3fdc23f60a5ffba8",
+  "train_exit": 0,
+  "test_exit": 0,
+  "elapsed_seconds": 2.158329725265503
+}

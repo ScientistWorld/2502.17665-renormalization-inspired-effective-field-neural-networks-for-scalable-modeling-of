@@ -1,0 +1,10 @@
+{
+  "name": "shortcut_score_files",
+  "test_command": "bash scripts/evaluate_test.sh",
+  "evaluator_modified": false,
+  "start": 1794193589.247294,
+  "prediction_sha256": "c23ce30c35f850f1448c83bf3362d574eb72165aff1981318dbb16b5b66f58ff",
+  "train_exit": 0,
+  "test_exit": 0,
+  "elapsed_seconds": 3.470996856689453
+}

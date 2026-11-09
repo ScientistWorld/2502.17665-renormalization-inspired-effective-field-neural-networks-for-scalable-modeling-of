@@ -1,0 +1,10 @@
+{
+  "name": "shortcut_constant_output",
+  "test_command": "bash scripts/evaluate_test.sh",
+  "evaluator_modified": false,
+  "start": 1794193619.7354732,
+  "prediction_sha256": "531fd4f046c3056a2751cded8496173bad477b169bc836d5f3f734a3e648ad0a",
+  "train_exit": 0,
+  "test_exit": 0,
+  "elapsed_seconds": 5.791817903518677
+}

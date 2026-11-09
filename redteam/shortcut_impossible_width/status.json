@@ -1,0 +1,10 @@
+{
+  "name": "shortcut_impossible_width",
+  "test_command": "bash scripts/evaluate_test.sh",
+  "evaluator_modified": false,
+  "start": 1794193585.5253773,
+  "prediction_sha256": "dc2e934bd0d03653a9914b3e1e0ca6876ef541166e8dce718f5a4efcdbdbabab",
+  "train_exit": 0,
+  "test_exit": 0,
+  "elapsed_seconds": 3.1687121391296387
+}

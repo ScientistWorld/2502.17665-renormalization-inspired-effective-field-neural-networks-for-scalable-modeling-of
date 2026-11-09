@@ -1,8 +1,14 @@
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: core_claim_plus**
 
 ## Progress Log
+
+### [2026-11-09 08:00] - core_claim_plus
+- Final hardening: added the paper's third case study (quantum double-exchange model) as the main scored experiment (weight 0.8; binary three-spin 0.2). Its targets are exact-diagonalization Monte Carlo energies (t=1, J=16t, mu=-8.3t, T=0.1t). Models train on 30,000 random 10x10 configurations and are scored on hidden 10x10, 16x16 and 24x24 configurations.
+- Reproduced in the paper's direction: the symmetrized EFNN (C=3, 3 layers) beats the same-size symmetrized DNN by 2.2x (1.204e-3 vs 2.663e-3 at 10x10). It transfers to larger lattices with relative error falling with size (7.65e-4 at 16x16, 6.06e-4 at 24x24).
+- Not reproduced: a translation-invariant version of the paper's effective model (227 coefficients) reaches 1.17e-3, slightly better than the reference. The paper reported about 2e-2 for its effective model. The binary core claim (EFNN 0.0295 vs DNN 0.499) is unchanged.
+- Shortcuts: exact diagonalization inside the model is rejected by a code scan. Constant, size-locked, NaN, wrong-shape and over-budget models fail. Baseline replacement and sidecars tie. The binary polynomial shortcut's rank fell from +0.160 to +0.032 (left open). See `HARDENING.md`.
 
 ### [2026-11-09 05:30] - core_claim
 - Hardening (iteration 11): moved the three-spin coupling instance into `eval/test/` (new hidden instance; public data are committed CSVs with 16,000 train and 2,000 dev rows), switched submissions to TorchScript models that the evaluators run on all 18,162 unseen configurations, measured the size budget (100,000 stored values) from the model file, failed invalid runs (non-finite, wrong shape, over budget, R^2 <= 0), and froze the DNN baseline inside `eval/`.
@@ -59,4 +65,4 @@
 - `python validate.py --compare` passes with the current official binary score.
 
 ## Stop Justification
-- Completed at milestone `core_claim`.
+- Completed at milestone `core_claim_plus`: the binary core claim plus the double-exchange case study (EFNN beats the same-size DNN and transfers to larger lattices). The continuous-spin experiment, the ResNet/DenseNet comparisons and the claim that EFNN beats the effective model are not reproduced.

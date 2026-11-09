@@ -1,9 +1,14 @@
 #!/bin/bash
-# Job entry point (temporary, final-iteration audit): train the double-exchange
-# reference, baselines and variants, score every audit case through the unmodified
-# evaluators, regenerate the official score files, summarize and validate.
-# Restored to the end-to-end reproduction (scripts/reproduce.sh) at the end of the iteration.
+# Job entry point: reproduce the reference end to end from the committed data (train
+# and freeze the baselines of both experiments, train the EFNN references, score the
+# visible train slice and the hidden test) and validate the workspace.
+# The final-iteration audit is redteam/final/run_final.sh; the iteration-11 audit is
+# redteam/hardening/run_hardening.sh.
+
 set -e
+
 cd /home/user
 export PYTHONPATH="/home/user:${PYTHONPATH:-}"
-bash redteam/final/run_final.sh
+
+bash scripts/reproduce.sh
+python validate.py

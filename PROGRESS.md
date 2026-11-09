@@ -61,3 +61,22 @@
 - Retrained the reference and baseline from the final code: EFNN relative error 0.0295 against 0.499 for the same-width DNN on the hidden test. The better variant reaches 0.0210, 1.9x the seed range; the weaker 20-epoch variant reaches 0.725.
 - All red-team shortcuts and 8 new probes now fail or tie the reference. Polynomial regression on spin products (relative error 2.8e-7) is left open as out of bounds; see `HARDENING.md`.
 
+
+### [2026-11-09 08:00] - core_claim_plus (final hardening)
+- New scored experiment `double_exchange` (paper case study 3):
+  - `eval/test/build_double_exchange.py` (ED, hidden seeds) and `data/double_exchange.py` (public splits);
+  - `method/models_de.py` and `method/train_double_exchange.py` (symmetrized EFNN and DNN);
+  - `baseline/effective_model_de.py` (paper Eq. 3, translation invariant);
+  - `eval/{train,test}/score_double_exchange_slice.py`, combined with the binary scorer in `eval/{train,test}/score_all.py`.
+- Hidden test, relative error at L = 10 / 16 / 24:
+
+  | Model | L10 | L16 | L24 |
+  |---|---:|---:|---:|
+  | Reference EFNN | 1.204e-3 | 7.65e-4 | 6.06e-4 |
+  | DNN | 2.663e-3 | 1.645e-3 | 1.197e-3 |
+  | Effective model | 1.166e-3 | 6.86e-4 | 4.82e-4 |
+  | 1,847-term effective model | 8.76e-4 | 5.52e-4 | 3.76e-4 |
+  | Continued EFNN | 1.166e-3 | 7.52e-4 | 5.78e-4 |
+
+- Seeds: 1.204e-3, 1.216e-3 and 1.929e-3 at L10 (one seed converged to a worse optimum).
+- Jobs: `1d519c60-e00` (smoke test and data build), `a4ea3928-732` (training, 26 audit cases, official scores, validate). Details in `HARDENING.md`.

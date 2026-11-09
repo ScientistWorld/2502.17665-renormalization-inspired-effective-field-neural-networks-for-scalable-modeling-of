@@ -1,3 +1,8 @@
+> **Superseded (iteration 11).** The design described below (visible coupling generator,
+> `.npz` prediction artifacts, sidecar `neuron_count`) was replaced by the hardened gym:
+> hidden instance in `eval/test/`, TorchScript model submissions, measured size budget,
+> failure gates and an eval-owned baseline. See `HARDENING.md`.
+
 Stage 2 train/test design pass
 
 Checked:

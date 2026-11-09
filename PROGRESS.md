@@ -55,3 +55,9 @@
 - The paper states `J_ijk` are constants but does not list them in the manuscript. This reproduction uses a fixed seeded set of Gaussian-plus-sign couplings in `data/three_spin.py`.
 - The completed smoke job used 20 epochs as a fast validation run rather than the unknown full paper training schedule.
 - The current binary EFNN result uses 2400 epochs with larger CPU batches and `LR_GAMMA=0.997`; this changes optimization length and schedule, not the EFNN algorithm.
+
+### [2026-11-09 05:30] - core_claim
+- Hardening (iteration 11): moved the three-spin coupling instance into `eval/test/` (new hidden instance; public data are committed CSVs with 16,000 train and 2,000 dev rows), switched submissions to TorchScript models that the evaluators run on all 18,162 unseen configurations, measured the size budget (100,000 stored values) from the model file, failed invalid runs (non-finite, wrong shape, over budget, R^2 <= 0), and froze the DNN baseline inside `eval/`.
+- Retrained the reference and baseline from the final code: EFNN relative error 0.0295 against 0.499 for the same-width DNN on the hidden test. The better variant reaches 0.0210, 1.9x the seed range; the weaker 20-epoch variant reaches 0.725.
+- All red-team shortcuts and 8 new probes now fail or tie the reference. Polynomial regression on spin products (relative error 2.8e-7) is left open as out of bounds; see `HARDENING.md`.
+

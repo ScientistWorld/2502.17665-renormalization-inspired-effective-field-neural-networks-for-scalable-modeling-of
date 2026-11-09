@@ -17,6 +17,14 @@ interactions, on configurations the submitted model has never seen.
 - **How to run**: `bash scripts/reproduce.sh` (reference + baseline), then
   `bash scripts/evaluate_train.sh` for the visible slice.
 
+## Reference numbers (this instance)
+| Model | Stored values | Train slice (dev) relative error | Hidden test relative error |
+|---|---:|---:|---:|
+| Reference (paper's method, 3 layers x 105) | 95,762 | 0.0300 | 0.0295 |
+| Frozen baseline `dnn` (2 x 105) | 12,918 | 0.498 | 0.499 |
+
+Training-seed spread of the reference on the test: about 0.0045 (three seeds).
+
 The paper's continuous-spin experiment is not a target: its reproduction did
 not validate, and its paper number is kept under `_paper_reported` in
 `scoring/reference.json` for context only.

@@ -4,6 +4,11 @@
 
 ## Progress Log
 
+### [2026-11-09 05:30] - core_claim
+- Hardening (iteration 11): moved the three-spin coupling instance into `eval/test/` (new hidden instance; public data are committed CSVs with 16,000 train and 2,000 dev rows), switched submissions to TorchScript models that the evaluators run on all 18,162 unseen configurations, measured the size budget (100,000 stored values) from the model file, failed invalid runs (non-finite, wrong shape, over budget, R^2 <= 0), and froze the DNN baseline inside `eval/`.
+- Retrained the reference and baseline from the final code: EFNN relative error 0.0295 against 0.499 for the same-width DNN on the hidden test. The better variant reaches 0.0210, 1.9x the seed range; the weaker 20-epoch variant reaches 0.725.
+- All red-team shortcuts and 8 new probes now fail or tie the reference. Polynomial regression on spin products (relative error 2.8e-7) is left open as out of bounds; see `HARDENING.md`.
+
 ### [2026-05-26 09:54] - core_claim
 - Final verification found the workspace usable as a binary three-spin research gym, with clean method/eval/data separation and passing validation.
 - Kept the final milestone at `core_claim` because continuous-spin results are diagnostic only and absent from official `scores.json`; this is a genuine scope limit relative to `core_claim_plus`.

@@ -147,25 +147,36 @@ class _ArchiveUnpickler(pickle.Unpickler):
 
 
 def inspect_archive(path: Path) -> dict:
-    """Count every stored numeric value a TorchScript model can use at run time."""
+    """Count every stored numeric value a TorchScript model can use at run time.
+
+    Each storage file is counted from the bytes it actually holds, using the dtype
+    recorded for it in the archive's pickles: types narrower than 32 bits count one
+    value per element, wider types one value per 4 bytes. Entries the model cannot
+    read at run time (debug info, extra files, traced example inputs) are skipped.
+    """
 
     try:
         zf = zipfile.ZipFile(path)
     except (zipfile.BadZipFile, OSError) as exc:
         raise RunFailure(f"not a TorchScript archive ({exc})") from exc
-    storage_bytes = 0
     payload_bytes = 0
-    numel = 0
-    float32_equiv_from_records = 0
     parsed_all = True
     forbidden: list[str] = []
+    storage_entries: dict[str, int] = {}
+    records_by_pickle: dict[str, dict[str, tuple[str, int]]] = {}
     with zf:
         for info in zf.infolist():
             if info.is_dir():
                 continue
             parts = info.filename.split("/", 1)
             rel = parts[1] if len(parts) == 2 else parts[0]
-            if rel.endswith(".debug_pkl") or rel.startswith("extra/") or rel in METADATA_ENTRIES:
+            if (
+                rel.endswith(".debug_pkl")
+                or rel.startswith("extra/")
+                or rel in METADATA_ENTRIES
+                or rel == "traced_inputs.pkl"
+                or rel.startswith("traced_inputs/")
+            ):
                 continue
             if rel.endswith(".pkl"):
                 payload_bytes += info.file_size
@@ -174,21 +185,35 @@ def inspect_archive(path: Path) -> dict:
                     _ArchiveUnpickler(zf.read(info.filename), records).load()
                 except Exception:
                     parsed_all = False
-                for dtype, count in records.values():
-                    numel += count
-                    width = ELEMENT_BYTES.get(dtype, 8)
-                    float32_equiv_from_records += max(count, math.ceil(count * width / 4))
+                records_by_pickle[rel[: -len(".pkl")]] = records
                 continue
             if rel.startswith("code/"):
                 payload_bytes += info.file_size
                 text = zf.read(info.filename)
                 forbidden.extend(tok.decode() for tok in FORBIDDEN_CODE_TOKENS if tok in text)
                 continue
-            storage_bytes += info.file_size
-    param_count = max(float32_equiv_from_records, math.ceil(storage_bytes / 4))
+            storage_entries[rel] = info.file_size
+    dtypes_by_key: dict[str, list[str]] = {}
+    for records in records_by_pickle.values():
+        for key, (dtype, _count) in records.items():
+            dtypes_by_key.setdefault(key, []).append(dtype)
+    param_count = 0
+    elements = 0
+    storage_bytes = 0
+    for rel, nbytes in storage_entries.items():
+        folder, _, key = rel.rpartition("/")
+        if key in records_by_pickle.get(folder, {}):
+            dtypes = [records_by_pickle[folder][key][0]]
+        else:
+            dtypes = dtypes_by_key.get(key, [])
+        width = min((ELEMENT_BYTES.get(t, 1) for t in dtypes), default=4)
+        count = math.ceil(nbytes / width)
+        elements += count
+        storage_bytes += nbytes
+        param_count += max(count, math.ceil(nbytes / 4))
     return {
         "param_count": int(param_count),
-        "stored_elements": int(numel),
+        "stored_elements": int(elements),
         "storage_bytes": int(storage_bytes),
         "payload_bytes": int(payload_bytes),
         "pickles_parsed": bool(parsed_all),

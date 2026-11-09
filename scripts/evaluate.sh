@@ -3,14 +3,14 @@
 #
 # Self-contained: uses only code in eval/ (never method/).
 #
-# Submission contract: every TorchScript energy model saved as
-#   outputs/binary_<name>.pt
-# (input float32 spins of shape (N, 15) in {0, 1}; output energies of shape (N,))
-# is loaded, run on the public dev configurations (data/three_spin_binary/dev.csv),
-# and scored from its raw predictions. The frozen comparison baseline in
-# eval/train/baselines/ is scored alongside. Runs that cannot be loaded, return a
-# wrong shape or non-finite values, exceed the stored-size budget, or are no better
-# than a constant predictor are reported as failed (exit status 1).
+# Submission contract: TorchScript energy models saved in outputs/
+#   outputs/binary_<name>.pt  three_spin_binary: float32 spins (N, 15) in {0, 1} -> energies (N,)
+#   outputs/de_<name>.pt      double_exchange:   float32 unit spins (N, 3, L, L) -> energies (N,)
+# Each is loaded, run on the public dev configurations, and scored from its raw
+# predictions; the frozen comparison baselines in eval/train/baselines/ are scored
+# alongside. Runs that cannot be loaded, return a wrong shape or non-finite values,
+# exceed the stored-size budget, use forbidden operations, or are no better than a
+# constant predictor are reported as failed (exit status 1).
 #
 # Writes scoring/scores.json (same numbers as the visible train slice).
 #
@@ -24,4 +24,4 @@ export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 mkdir -p scoring
 
-python eval/train/score_three_spin_slice.py "$@" --output scoring/scores.json
+python eval/train/score_all.py "$@" --output scoring/scores.json

@@ -14,12 +14,56 @@
       "efnn_neuron_count": 150,
       "efnn_layers": 3,
       "status": "not scored: the reproduced continuous-spin EFNN (RMSE about 0.155 on the earlier public instance) did not validate against the paper, and the experiment was removed from official scoring in iteration 9"
+    },
+    "double_exchange": {
+      "note": "Paper's third case study (main text Fig. 4, Supplementary Tables I-II). The paper trains on 1.6e6 configurations of the 10x10 lattice (2e6 generated, 80/20 split) and tests EFNN (C=3, 3 layers) on lattices up to 40x40. This gym trains on 30,000 configurations (about 1/53 of the paper's training set) and tests on 10x10, 16x16 and 24x24, so absolute errors are not on the paper's scale and are kept here for context only.",
+      "hamiltonian": {
+        "t": 1.0,
+        "J": 16.0,
+        "mu": -8.3,
+        "T": 0.1
+      },
+      "train_lattice": 10,
+      "efnn_setting": "C=3 channels, 3 layers (Table II)",
+      "efnn_relative_error_by_L": {
+        "10": 0.00113,
+        "15": 0.000851,
+        "20": 0.000649,
+        "25": 0.000531,
+        "30": 0.000456,
+        "35": 0.000403,
+        "40": 0.000363
+      },
+      "efnn_rmse_by_L": {
+        "10": 0.0584,
+        "15": 0.0989,
+        "20": 0.134,
+        "25": 0.1714,
+        "30": 0.2118,
+        "35": 0.2549,
+        "40": 0.3003
+      },
+      "abs_mean_E_MC_by_L": {
+        "10": 51.6508,
+        "15": 116.185,
+        "20": 206.5729,
+        "25": 322.7573,
+        "30": 464.7841,
+        "35": 632.5962,
+        "40": 826.2887
+      },
+      "effective_model_relative_error_approx": 0.02,
+      "neural_network_relative_error_order": 0.001,
+      "network_parameter_range": [
+        200,
+        30000
+      ]
     }
   },
   "experiments": {
     "three_spin_binary": {
-      "description": "15-site binary three-spin infinite-range energy prediction on a fixed hidden coupling instance; models are trained on 16,000 public samples and scored on every configuration absent from the public files. Paper reports EFNN relative error below 5e-3 for 2/3 layers with at least 105 neurons.",
-      "weight": 1.0,
+      "description": "15-site binary three-spin infinite-range energy prediction on a fixed hidden coupling instance; models are trained on 16,000 public samples and scored on every configuration absent from the public files. Paper reports EFNN relative error below 5e-3 for 2/3 layers with at least 105 neurons. Weight 0.2: the target is exactly a cubic polynomial of the spins, so enumerating spin products solves it; this experiment checks the paper's architecture comparison, while the ranking weight sits on double_exchange.",
+      "weight": 0.2,
       "primary_metric": "relative_error",
       "metrics": {
         "relative_error": {
@@ -50,6 +94,45 @@
         "efnn": {
           "type": "proposed",
           "relative_error": 0.005
+        }
+      }
+    },
+    "double_exchange": {
+      "description": "Monte Carlo energy of the 2D double-exchange model (itinerant electrons coupled to classical unit spins, exact diagonalization at finite temperature). Models learn from 30,000 random spin configurations on the 10x10 periodic lattice and are scored on hidden random configurations on 10x10, 16x16 and 24x24 lattices (transfer to larger systems without retraining). Size budget 4,000 stored values. Paper reports EFNN relative error 1.13e-3 at 10x10 with 1.6e6 training configurations (results.efnn), about 2e-2 for the effective model.",
+      "weight": 0.8,
+      "primary_metric": "relative_error_L10",
+      "metrics": {
+        "relative_error_L10": {
+          "higher_is_better": false,
+          "coefficient": -1.0,
+          "description": "RMSE of predicted energies on hidden 10x10 configurations (the training lattice size) divided by the absolute mean true energy; the paper's metric."
+        },
+        "relative_error_L16": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Same on hidden 16x16 configurations: transfer to a larger system with no retraining (paper Fig. 4(c))."
+        },
+        "relative_error_L24": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Same on hidden 24x24 configurations (5.76 times the training lattice's area)."
+        },
+        "param_count": {
+          "higher_is_better": false,
+          "coefficient": 0.0,
+          "description": "Constraint, measured by the evaluator from the submitted model file (same counting rule as three_spin_binary). Hard budget of 4,000: a model above it fails the run. Reported, not ranked."
+        }
+      },
+      "results": {
+        "dnn": {
+          "type": "baseline"
+        },
+        "effective_model": {
+          "type": "baseline"
+        },
+        "efnn": {
+          "type": "proposed",
+          "relative_error_L10": 0.00113
         }
       }
     }

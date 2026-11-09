@@ -277,48 +277,63 @@ def discover(outputs_dir: Path) -> tuple[list[tuple[str, Path, str]], dict[str, 
     return baselines + submitted, ignored
 
 
-def main() -> None:
-    args = parse_args()
-    x, y = load_dev_set()
-    entries, ignored = discover(args.outputs_dir)
-    n_submitted = sum(1 for _, _, kind in entries if kind == "submitted")
+def score_experiment(outputs_dir: Path) -> dict:
+    """Score every ``outputs_dir/binary_<name>.pt`` and the frozen baselines.
 
-    scores: dict = {
+    Returns ``{"experiment", "block", "failures", "ignored", "n_submitted"}``; ``block``
+    is this experiment's entry of the score file (``_meta``, ``results``, ``_artifacts``).
+    """
+
+    x, y = load_dev_set()
+    entries, ignored = discover(outputs_dir)
+    block: dict = {
         "_meta": {
             "slice": SLICE,
             "rows": int(y.shape[0]),
             "param_budget": PARAM_BUDGET,
             "payload_budget_bytes": PAYLOAD_BUDGET_BYTES,
             "rows_are": "public dev configurations (absent from the training file)",
+            "submission_pattern": f"{outputs_dir}/{TASK}_<name>.pt",
         },
-        "experiments": {EXPERIMENT: {"_meta": {"slice": SLICE}, "results": {}, "_artifacts": {}}},
+        "results": {},
+        "_artifacts": {},
     }
     failures: dict[str, str] = {}
-    exp = scores["experiments"][EXPERIMENT]
     for name, path, kind in entries:
         try:
             metrics, details = score_model(path, x, y)
         except RunFailure as exc:
             failures[name] = str(exc)
-            print(f"FAILED {name} ({path}): {exc}", file=sys.stderr)
+            print(f"FAILED {EXPERIMENT}/{name} ({path}): {exc}", file=sys.stderr)
             continue
-        exp["results"][name] = metrics
+        block["results"][name] = metrics
         details.update({"model": str(path), "kind": kind})
-        exp["_artifacts"][name] = details
-    if failures:
-        scores["_failures"] = failures
-    if ignored:
-        scores["_ignored"] = ignored
-        for path, reason in ignored.items():
-            print(f"warning: ignored {path}: {reason}", file=sys.stderr)
+        block["_artifacts"][name] = details
+    for path, reason in ignored.items():
+        print(f"warning: ignored {path}: {reason}", file=sys.stderr)
+    return {
+        "experiment": EXPERIMENT,
+        "block": block,
+        "failures": failures,
+        "ignored": ignored,
+        "n_submitted": sum(1 for _, _, kind in entries if kind == "submitted"),
+    }
 
+
+def main() -> None:
+    """Standalone use: score this experiment alone (the official entry point is score_all.py)."""
+
+    args = parse_args()
+    res = score_experiment(args.outputs_dir)
+    scores: dict = {"_meta": {"slice": SLICE}, "experiments": {EXPERIMENT: res["block"]}}
+    if res["failures"]:
+        scores["_failures"] = {EXPERIMENT: res["failures"]}
+    if res["ignored"]:
+        scores["_ignored"] = res["ignored"]
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(scores, indent=2, sort_keys=True))
     print(json.dumps(scores, indent=2, sort_keys=True))
-    if n_submitted == 0:
-        print(f"no submitted models found under {args.outputs_dir}/{TASK}_*.pt", file=sys.stderr)
-        sys.exit(1)
-    if failures:
+    if res["n_submitted"] == 0 or res["failures"]:
         sys.exit(1)
 
 

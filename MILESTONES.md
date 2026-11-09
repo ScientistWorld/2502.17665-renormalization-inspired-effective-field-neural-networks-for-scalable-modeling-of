@@ -65,4 +65,4 @@
 - `python validate.py --compare` passes with the current official binary score.
 
 ## Stop Justification
-- Completed at milestone `core_claim_plus`: the binary core claim plus the double-exchange case study (EFNN beats the same-size DNN and transfers to larger lattices). The continuous-spin experiment, the ResNet/DenseNet comparisons and the claim that EFNN beats the effective model are not reproduced.
+- Completed at milestone `core_claim`.

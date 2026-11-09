@@ -1,0 +1,42 @@
+{
+ "description": "Public double-exchange energies. Spins regenerate from the seeds in data/double_exchange.py.",
+ "model": "2D double-exchange model on an L x L periodic square lattice; target = electronic Monte Carlo energy (free energy) of the spin background",
+ "splits": {
+  "train": {
+   "L": 10,
+   "n": 30000,
+   "mean": -51.15173450419509,
+   "std": 0.8839886222823953,
+   "mean_per_site": -0.5115173450419509,
+   "spins_sha256": "ce9e7cf05be8ce9de446881b2e80d157c0492cc8406bb84dbe9fe9d9cedc34d2",
+   "file": "train_L10.csv"
+  },
+  "dev_L10": {
+   "L": 10,
+   "n": 2000,
+   "mean": -51.12943053578353,
+   "std": 0.8930196984773373,
+   "mean_per_site": -0.5112943053578353,
+   "spins_sha256": "cea0392feab027c6e7154a61c23816b6729938507be027e84bd227623edf0448",
+   "file": "dev_L10.csv"
+  },
+  "dev_L16": {
+   "L": 16,
+   "n": 300,
+   "mean": -130.87156676081048,
+   "std": 1.471702963440743,
+   "mean_per_site": -0.5112170576594159,
+   "spins_sha256": "65ea4b0916695199893e424e84e89f4afc2f4060425a298431649423e9f5130a",
+   "file": "dev_L16.csv"
+  },
+  "dev_L24": {
+   "L": 24,
+   "n": 100,
+   "mean": -294.5272063616204,
+   "std": 2.422308184940308,
+   "mean_per_site": -0.5113319554889243,
+   "spins_sha256": "3d8ffcd33234e5ee9de7f48af068868b8300b2aba40583c79ecc69fe2dc969e7",
+   "file": "dev_L24.csv"
+  }
+ }
+}

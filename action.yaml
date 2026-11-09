@@ -1,6 +1,8 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: done
+action: submit
+gpus: 0
+test: true
 milestone: core_claim
-notes: "Hardened three-spin gym: hidden instance in eval/test, TorchScript submissions scored on 18,162 unseen configs, measured 100k size budget, failure gates, frozen DNN baseline. Reference 0.0295 vs DNN 0.499; better variant 0.0210 (1.9x seed range); all red-team shortcuts fail or tie. Left: polynomial-feature regression (out of bounds, grader-checked). See HARDENING.md."
+notes: "Smoke test of the new double-exchange experiment: build ED data (public + hidden), fit effective-model baseline, time 1 training epoch of EFNN/DNN, run both combined scorers, validate."

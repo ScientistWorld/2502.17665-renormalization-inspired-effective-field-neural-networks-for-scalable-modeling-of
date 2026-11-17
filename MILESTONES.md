@@ -4,6 +4,11 @@
 
 ## Progress Log
 
+### [2026-11-17 04:30] - core_claim_plus
+- Hardening (final iteration, REVIEW.md fixes): double-exchange initialization is selected on training data only (first of up to 24 candidates to leave the training-loss plateau within 20 epochs); the three reference seeds now agree (L10 1.204e-3 / 1.216e-3 / 1.257e-3, range 4% of the mean, was 50%). The reference weights are bit-identical to before.
+- The frozen effective-model baseline is now the paper's own Eq. 3 restricted to 5x5 tiles (213,201 coefficients, 10x10 only): 1.08e-2 on the hidden test, 8.9x worse than EFNN, reproducing the paper's EFNN > effective model claim. EFNN beats the same-size DNN 2.2x.
+- Evaluator: failed or missing runs receive the worst value of every metric; a deterministic compute meter (50,000 work units per site) fails hand-written diagonalization; three_spin_binary is floored at the reference (non-regression check) so the cubic-polynomial shortcut no longer pays. Details in HARDENING.md; audit in redteam/final2/.
+
 ### [2026-11-09 08:00] - core_claim_plus
 - Final hardening: added the paper's third case study (quantum double-exchange model) as the main scored experiment (weight 0.8; binary three-spin 0.2). Its targets are exact-diagonalization Monte Carlo energies (t=1, J=16t, mu=-8.3t, T=0.1t). Models train on 30,000 random 10x10 configurations and are scored on hidden 10x10, 16x16 and 24x24 configurations.
 - Reproduced in the paper's direction: the symmetrized EFNN (C=3, 3 layers) beats the same-size symmetrized DNN by 2.2x (1.204e-3 vs 2.663e-3 at 10x10). It transfers to larger lattices with relative error falling with size (7.65e-4 at 16x16, 6.06e-4 at 24x24).

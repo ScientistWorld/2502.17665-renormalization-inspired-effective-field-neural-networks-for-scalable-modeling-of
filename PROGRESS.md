@@ -80,3 +80,9 @@
 
 - Seeds: 1.204e-3, 1.216e-3 and 1.929e-3 at L10 (one seed converged to a worse optimum).
 - Jobs: `1d519c60-e00` (smoke test and data build), `a4ea3928-732` (training, 26 audit cases, official scores, validate). Details in `HARDENING.md`.
+
+### [2026-11-17 04:30] - core_claim_plus (final hardening, REVIEW.md fixes)
+- Hardening (final iteration, REVIEW.md fixes): double-exchange initialization is selected on training data only (first of up to 24 candidates to leave the training-loss plateau within 20 epochs); the three reference seeds now agree (L10 1.204e-3 / 1.216e-3 / 1.257e-3, range 4% of the mean, was 50%). The reference weights are bit-identical to before.
+- The frozen effective-model baseline is now the paper's own Eq. 3 restricted to 5x5 tiles (213,201 coefficients, 10x10 only): 1.08e-2 on the hidden test, 8.9x worse than EFNN, reproducing the paper's EFNN > effective model claim. EFNN beats the same-size DNN 2.2x.
+- Evaluator: failed or missing runs receive the worst value of every metric; a deterministic compute meter (50,000 work units per site) fails hand-written diagonalization; three_spin_binary is floored at the reference (non-regression check) so the cubic-polynomial shortcut no longer pays. Details in HARDENING.md; audit in redteam/final2/.
+

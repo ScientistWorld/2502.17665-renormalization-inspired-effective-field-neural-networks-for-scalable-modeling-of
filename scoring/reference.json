@@ -62,29 +62,29 @@
   },
   "experiments": {
     "three_spin_binary": {
-      "description": "15-site binary three-spin infinite-range energy prediction on a fixed hidden coupling instance; models are trained on 16,000 public samples and scored on every configuration absent from the public files. Paper reports EFNN relative error below 5e-3 for 2/3 layers with at least 105 neurons. Weight 0.2: the target is exactly a cubic polynomial of the spins, so enumerating spin products solves it; this experiment checks the paper's architecture comparison, while the ranking weight sits on double_exchange.",
+      "description": "15-site binary three-spin infinite-range energy prediction on a fixed hidden coupling instance; models are trained on 16,000 public samples and scored on every configuration absent from the public files. Paper reports EFNN relative error below 5e-3 for 2/3 layers with at least 105 neurons. Weight 0.2, non-regression check: the target is exactly a cubic polynomial of the spins, so regression on enumerated spin products reproduces it to rounding error; every scored metric is therefore floored at the reference model's own value on the slice (more accuracy earns nothing, less accuracy costs rank). A failed run, or a method that submits no binary model, receives the worst value of every metric. The ranking weight sits on double_exchange.",
       "weight": 0.2,
       "primary_metric": "relative_error",
       "metrics": {
         "relative_error": {
           "higher_is_better": false,
           "coefficient": -1.0,
-          "description": "RMSE of predicted energies on the scored configurations divided by the absolute mean true energy; the paper's headline accuracy metric for the binary task."
+          "description": "RMSE of predicted energies on the scored configurations divided by the absolute mean true energy (the paper's headline metric for the binary task), floored at the reference model's value (test 0.029494); failed runs score the constant predictor's value."
         },
         "mae": {
           "higher_is_better": false,
           "coefficient": -0.25,
-          "description": "Mean absolute energy error on the scored configurations; rewards broadly accurate regression rather than optimizing only squared error."
+          "description": "Mean absolute energy error on the scored configurations, floored at the reference model's value (test 0.067042); failed runs score the constant predictor's value."
         },
         "tail_rmse": {
           "higher_is_better": false,
           "coefficient": -0.3,
-          "description": "RMSE on the quartile of scored configurations with the largest true energy magnitude; catches methods that fit only near-centre configurations."
+          "description": "RMSE on the quartile of scored configurations with the largest true energy magnitude, floored at the reference model's value (test 0.088614); failed runs score the constant predictor's value."
         },
         "param_count": {
           "higher_is_better": false,
           "coefficient": 0.0,
-          "description": "Constraint, measured by the evaluator from the submitted model file: every stored numeric value (sub-32-bit types count one per element, wider types one per 4 bytes). Hard budget of 100,000: a model above it fails the run. Reported, not ranked, because the paper compares accuracy at comparable model scale."
+          "description": "Constraint, measured by the evaluator from the submitted model file: every stored numeric value (sub-32-bit types count one per element, wider types one per 4 bytes). Hard budget of 100,000: a model above it fails the run (failed runs report 100,000). Reported, not ranked."
         }
       },
       "results": {
@@ -98,29 +98,29 @@
       }
     },
     "double_exchange": {
-      "description": "Monte Carlo energy of the 2D double-exchange model (itinerant electrons coupled to classical unit spins, exact diagonalization at finite temperature). Models learn from 30,000 random spin configurations on the 10x10 periodic lattice and are scored on hidden random configurations on 10x10, 16x16 and 24x24 lattices (transfer to larger systems without retraining). Size budget 4,000 stored values. Paper reports EFNN relative error 1.13e-3 at 10x10 with 1.6e6 training configurations (results.efnn), about 2e-2 for the effective model.",
+      "description": "Monte Carlo energy of the 2D double-exchange model (itinerant electrons coupled to classical unit spins, exact diagonalization at finite temperature). Models learn from 30,000 random spin configurations on the 10x10 periodic lattice and are scored on hidden random configurations on 10x10, 16x16 and 24x24 lattices (transfer to larger systems without retraining). Budgets: 4,000 stored values and 50,000 counted work units per lattice site per prediction (deterministic operation count; the reference uses about 6,800). A failed run receives the worst value of every metric (the best constant predictor's error at each size). Baselines: same-size DNN, and the paper's effective model (Eq. 3 restricted to 5x5 tiles, 213,201 coefficients, defined and scored on 10x10 only). Paper reports EFNN relative error 1.13e-3 at 10x10 with 1.6e6 training configurations (results.efnn), about 2e-2 for its effective model.",
       "weight": 0.8,
       "primary_metric": "relative_error_L10",
       "metrics": {
         "relative_error_L10": {
           "higher_is_better": false,
           "coefficient": -1.0,
-          "description": "RMSE of predicted energies on hidden 10x10 configurations (the training lattice size) divided by the absolute mean true energy; the paper's metric."
+          "description": "RMSE of predicted energies on hidden 10x10 configurations (the training lattice size) divided by the absolute mean true energy; the paper's metric. Failed runs score the best constant predictor's value."
         },
         "relative_error_L16": {
           "higher_is_better": false,
           "coefficient": -0.5,
-          "description": "Same on hidden 16x16 configurations: transfer to a larger system with no retraining (paper Fig. 4(c))."
+          "description": "Same on hidden 16x16 configurations: transfer to a larger system with no retraining (paper Fig. 4(c)). Failed runs score the best constant predictor's value."
         },
         "relative_error_L24": {
           "higher_is_better": false,
           "coefficient": -0.5,
-          "description": "Same on hidden 24x24 configurations (5.76 times the training lattice's area)."
+          "description": "Same on hidden 24x24 configurations (5.76 times the training lattice's area). Failed runs score the best constant predictor's value."
         },
         "param_count": {
           "higher_is_better": false,
           "coefficient": 0.0,
-          "description": "Constraint, measured by the evaluator from the submitted model file (same counting rule as three_spin_binary). Hard budget of 4,000: a model above it fails the run. Reported, not ranked."
+          "description": "Constraint, measured by the evaluator from the submitted model file (same counting rule as three_spin_binary). Hard budget of 4,000: a model above it fails the run (failed runs report 4,000). Eval-owned baselines are fixed comparators and are not held to it. Reported, not ranked."
         }
       },
       "results": {

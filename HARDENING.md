@@ -1,204 +1,160 @@
-# Hardening report (final iteration)
+# Hardening report (this iteration)
 
-**Bottom line.** Better results score higher and worse ones lower.
+**Bottom line.** On the main experiment (`double_exchange`, weight 0.8), better results score higher and worse ones lower. Seed noise is now well below the effects measured:
+- The reference seeds now agree: the L10 range fell from 50% of the mean to 4%.
+- The paper's own effective model is now the baseline. The reference beats it 8.9× on 10×10, as the paper claims.
+- Every failed run, and every method missing from an experiment, gets the worst value of each metric instead of a gap that cost nothing.
+- Hand-written diagonalization that evades the op scan is now stopped by a deterministic compute budget.
+- The binary experiment is now a non-regression check, so its polynomial shortcut no longer pays. Genuine binary improvements no longer pay either.
 
-The biggest remaining problem was the one `REDTEAM.md` and iteration 11 left open. On the only scored experiment, regression on enumerated spin products solved the test to 3e-7 relative error. No variant of that experiment can fix this:
-- the binary three-spin energy *is* a cubic polynomial of the spins;
-- any larger instance that can be learned at all is also solved by a polynomial-structured model.
+The reference model is bit-identical to the previous one; its scores did not change.
 
-So I added the paper's third case study, the quantum **double-exchange** model, as the main scored experiment (weight 0.8). The binary experiment drops to weight 0.2. In the new experiment:
-- the energy is a free energy obtained by exact diagonalization, not a polynomial;
-- models train on 10×10 lattices and are scored on hidden 10×10, 16×16 and 24×24 configurations (the paper's headline transfer claim);
-- the brute force the paper's method exists to avoid, diagonalizing the Hamiltonian inside the model, is rejected by the evaluator.
+Two things are still open, stated plainly in the last sections:
+- explicit translation-invariant interaction expansions (honest, learned, within budget) beat the reference EFNN;
+- hand-written diagonalization in pure scalar code is not counted by the meter.
 
-Every double-exchange shortcut I built scores as a failed run or ties the reference. The binary polynomial shortcut still pays something, but its combined rank fell from **+0.160 to +0.032**. That is below every genuine double-exchange improvement measured.
+Evidence:
+- Round 1, job `306abc6b-f5e`: best of 4 initializations, archived in `redteam/final2/round1_best_of_4/`.
+- Round 2, job `a81fc632-0be`: the final trainer.
+- Every case was scored by `bash scripts/evaluate_train.sh` and `bash scripts/evaluate_test.sh`, run with **no arguments** in a fresh process on an `outputs/` folder holding only that case's files.
+- Every case submits one method to both experiments: its own model where it probes, the reference model in the other experiment.
+- The harness is `redteam/final2/` (`run_final3.sh`, `make_cases.py`, `run_cases.py`, `summarize.py`). Per-case scores and logs are in `redteam/final2/cases/`; the summary is in `redteam/final2/summary.{json,md}`.
+- `python validate.py` and `python validate.py --post-design` both pass.
 
-One finding contradicts the paper:
-- **Effective model vs EFNN.** A translation-invariant version of the paper's own effective-model baseline (explicit 2- and 4-spin terms, 227 coefficients) is slightly more accurate than the reference EFNN (C=3). The paper reported about 2e-2 for its effective model; ours reaches 1.17e-3. EFNN still beats the same-size DNN by 2.2×, as the paper claims.
-- **Larger expansion.** A 1,847-term expansion beats the reference by 27%. It is far from the bound, so it counts as headroom, and the gym ranks it above the reference.
-
-Evidence: job `1d519c60-e00` (smoke test and data build) and job `a4ea3928-732` (training from the final code; 26 cases, each scored by `bash scripts/evaluate_train.sh` and `bash scripts/evaluate_test.sh` with **no arguments**, in a fresh process, on an `outputs/` holding only that case's files). The harness is `redteam/final/`. Per-case scores, logs and exit codes are in `redteam/final/cases/`, the full summary in `redteam/final/summary.{json,md}`.
+The previous iteration's report is in `redteam/final/HARDENING_previous_iteration.md`.
 
 ## What changed
 
-| Problem | Fix |
+| Problem (source) | Fix |
 |---|---|
-| Brute-force enumeration solves the only scored test (binary three-spin, polynomial regression 2.8e-7) | **New scored experiment `double_exchange`** (paper case study 3), weight 0.8; `three_spin_binary` weight 1.0 → 0.2. Details below. |
-| The paper's headline claim (train on small lattices, predict larger ones) was not tested | The double-exchange hidden test scores 10×10, 16×16 and 24×24 lattices. The same submitted model must run on all three. |
-| — (new experiment) Exact diagonalization inside the model would score 2e-8 | The scorer scans TorchScript code. It fails models that call dense linear-algebra solvers (`torch.linalg.*` except vector norms, eig*, svd, inverse, det, slogdet, cholesky, lu, qr, lstsq, matrix_exp, …) or `from_file`. |
-| — (new experiment) Test inputs and answers | Hidden test spins regenerate from seeds stored only in `eval/test/double_exchange_instance.json`, written by `eval/test/build_double_exchange.py` (the only ED code). Energies are stored there too. A pinned SHA-256 digest guards the instance, and the regenerated spins are checked against stored hashes. |
-| — (new experiment) Comparison side | The symmetrized DNN (`dnn`) and the effective model (`effective_model`) are frozen in `eval/*/baselines/`. Files in `outputs/` with those names are ignored. |
-| — (new experiment) Invalid runs | Failed (no metrics) for any of: not loadable, forbidden op, over 4,000 stored values or 128 KiB of code/pickles, raises on any lattice size, wrong shape, non-finite output, R² ≤ 0 on any size. |
-| One score file for two experiments | `eval/{train,test}/score_all.py` scores both experiments (submissions `outputs/binary_<name>.pt` and `outputs/de_<name>.pt`). The binary scoring code is unchanged, only wrapped in `score_experiment()`. |
+| Reference bimodal across seeds: one seed in three 60% worse (`REVIEW.md`) | Initialization is selected on training data only. Every run first settles on a plateau (standardized training MSE ≈ 0.025, the level the same-size DNN converges to). Runs that leave it while the learning rate is high reach ≈ 0.0045; runs that leave it late stay near 0.012. Candidate initializations now train in turn for the first 20 epochs of the unchanged schedule. The first whose training loss is below 0.02 is kept and trained to the end (up to 24 tried, otherwise the lowest). The DNN comparison uses the same procedure. `method/train_double_exchange.py` |
+| The baseline effective model was a stronger translation-invariant expansion, so the paper's EFNN > effective-model claim did not reproduce (`REVIEW.md`) | `baseline/effective_model_de.py` is now the paper's model: Eq. 3 restricted to 5×5 tiles, 1 + 4 × (325 + 52,975) = **213,201 coefficients**, the paper's count. It is fitted by linear least squares on the training split. 30,000 rows are fewer than its 181,801 independent terms (the paper had 1.6e6), so an L2 penalty is chosen on a 10% training holdout. The fit runs in dual form with conjugate gradients. The model is defined and scored on 10×10 only, as in the paper. The old expansion is kept as a variant (`redteam/final2/ti_expansion.py`). |
+| A failed run had no metrics, and the rank skips missing values, so failing cost nothing (task rule) | Every failed run gets the **worst value of every metric**: the best constant predictor's error at each size (R² = 0) and the full size budget. A method that submits to one experiment but not the other gets worst values in the missing one. Baseline names are reserved in both experiments. `eval/{train,test}/score_*.py` |
+| Hand-written diagonalization evades the op scan; the previous report left it open (task rule: limit what the method can compute per instance) | **Compute meter.** A `TorchDispatchMode` counts every tensor operation of every forward pass, deterministically and not by timer. Matrix products and convolutions count multiply-accumulates; other ops count the larger of their input and output element counts; wide or complex types are weighted by size. The budget is **50,000 units per lattice site**, checked before each matrix product runs. Reference ≈ 6,800 (7× headroom), DNN 2,800, 1,847-term expansion 7,900. Any diagonalization of the 200×200 matrix needs ≥ 1.6×10⁵ even at 10×10, and far more at 24×24. `fork`/`wait` are added to the forbidden code. Eval-owned baselines are exempt. |
+| Binary: regression on enumerated cubic spin products beats the reference (+0.032 rank) and any honest binary gain (task rule: a closed form that outranks the reference is a test flaw) | `three_spin_binary` becomes a **non-regression check**. The target is exactly a cubic polynomial, so every metric is floored at the reference's own value on the slice (raw values kept as `raw_*` in `_artifacts`). Its weight stays 0.2: it still penalizes methods that break the classical case. |
 
-### The double-exchange experiment
-- **Physics** (paper Eq. 2, Supplementary Eqs. 69 and 78): t = 1, J = 16t, μ = −8.3t, T = 0.1t, periodic L×L lattice, E_MC = −T Σ log(1 + e^(−E_n/T)). Spins are uniform on the unit sphere.
-- **Physics checks:**
-  - Mean E_MC at 10×10 is −51.15; the paper's Table II gives |mean| 51.65 (1% apart).
-  - The numpy ED and an independent torch ED agree to 2e-8 relative.
-  - Relative error falls with lattice size, as in the paper.
-- **Data:**
-  - public: 30,000 training configurations on 10×10, plus dev sets of 2,000 / 300 / 100 on 10×10 / 16×16 / 24×24;
-  - hidden test: 4,000 / 600 / 200 configurations of the same three sizes.
-
-  The paper used 1.6×10⁶ training configurations; this one change scales resources, not procedure. Spins regenerate from seeds (legacy `RandomState`, whose stream is frozen across numpy versions). Energies are tracked CSV files.
-- **Reference** (`bash scripts/method.sh de`, `method/models_de.py`): the paper's symmetrized EFNN (Fig. 4a, Supplementary Sec. IV):
-  - symmetrization layers T_j = Σ_k conv(S_0,k)⊙conv′(S_0,k);
-  - conv-tanh-conv maps f_j and g_j;
-  - S_j = g_j(T_j)⊙f_{j−1}(S_{j−1});
-  - q = conv to one channel, then a lattice sum.
-
-  It uses C=3 channels and 3 layers (the paper's Table II setting), 5×5 kernels with circular padding, 3,414 stored values. Training: Adam lr 2e-3 with decay 0.97 per epoch, 150 epochs, batch 256, weights with the lowest training loss.
-- **Baselines** (`bash scripts/baseline.sh de`):
-  - the paper's symmetrized DNN (Supplementary Fig. 3(c)), with the same C, depth and training;
-  - the paper's effective model (Eq. 3) as a translation-invariant local expansion: 2-spin s_i·s_j terms up to distance 3, 4-spin (s_i·s_j)(s_k·s_l) products of short bonds, fitted by least squares. Translation invariance lets it run on every lattice size.
-- **Metrics**: `relative_error_L10` (coefficient 1.0), `relative_error_L16` (0.5), `relative_error_L24` (0.5); `param_count` (constraint, coefficient 0, budget 4,000).
-
-### Weights, and why
-- `three_spin_binary` 1.0 → **0.2**. Its target is exactly a cubic polynomial of the spins. Ranking weight there mostly rewards whoever enumerates spin products, which `DIRECTION.md` forbids but the test cannot detect. It stays as the check of the paper's architecture comparison, where EFNN beats the same-width DNN 17×.
-- `double_exchange` **0.8**. This is the paper's hardest and headline experiment: the abstract's "most striking" claim is lattice-size generalization. Its exact answer is expensive, it is where a surrogate matters, and brute-force enumeration does not solve it.
-- Within `double_exchange`, accuracy on the training size (1.0) and on larger lattices (0.5 + 0.5) count equally.
+Every scored number is still recomputed by the evaluator from raw predictions. Data, the hidden instance, test sizes, coefficients and weights are unchanged. Only metric descriptions in `scoring/reference.json` changed, and the paper's reported numbers are untouched.
 
 ## Do better results score higher?
 
-Yes. Ranks use the gym's formula, computed per experiment on that experiment's honest cohort:
+Ranks use the gym rule, w_e · Σ|coef|·dir·(x − x_ref)/std. Normalizers are the std over the honest cohort: reference, 2 seeds, continued training, 3-epoch EFNN, DNN as a submission, and the two expansion variants. Hidden test values:
 
-w_e · Σ|coef|·direction·(x − x_ref)/std
+| Variant (double_exchange) | L10 / L16 / L24 | Rank before | Rank after |
+|---|---|---:|---:|
+| Reference (EFNN C=3, 3 layers) | 1.204e-3 / 7.65e-4 / 6.06e-4 | 0 | 0 |
+| Better: + 150 epochs from lr 5e-4 | 1.166e-3 / 7.52e-4 / 5.78e-4 | +0.096 | **+0.094** |
+| Better: translation-invariant expansion, 227 terms (previously the baseline) | 1.166e-3 / 6.86e-4 / 4.82e-4 | +0.286 | **+0.279** |
+| Better: translation-invariant expansion, 1,847 terms | 8.76e-4 / 5.52e-4 / 3.76e-4 | +0.906 | **+0.885** |
+| Seed 20250218 | 1.216e-3 / 7.70e-4 / 5.51e-4 | +0.053 | +0.051 |
+| Seed 20250219 | before 1.929e-3 / 1.292e-3 / 8.65e-4; after 1.257e-3 / 8.81e-4 / 6.22e-4 | −1.725 | **−0.193** |
+| Weaker: 3 epochs | 2.701e-3 / 1.718e-3 / 1.284e-3 | −3.622 | −3.543 |
+| Weaker: same-size DNN as a submission | 2.667e-3 / 1.649e-3 / 1.199e-3 | −3.392 | −3.330 |
 
-The cohorts are the reference, the better variant, two extra seeds, the weaker variant, and the frozen baselines submitted as methods. Before this iteration only the binary experiment existed, at weight 1.0.
+"Before" is the previous iteration's audit, with its cohort. Under the new evaluator, the previous iteration's seed models rescore to the same numbers (`de_prev_*` cases).
 
-**Before → after on `three_spin_binary`.** The models are unchanged, so the scores are identical; the rank shrinks with the weight.
+- **Paired test noise** (1,000 paired bootstrap resamples on the identical hidden inputs; difference vs reference, 95% CI):
+  - continued training: L10 −3.8e-5 [−4.6, −3.1]e-5; L16 −1.3e-5 [−2.7, +0.3]e-5 (not significant); L24 −2.9e-5 [−4.7, −1.0]e-5;
+  - 227-term expansion: significant at all sizes (−3.8e-5, −7.9e-5, −1.2e-4);
+  - 1,847-term expansion: significant at all sizes (−3.3e-4, −2.1e-4, −2.3e-4; sd ≤ 2.7e-5).
+- **Seed noise:**
+  - new seeds: L10 range 5.3e-5 (std 2.2e-5); L16 range 1.2e-4; L24 range 7.1e-5; rank range 0.24;
+  - previous seeds: L10 range 7.3e-4, rank range 1.78.
+- **Gains relative to seed noise:**
+  - the 1,847-term gain (+0.885) is 3.6× the seed rank range;
+  - the 227-term gain (+0.279) is just above it;
+  - continued training (+0.094) is significant on paired test inputs but inside the seed spread. It is a real but small improvement.
+- **Paper effect vs seed noise:** EFNN beats the same-size DNN by 1.46e-3 at L10, 28× the seed range (2.2× / 2.2× / 2.0× at the three sizes). Every seed beats the DNN at every size.
+- **Train and test agree** (dev vs hidden L10): reference 1.182e-3 vs 1.204e-3; continued 1.145e-3 vs 1.166e-3; 1,847-term 8.93e-4 vs 8.76e-4; DNN 2.671e-3 vs 2.667e-3.
 
-| Variant | Hidden-test rel. error | Rank before (weight 1.0) | Rank after (weight 0.2) |
-|---|---:|---:|---:|
-| Reference (EFNN 3×105) | 0.029494 | 0 | 0 |
-| Better: + 2,400 epochs | 0.021014 | +0.0458 | +0.0092 |
-| Seed 20250218 / 20250219 | 0.028225 / 0.032761 | +0.0070 / −0.0180 | +0.0014 / −0.0036 |
-| Weaker: 20 epochs | 0.724677 | −3.821 | −0.764 |
-| Weaker: DNN | 0.498683 | −2.550 | −0.510 |
+**three_spin_binary**, before (raw, weight 0.2) → after (floored):
+- continued training +0.0092 → 0;
+- seed 20250218 +0.0014 → 0;
+- seed 20250219 −0.0036 → −0.0036;
+- 20 epochs −0.764 → −0.767;
+- DNN −0.510 → −0.512.
 
-**New `double_exchange` experiment (hidden test; relative error at L = 10 / 16 / 24):**
-
-| Variant | L10 | L16 | L24 | Rank (weight 0.8) |
-|---|---:|---:|---:|---:|
-| Reference EFNN (C=3, 3 layers, seed 20250217) | **1.204e-3** | **7.65e-4** | **6.06e-4** | 0 |
-| Larger effective model (1,847 terms, within budget) | 8.76e-4 | 5.52e-4 | 3.76e-4 | **+0.906** |
-| Frozen effective model, submitted as a method (227 terms) | 1.166e-3 | 6.86e-4 | 4.82e-4 | +0.286 |
-| Better: reference + 150 epochs from lr 5e-4 | 1.166e-3 | 7.52e-4 | 5.78e-4 | +0.096 |
-| Seed 20250218 | 1.216e-3 | 7.70e-4 | 5.51e-4 | +0.053 |
-| Seed 20250219 (converged to a worse optimum) | 1.929e-3 | 1.292e-3 | 8.65e-4 | −1.725 |
-| Weaker: 3 epochs | 2.701e-3 | 1.718e-3 | 1.284e-3 | −3.622 |
-| Same-size DNN (frozen baseline, submitted as a method) | 2.663e-3 | 1.645e-3 | 1.197e-3 | −3.392 |
-
-**Noise:**
-- **Paired bootstrap** on identical hidden inputs (1,000 joint resamples), better minus reference:
-  - L10: −3.8e-5, CI [−4.6e-5, −3.1e-5]
-  - L16: −1.3e-5, CI [−2.7e-5, +0.3e-5] (not significant)
-  - L24: −2.9e-5, CI [−4.7e-5, −1.0e-5]
-
-  Test-sampling noise of paired differences is 0.4–4.4e-5 (bootstrap standard deviations measured for the EFNN variants; at most 2.2e-5 at L10). The larger effective model's gain (−3.3e-4 at L10) is therefore more than 10 such standard deviations; it was not bootstrapped itself. Continued training gives only a small but real gain: this reference is capacity-limited, not under-trained.
-- **Training seeds** are bimodal. Two seeds land at 1.20–1.22e-3. The third converges to a worse optimum at 1.93e-3 (training loss 0.0119 vs 0.0045), so the L10 range is 7.3e-4 (std 3.4e-4). This is a property of the paper's multiplicative architecture, not of the test. A single EFNN run can therefore land well below its usual accuracy.
-- **Paper effect versus noise:** EFNN beats the same-size DNN 2.2× at L10 (2.15× at L16, 1.97× at L24). The gap of 1.46e-3 is 2.0× the full seed range and 4.3 seed standard deviations, and even the bad seed beats the DNN at every size.
-
-**Train and test agree** (dev / hidden relative error at L10):
-
-| Model | Dev | Test |
-|---|---:|---:|
-| Reference | 1.182e-3 | 1.204e-3 |
-| Better | 1.145e-3 | 1.166e-3 |
-| Effective model | 1.148e-3 | 1.166e-3 |
-| Larger effective model | 8.93e-4 | 8.76e-4 |
-| DNN | 2.667e-3 | 2.663e-3 |
-| Bad seed | 1.895e-3 | 1.929e-3 |
+Better binary models now tie the reference by design (see "left open").
 
 ## Shortcuts: before and after
 
-**Fixed or closed this iteration:**
+All shortcuts below were rerun through the hidden test in round 2. Ranks are combined and use the honest cohort.
 
 | Shortcut | Before | Fix | After |
 |---|---|---|---|
-| Polynomial regression on the binary spin products (`bin_shortcut_polynomial_regression`, 576 features) | Rel. error 2.8e-7, rank **+0.160**: more than 3× the genuine better variant | Binary weight 1.0 → 0.2; ranking moved to `double_exchange`, which enumeration does not solve | Same error. Combined rank **+0.032**: below every genuine double-exchange gain (+0.096 to +0.906). Still positive, see "left open". |
-| Exact diagonalization inside the model (`de_shortcut_exact_diagonalization`: a TorchScript model that builds the electron Hamiltonian and calls `torch.linalg.eigvalsh`) | Would score 2.1e-8 / 3.4e-8 / 2.9e-8 (computed with the scan bypassed): solves the test | Code scan for linear-algebra solvers | **Failed run** (`linalg_eigvalsh`) |
-| Constant energy per site × number of sites (`de_shortcut_constant_per_site`) | n/a (new experiment) | R² gate on every size | **Failed run** (RMSE 0.877677 vs constant 0.877642) |
-| Model that only works on the training lattice, like a flattened MLP (`de_shortcut_size_locked`) | n/a | Every submission runs on all three sizes | **Failed run** (raises on 16×16) |
-| Over budget: EFNN C=9 (`de_shortcut_oversized_c9`, 26,436 values) | n/a | Budget 4,000, measured from the file | **Failed run** |
-| NaN output / output one row short (`de_shortcut_nan_output`, `de_shortcut_wrong_shape`) | n/a | Finite and shape checks | **Failed runs** |
-| Replace the frozen DNN (`de_shortcut_move_baseline`: zeros saved as `outputs/de_dnn.pt`) | n/a | Baselines frozen in `eval/`; reserved names ignored | DNN row unchanged; reference **ties** (rank 0) |
-| Sidecar claiming zero error (`de_shortcut_sidecar_claims`) | n/a | Sidecars ignored | **Ties** the reference (rank 0) |
+| Polynomial regression on binary spin products (`bin_shortcut_polynomial_regression`, rel. error 2.8e-7) | **+0.032**: beats the reference and the honest binary gain | Binary floor | **0** (ties) |
+| E_MC by Chebyshev expansion of the 200×200 electron matrix with matrix products only (`de_shortcut_chebyshev_free_energy`; exact to 4e-14 on hidden configurations without the meter) | Passes the op scan. Would score ≈ 0 error, rank ≈ **+2.93**, 3.3× the best honest variant | Compute meter | **Failed** at the first matrix product (`aten::bmm`), worst values: **−36.9** |
+| Library diagonalization (`de_shortcut_exact_diagonalization`, `torch.linalg.eigvalsh`) | Failed, no metrics: cost nothing | Worst values for failed runs | **−36.9** |
+| NaN output, wrong shape, C=9 over the size budget, model locked to 10×10, constant energy per site | Failed, no metrics: cost nothing | Worst values for failed runs | **−36.9** each |
+| Submit only the DE model (`de_shortcut_de_only`) | No binary entry: cost nothing | Missing experiment = failed | **−3.37** (binary worst) |
+| Binary model scaled by 0.001 (`bin_shortcut_scaled_0p001`) | Failed, no metrics | Worst values | **−3.37** |
+| Replace a frozen baseline (`de_shortcut_move_baseline`), sidecar claiming zero error (`de_shortcut_sidecar_claims`), binary equivalents | Tie (0) | Unchanged: baselines eval-owned, sidecars ignored | Tie (0) |
 
-**Rescored iteration-11 fixes (binary).** These are unchanged models scored through the new combined evaluator:
-- `bin_shortcut_scaled_0p001`: failed run (R² gate).
-- `bin_shortcut_sidecar_claims`: ties.
-- `bin_shortcut_move_baseline`: ties; the DNN row is unchanged.
+On the cohort that includes failed runs, the failed DE runs still rank last (−3.9) and honest ranks keep their order. A failed run never outranks one that solves the task.
 
-The other `REDTEAM.md` shortcuts were fixed in iteration 11 and not replayed: label generator, width metadata, impossible width, NaN, catastrophic, constant, empty and short outputs (see the iteration-11 rows in `redteam/hardening/summary.md`). This iteration did not change their code paths.
+## Shortcuts left open, and why
 
-## Shortcuts left open
+1. **Translation-invariant interaction expansions beat the reference** (+0.28 with 227 terms, +0.89 with 1,847 terms). These are honest: they are fitted to the training data by least squares, stay within both budgets, and transfer across sizes. `DIRECTION.md` allows physics-motivated expansions, and the review asked to keep them as a variant. They are the brute force the paper's method exists to avoid, but they do not solve the test: they reach 8.8e-4 against a bound of 0. Making them stop paying would need one of:
+   - a larger test where they do worse — their term count does not grow with lattice size, so a larger lattice does not help;
+   - EFNN at the paper's larger scale (C up to 9, about 26k values, 1.6e6 training configurations), out of this iteration's compute with 1-CPU jobs;
+   - different physics, which would be a change of procedure.
 
-1. **Polynomial regression on binary spin products — major, reduced, not closed.** It still earns +0.032, because a cubic target cannot be told apart from a learned model. `scoring/DIRECTION.md` forbids it and the grader has to catch it. At weight 0.2 it pays less than any real double-exchange improvement measured.
-2. **Hand-written diagonalization in the double-exchange model.** Lanczos, a kernel-polynomial or Chebyshev expansion of the Hamiltonian written with plain matmuls would evade the op scan. It is forbidden in `DIRECTION.md` and `CONSTRAINTS.md`, and it is visible in the model code for the grader.
-3. **Extra training labels.** The Hamiltonian is public (the paper, `_paper_reported`), so anyone can compute energies for new configurations. Forbidden; not detectable from a model file.
-4. **Training on public dev labels** (both experiments): forbidden, not detectable.
-5. **Smuggling numbers below the caps**: about 14,000 floats in pickled lists under 128 KiB (binary: +14% capacity; double-exchange: up to 4× the 4,000 budget). It is minor for binary. For double-exchange it is visible in the archive for the grader.
+   This is reported as headroom, not hidden. `briefing/` and `scoring/` do not describe it.
+2. **Hand-written diagonalization in pure scalar code** (`List[float]` arithmetic inside TorchScript) is not seen by the dispatch-level meter. It is impractical: hours per lattice size even at 10×10, and days at 24×24. It is out of bounds in `DIRECTION.md`, plainly visible in the model code for the grader, and a run that never finishes scores nothing.
+3. **Binary improvements no longer pay.** This is the price of closing the polynomial shortcut: the binary target is exactly cubic, so any reward below the reference is captured fully by enumeration. Binary still penalizes regressions, and the paper's EFNN ≫ DNN comparison is still reported (0.0295 vs 0.499).
+4. **Not detectable from a model file, so left to the grader** (all forbidden in `DIRECTION.md`/`CONSTRAINTS.md`): extra labels computed from the public Hamiltonian, training on dev labels, and data smuggled in numbers just below the caps.
 
 ## Reference score before and after
 
-- **three_spin_binary:** unchanged. The model is the same file and binary code and data were not modified: relative error **0.029494**, MAE 0.06704, tail RMSE 0.08861, 95,762 values. Only its weight changed (1.0 → 0.2).
-- **double_exchange (new):** relative error **1.204e-3 / 7.65e-4 / 6.06e-4** at L = 10 / 16 / 24, 3,414 values. Trained from the final code with `scripts/method.sh de`.
-- **Frozen baselines:** DNN 2.663e-3 / 1.645e-3 / 1.197e-3 (1,596 values); effective model 1.166e-3 / 6.86e-4 / 4.82e-4 (1,091 values).
-- `scoring/scores{,_train,_test}.json` contain only the references (`efnn`) and the frozen baselines. Shortcut and variant scores are only here and in `redteam/final/`.
+- **double_exchange:** **unchanged and bit-identical**.
+  - Weight hash `803369ca…` before and after.
+  - Under the new rule its first candidate leaves the plateau at epoch 20 (loss 0.0161), so it is the same run.
+  - Hidden test: **1.204e-3 / 7.65e-4 / 6.06e-4**; dev 1.182e-3 / 8.01e-4 / 5.66e-4; 3,414 stored values; 6,784 work units per site.
+- **three_spin_binary:** unchanged model, relative error **0.029494** (raw = floor).
+- **Frozen baselines (hidden test):**
+  - DNN: 2.667e-3 / 1.649e-3 / 1.199e-3. It was retrained with the same 24-candidate selection; it never leaves the plateau, and candidate 0 is again the lowest. It differs from the previous 2.663e-3 in the 4th digit because one segment was retrained on a different node; CPU kernels differ by node, while resumed runs on the same node reproduce exactly.
+  - Paper's effective model: **1.077e-2** at L10, 213,201 coefficients. The paper reports about 2e-2. The constant-predictor level here is 1.72e-2.
+- `scoring/scores{,_train,_test}.json` hold only the references (`efnn`) and the frozen baselines. Variant and shortcut scores are here and in `redteam/final2/`.
 
 ## Headroom check
 
-**No scored metric is at its bound.**
-- Double-exchange: the reference is at 1.2e-3 / 7.6e-4 / 6.1e-4 against a bound of 0. The R² at L10 is 0.995.
-- Binary: relative error 0.0295, MAE 0.067, tail RMSE 0.089.
+- **double_exchange:** no scored metric is at its bound; the reference is at 1.2e-3 / 7.6e-4 / 6.1e-4 against 0. Better variants score higher with paired-significant gains:
+  - 1,847-term expansion −27% / −28% / −38%;
+  - 227-term expansion;
+  - continued training (−3% at L10).
 
-**A better variant scores higher in each experiment:**
-- binary: continued training, −29%;
-- double-exchange: continued training, −3% (paired-significant);
-- double-exchange: a larger interaction expansion, −27% / −28% / −38%.
+  No simple variant reaches the bound; the only exact route, diagonalization, is now blocked by both the op scan and the compute meter. The baselines make sense: the DNN is 2.2× and the paper's effective model 8.9× worse than the reference, with room above.
+- **three_spin_binary:** deliberately at a floor (see above). I added nothing there. The gym's headroom is in `double_exchange`, which already holds the paper's hardest, headline experiment.
 
-**No simple variant reaches the bound:**
-- the best double-exchange result is 8.8e-4;
-- the exact answer (2e-8) is only reachable by diagonalizing, which is rejected;
-- on binary, only the out-of-bounds polynomial reaches the bound, which is why its weight dropped.
+## What I could not fix
 
-**Baselines make sense:**
-- the DNN and the 3-epoch EFNN score 2.2× below the reference, with room above it;
-- the frozen effective model scores slightly *above* the reference (see below).
-
-**What I added:** the `double_exchange` experiment, i.e. where the paper's method meets a non-polynomial target, larger lattices, and its own effective-model baseline.
-
-## What I could not fix, stated plainly
-
-- **The paper's claim that EFNN beats the effective model does not reproduce here.** The paper reports about 2e-2 for its 213,201-parameter tile-restricted effective model against about 1e-3 for networks. My translation-invariant local version uses 227 coefficients and reaches 1.17e-3, slightly better than the C=3 EFNN reference. A 1,847-term version is 27% better. This is a property of the paper's comparison, which used a weak effective model, not of the gym.
-  - The gym ranks such expansions above the reference. They are learned from the training data, so `DIRECTION.md` keeps them in scope.
-  - Whether a larger EFNN (the paper's C up to 9, about 26k values) would beat them is untested. The 4,000 budget rules it out by design.
-- **The reproduced claims:** EFNN beats a same-size DNN (2.2× on double-exchange, 17× on binary). On double-exchange it transfers from 10×10 to 16×16 and 24×24 with relative error falling with lattice size. Not reproduced or not run:
-  - EFNN vs ResNet and DenseNet;
-  - the continuous-spin experiment;
-  - the paper's absolute numbers (1.6×10⁶ training configurations, lattices up to 40×40).
-- **The reference EFNN is seed-sensitive on double-exchange** (one of three seeds converged to a 60% worse optimum). Single-run comparisons near the reference should be read with that in mind; paired test noise is small (about 1e-5).
-- **Hidden-test secrecy depends on the system** withholding `eval/test/` (couplings, seeds, energies, and the ED builder) and its git history from future agents.
-- **Rank normalizers depend on the future cohort.** Failed runs never enter it, and every ranked metric is an accuracy metric, so a run that fails a task cannot outrank one that solves it through other metrics.
+- **The reference is the paper's C=3 EFNN, and simple local expansions beat it on this problem.** This is a genuine finding about the double-exchange energy at J = 16t, T = 0.1t: the paper's effective model was a weak tile-restricted comparator. I did not test a larger EFNN at the paper's own scale (C up to 9) against them.
+- **The initialization search is expensive and depends on the data scale.** Only 3 of the 26 random initializations tried (4 + 4 + 18 for the three seeds) left the plateau within 20 epochs. Seed 20250219 needed 18 candidates. The paper trained on 53× more data per epoch (6,250 optimizer steps per epoch instead of 117), so its runs spent far more steps at a high learning rate, where the plateau is left; whether that alone removes the problem is untested. Restoring that data scale is out of reach for this gym's ED budget and storage.
+  - At that rate (p ≈ 3/26), a run has about a 5% chance of finding no escaping candidate in 24 and landing in the bad mode.
+  - Transfer-size seed spread stays larger than at L10 (L16 range 14% of the mean).
+- **Not reproduced:** ResNet/DenseNet comparisons, the continuous-spin case, and the paper's absolute scale (1.6e6 configurations, lattices up to 40×40).
+- **Hidden-test secrecy** depends on the system withholding `eval/test/` (and its git history) from future agents.
+- **Rank normalizers depend on the future cohort.** Failed runs now carry worst values, which are finite and bounded at the constant-predictor level, so they cannot dominate a normalizer the way the old catastrophic 1e6 output could.
 
 ## Requirement checklist
 
-- **Test answers:** only in `eval/test/`, or computed there (binary energies at test time; double-exchange energies stored there, spins regenerated from hidden seeds).
-- **Every score recomputed:** from raw model outputs on evaluator-owned inputs. Sidecars are ignored.
-- **Comparison side fixed by `eval/`:** baselines, budgets, R² gate, lattice sizes, rows and test sizes. Instance digests are pinned.
-- **Invalid runs fail:** impossible values, failed constraints and forbidden operations give a failed run.
-- **Paper effect versus seeds:** EFNN vs DNN is 4.3 seed standard deviations on double-exchange and about 240 on binary.
-- **Better variant:** beats the reference on paired comparisons.
-- **Paper's direction:** EFNN < DNN in both experiments; relative error falls with lattice size.
-- **Rank rule:** every ranked metric is an accuracy metric with `higher_is_better` set. Constraint metrics have coefficient 0 and are hard gates.
-- **`scripts/evaluate_test.sh`:**
-  - takes no arguments and scores every `outputs/binary_*.pt` and `outputs/de_*.pt` plus the frozen baselines;
-  - runs in about a minute and never retrains.
-- **Train and test:** they share no code and use the same interface; honest models score alike on both.
+- **Test answers:** only in `eval/test/` (hidden spins regenerate from seeds stored there; energies stored there; binary labels computed there at test time).
+- **Every score recomputed:** from raw predictions on evaluator-owned inputs. Sidecars are ignored.
+- **Comparison side fixed by `eval/`:**
+  - baselines (frozen files);
+  - budgets (size, payload, compute per site);
+  - R² gate and failed-run values;
+  - the binary floor;
+  - lattice sizes, rows and instance digests.
+- **Invalid runs fail and get the worst value of every metric.** A method missing from an experiment does too.
+- **Paper effect vs seed noise:**
+  - EFNN vs DNN is 28× the seed range at L10;
+  - EFNN vs paper's effective model is 8.9×;
+  - seeds now agree (4% at L10).
+- **No wall-clock limits anywhere.** The compute meter counts operations. The reference trains for a fixed number of epochs with a fixed thread count (1 for DE).
+- **`scripts/evaluate_test.sh`** takes no arguments, scores every `outputs/binary_*.pt` and `outputs/de_*.pt` plus the frozen baselines, and runs in about a minute.
+- **Train and test** share no code (`eval/train/` and `eval/test/` are separate copies) and use the same interface. Honest models score alike on both.
 - **Fresh clone:**
-  - data and baselines are tracked; `scripts/download.sh` has nothing to fetch;
-  - no references to `shared/`;
-  - `scripts/run.sh` runs `scripts/reproduce.sh` (both experiments end to end) and then `validate.py`;
-  - `python validate.py` and `python validate.py --post-design` both pass (job `a4ea3928-732`).
+  - data and baselines are tracked, and `scripts/download.sh` has nothing to fetch;
+  - no `shared/` references;
+  - `scripts/run.sh` runs `scripts/reproduce.sh` (both experiments end to end) and `validate.py`;
+  - the validators pass.

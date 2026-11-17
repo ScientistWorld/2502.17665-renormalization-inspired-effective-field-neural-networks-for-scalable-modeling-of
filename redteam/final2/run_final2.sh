@@ -1,4 +1,5 @@
 #!/bin/bash
+# ROUND 1 (superseded by run_final3.sh): its trainer settings were best of 4 candidates; results in round1_best_of_4/.
 # Audit job of this iteration (CPU).
 #
 #   1. double_exchange, from the final code: the reference EFNN (scripts/method.sh de:

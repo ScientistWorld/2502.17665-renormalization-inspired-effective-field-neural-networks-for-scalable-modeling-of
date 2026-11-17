@@ -1,6 +1,8 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: done
-milestone: core_claim_plus
-notes: "Added the paper's double-exchange case study as the main scored experiment (weight 0.8; binary 0.2). EFNN 1.20e-3 vs DNN 2.66e-3, transfers to 16x16/24x24. Exact-diagonalization and other shortcuts fail or tie; binary polynomial shortcut reduced (+0.160 -> +0.032) and left open. A stronger effective model beats the reference, against the paper's claim. See HARDENING.md."
+action: pending
+gpus: 0
+test: false
+milestone: core_claim
+notes: ""

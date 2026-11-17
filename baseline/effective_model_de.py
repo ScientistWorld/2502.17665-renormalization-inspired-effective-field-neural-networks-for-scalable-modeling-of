@@ -57,7 +57,7 @@ N_QUADS = N_PAIRS * (N_PAIRS + 1) // 2  # 52,975 unordered pairs of pairs
 IU_OFF = np.triu_indices(SITES, k=1)  # 300 distinct pairs i < j
 IU_ALL = np.triu_indices(SITES)  # 325 pairs i <= j
 NONSELF = np.nonzero(IU_ALL[0] != IU_ALL[1])[0]  # positions of the i < j pairs among the 325
-LAMBDA_GRID = (1e1, 1e2, 3e2, 1e3, 3e3, 1e4, 3e4, 1e5)
+LAMBDA_GRID = (1e-1, 1e0, 1e1, 1e2, 3e2, 1e3, 3e3, 1e4, 3e4, 1e5)
 HOLDOUT_FRACTION = 0.1
 INTERCEPT_SCALE = 1.0
 

@@ -1,0 +1,4 @@
+cases/*/submission/
+cases/*/checkpoint*
+_stash_outputs/
+_stash_scoring/

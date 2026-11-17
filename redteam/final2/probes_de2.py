@@ -37,6 +37,8 @@ class ChebyshevFreeEnergy(nn.Module):
 
     def __init__(self, degree: int = 700):
         super().__init__()
+        self.center = CENTER
+        self.half = HALF
         self.register_buffer("coef", torch.from_numpy(chebyshev_coefficients(degree)))
 
     def hamiltonian(self, s: torch.Tensor) -> torch.Tensor:
@@ -66,13 +68,13 @@ class ChebyshevFreeEnergy(nn.Module):
         g = self.hamiltonian(s)
         m = g.shape[1]
         eye = torch.eye(m, dtype=torch.complex128).unsqueeze(0).expand(g.shape[0], m, m)
-        x = (g - CENTER * eye) / HALF
+        x = (g - self.center * eye) / self.half
         t0 = eye
         t1 = x
-        acc = self.coef[0] * float(m) + self.coef[1] * torch.diagonal(x, dim1=1, dim2=2).sum(dim=1).real
+        acc = self.coef[0] * float(m) + self.coef[1] * torch.real(torch.diagonal(x, dim1=1, dim2=2).sum(dim=1))
         for k in range(2, self.coef.shape[0]):
             t2 = 2.0 * torch.matmul(x, t1) - t0
-            acc = acc + self.coef[k] * torch.diagonal(t2, dim1=1, dim2=2).sum(dim=1).real
+            acc = acc + self.coef[k] * torch.real(torch.diagonal(t2, dim1=1, dim2=2).sum(dim=1))
             t0 = t1
             t1 = t2
         return acc

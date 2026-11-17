@@ -1,8 +1,6 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: submit
-gpus: 0
-test: false
-milestone: core_claim
-notes: "Round-2 audit: DE initialization search (first of up to 24 candidates to leave the plateau), retrain reference/seeds/DNN baseline from final code reusing identical round-1 candidates, rebuild and rescore all cases, official scores, summary, validate."
+action: done
+milestone: core_claim_plus
+notes: "Hardened: DE seeds agree via training-loss initialization selection (L10 range 4%, was 50%); paper's tile effective model as baseline (EFNN 8.9x better); failed/missing runs get worst values; deterministic compute meter blocks hand-written diagonalization; binary floored at reference so the polynomial shortcut ties. Reference bit-identical. See HARDENING.md."

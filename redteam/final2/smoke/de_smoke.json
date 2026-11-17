@@ -1,0 +1,40 @@
+{
+  "note": "Informational only; evaluators recompute every score from the model file.",
+  "task": "double_exchange",
+  "model": "efnn",
+  "channels": 3,
+  "layers": 3,
+  "kernel": 5,
+  "epochs": 4,
+  "batch_size": 256,
+  "lr": 0.002,
+  "lr_gamma": 0.97,
+  "seed": 20250217,
+  "restarts": 2,
+  "select_epochs": 2,
+  "threads": 1,
+  "train_limit": 2000,
+  "init_checkpoint": null,
+  "output": "redteam/final2/smoke/de_smoke.pt",
+  "checkpoint": "redteam/final2/smoke/de_smoke_ckpt.pt",
+  "progress": null,
+  "selected_seed": 21250217,
+  "selection": [
+    {
+      "seed": 20250217,
+      "train_mse_z_after_selection_epochs": 1.0738044967651368
+    },
+    {
+      "seed": 21250217,
+      "train_mse_z_after_selection_epochs": 0.9960077347755432
+    }
+  ],
+  "metrics": {
+    "best_train_mse_z": 0.7442425718307495,
+    "param_count": 3412.0,
+    "export_gap": 0.0,
+    "dev_L10_relative_error": 0.013130914658976998,
+    "dev_L16_relative_error": 0.008622807237507378,
+    "dev_L24_relative_error": 0.00599454545991478
+  }
+}

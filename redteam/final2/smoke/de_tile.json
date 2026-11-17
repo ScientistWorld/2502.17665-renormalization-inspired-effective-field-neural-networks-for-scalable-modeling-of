@@ -1,0 +1,17 @@
+{
+  "model": "effective_model",
+  "metrics": {
+    "model": "effective_model (paper Eq. 3 restricted to 5x5 tiles)",
+    "coefficients": 213201,
+    "independent_terms": 181801,
+    "train_rows": 3000,
+    "holdout_rows": 300,
+    "selected_lambda": 10.0,
+    "final_cg_iterations": 10,
+    "final_cg_relative_residual": 5.396795507338364e-08,
+    "export_gap": 8.424084541047705e-07,
+    "train_relative_error": 7.88756409769798e-06,
+    "dev_L10_relative_error": 0.01574644053875129,
+    "seconds": 10.1
+  }
+}

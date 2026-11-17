@@ -1,0 +1,80 @@
+{
+  "model": "effective_model (paper Eq. 3 restricted to 5x5 tiles)",
+  "coefficients": 213201,
+  "independent_terms": 181801,
+  "train_rows": 3000,
+  "holdout_rows": 300,
+  "lambda_grid": [
+    {
+      "lambda": 100000.0,
+      "cg_iterations": 5,
+      "cg_relative_residual": 3.4077766017273113e-08,
+      "fit_relative_error": 0.014311002057758251,
+      "holdout_relative_error": 0.016308269494318343,
+      "seconds": 0.6
+    },
+    {
+      "lambda": 30000.0,
+      "cg_iterations": 7,
+      "cg_relative_residual": 8.006087994570784e-09,
+      "fit_relative_error": 0.010015553249236493,
+      "holdout_relative_error": 0.015897369376508475,
+      "seconds": 0.8
+    },
+    {
+      "lambda": 10000.0,
+      "cg_iterations": 8,
+      "cg_relative_residual": 2.0390635725179684e-08,
+      "fit_relative_error": 0.005427532706830666,
+      "holdout_relative_error": 0.015497198556268686,
+      "seconds": 0.9
+    },
+    {
+      "lambda": 3000.0,
+      "cg_iterations": 8,
+      "cg_relative_residual": 8.879390704997835e-08,
+      "fit_relative_error": 0.0020944243583838336,
+      "holdout_relative_error": 0.015234423502452448,
+      "seconds": 0.9
+    },
+    {
+      "lambda": 1000.0,
+      "cg_iterations": 8,
+      "cg_relative_residual": 6.598345332145225e-08,
+      "fit_relative_error": 0.000761199421600002,
+      "holdout_relative_error": 0.015136420642771894,
+      "seconds": 0.9
+    },
+    {
+      "lambda": 300.0,
+      "cg_iterations": 8,
+      "cg_relative_residual": 3.2755174048346073e-08,
+      "fit_relative_error": 0.0002358578196569902,
+      "holdout_relative_error": 0.015098965019823921,
+      "seconds": 0.9
+    },
+    {
+      "lambda": 100.0,
+      "cg_iterations": 7,
+      "cg_relative_residual": 5.766585727429681e-08,
+      "fit_relative_error": 7.936540524895918e-05,
+      "holdout_relative_error": 0.01508793634346033,
+      "seconds": 0.8
+    },
+    {
+      "lambda": 10.0,
+      "cg_iterations": 7,
+      "cg_relative_residual": 2.7005860669377275e-08,
+      "fit_relative_error": 7.97060519472129e-06,
+      "holdout_relative_error": 0.015082924596878685,
+      "seconds": 0.8
+    }
+  ],
+  "selected_lambda": 10.0,
+  "final_cg_iterations": 10,
+  "final_cg_relative_residual": 5.396795507338364e-08,
+  "export_gap": 8.424084541047705e-07,
+  "train_relative_error": 7.88756409769798e-06,
+  "dev_L10_relative_error": 0.01574644053875129,
+  "seconds": 10.1
+}

@@ -3,6 +3,6 @@
 # only after your turn ends.
 action: submit
 gpus: 0
-test: true
+test: false
 milestone: core_claim
-notes: "Smoke test of this iteration's new code: compute meter on TorchScript models, Chebyshev free-energy probe, DE trainer with initialization selection, paper's tile effective model fit (small), scorers with worst values for failed runs."
+notes: "Final audit: train DE reference (initialization selection, 3 seeds), DNN + paper's tile effective model baselines, better/weaker variants; score ~32 cases (variants, expansion variants, shortcuts incl. Chebyshev free-energy probe) through evaluate_train/test; regenerate official scores; summarize; validate."

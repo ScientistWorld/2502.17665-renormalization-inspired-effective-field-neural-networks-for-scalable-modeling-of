@@ -1,0 +1,18 @@
+{
+  "files": [
+    "binary_m.pt",
+    "de_m.pt"
+  ],
+  "train": {
+    "command": "bash scripts/evaluate_train.sh",
+    "exit": 0,
+    "seconds": 22.45,
+    "scores_written": true
+  },
+  "test": {
+    "command": "bash scripts/evaluate_test.sh",
+    "exit": 0,
+    "seconds": 25.14,
+    "scores_written": true
+  }
+}

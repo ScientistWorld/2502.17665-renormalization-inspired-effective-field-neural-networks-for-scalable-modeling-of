@@ -5,13 +5,18 @@ Trains on ``data/double_exchange`` split ``train`` (10 x 10 lattices) with the M
 standardized energies, Adam and an exponentially decaying learning rate, and keeps the
 weights with the lowest training loss.
 
-Initialization is selected on training data only: ``--restarts K`` random
-initializations are each trained for the first ``--select-epochs W`` epochs of the
-schedule, and the one with the lowest training loss in its W-th epoch is trained on to
-the end of the same schedule (its optimizer, learning-rate and minibatch state carry
-over, so the result is an ordinary full-length run of the selected initialization).
-Candidate ``j`` uses seed ``seed + 1_000_000 * j``; candidate 0 is the plain ``--seed``
-run. With ``--restarts 1`` or ``--init-checkpoint`` no selection happens.
+Initialization is selected on training data only. Training first settles on a plateau
+(standardized training MSE about 0.025, the level an ordinary deep network of the same
+size converges to); a run that leaves it while the learning rate is still high converges
+to a much better optimum, one that leaves it late does not. Random initializations
+(candidate ``j`` uses seed ``seed + 1_000_000 * j``; candidate 0 is the plain ``--seed``
+run) are therefore trained in turn for the first ``--select-epochs W`` epochs of the
+schedule; the first whose training loss in its W-th epoch is below ``--accept-loss``
+is kept, and if none of ``--restarts K`` candidates is, the one with the lowest such
+loss. The kept candidate is trained on to the end of the same schedule (its optimizer,
+learning-rate and minibatch state carry over, so the result is an ordinary full-length
+run of that initialization). With ``--restarts 1`` or ``--init-checkpoint`` no selection
+happens.
 
 The network is exported with ``torch.jit.script`` as a TorchScript energy model (input:
 float32 spins of shape (N, 3, L, L), any L; output: energies of shape (N,)), which is
@@ -50,8 +55,9 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--lr", type=float, default=2e-3)
     p.add_argument("--lr-gamma", type=float, default=0.97)
     p.add_argument("--seed", type=int, default=20250217, help="initialization and minibatch seed (data are fixed)")
-    p.add_argument("--restarts", type=int, default=4, help="initializations tried; the best by training loss is kept")
+    p.add_argument("--restarts", type=int, default=20, help="most initializations tried (see module docstring)")
     p.add_argument("--select-epochs", type=int, default=20, help="epochs each initialization trains before selection")
+    p.add_argument("--accept-loss", type=float, default=0.02, help="training MSE (standardized) that accepts a candidate")
     p.add_argument("--threads", type=int, default=1)
     p.add_argument("--train-limit", type=int, default=0, help="use only the first N training rows (smoke tests)")
     p.add_argument("--init-checkpoint", type=Path, default=None, help="start from saved weights (continued training)")
@@ -61,13 +67,29 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 
-def run_signature(args: argparse.Namespace) -> str:
-    keys = [
-        "model", "channels", "layers", "kernel", "epochs", "batch_size", "lr", "lr_gamma", "seed",
-        "restarts", "select_epochs", "train_limit", "init_checkpoint",
-    ]
-    payload = json.dumps({k: str(getattr(args, k)) for k in keys}, sort_keys=True)
+FULL_KEYS = [
+    "model", "channels", "layers", "kernel", "epochs", "batch_size", "lr", "lr_gamma", "seed",
+    "restarts", "select_epochs", "accept_loss", "train_limit", "init_checkpoint",
+]
+# Everything a candidate's first W epochs depend on (not how many candidates may be tried).
+CANDIDATE_KEYS = [
+    "model", "channels", "layers", "kernel", "epochs", "batch_size", "lr", "lr_gamma", "seed",
+    "select_epochs", "train_limit", "init_checkpoint",
+]
+# Progress files written before --accept-loss existed (best of 4 candidates).
+LEGACY_KEYS = [
+    "model", "channels", "layers", "kernel", "epochs", "batch_size", "lr", "lr_gamma", "seed",
+    "restarts", "select_epochs", "train_limit", "init_checkpoint",
+]
+
+
+def signature(args: argparse.Namespace, keys: list[str], **override) -> str:
+    payload = json.dumps({k: str(override.get(k, getattr(args, k))) for k in keys}, sort_keys=True)
     return hashlib.sha256(payload.encode()).hexdigest()
+
+
+def run_signature(args: argparse.Namespace) -> str:
+    return signature(args, FULL_KEYS)
 
 
 def relative_error(y_true: np.ndarray, y_pred: np.ndarray) -> float:
@@ -179,7 +201,8 @@ def main() -> None:
     print(
         f"model={args.model} C={args.channels} layers={args.layers} kernel={args.kernel} epochs={args.epochs} "
         f"batch={args.batch_size} lr={args.lr} gamma={args.lr_gamma} seed={args.seed} restarts={restarts} "
-        f"select_epochs={select_epochs} train_rows={len(y_np)} site_mean={site_mean:.6f} scale={scale:.6f}",
+        f"select_epochs={select_epochs} accept_loss={args.accept_loss} train_rows={len(y_np)} "
+        f"site_mean={site_mean:.6f} scale={scale:.6f}",
         flush=True,
     )
     x_train = torch.from_numpy(x_np)
@@ -191,18 +214,31 @@ def main() -> None:
         progress_path = args.checkpoint.with_suffix(".progress.pt")
     else:
         progress_path = args.output.with_suffix(".progress.ckpt")
-    signature = run_signature(args)
+    full_sig = run_signature(args)
+    cand_sig = signature(args, CANDIDATE_KEYS)
 
-    progress: dict = {"signature": signature, "candidates": [], "selected": None, "run": None}
+    progress: dict = {"signature": full_sig, "cand_signature": cand_sig, "candidates": [], "selected": None, "run": None}
+    reusable_run: dict | None = None  # main-run state of an earlier file, valid if the same candidate is kept
+    reusable_selected = None
     if progress_path.exists():
         saved = torch.load(progress_path, map_location="cpu", weights_only=False)
-        if saved.get("signature") == signature and "candidates" in saved:
+        same = saved.get("signature") == full_sig and "candidates" in saved
+        compatible = "candidates" in saved and (
+            saved.get("cand_signature") == cand_sig or saved.get("signature") == signature(args, LEGACY_KEYS, restarts=4)
+        )
+        if same:
             progress = saved
+            progress["cand_signature"] = cand_sig
             print(
                 f"resuming: {len(progress['candidates'])} candidate(s) done, "
                 f"selected={progress['selected']}, main run epoch={progress['run']['epoch'] if progress['run'] else None}",
                 flush=True,
             )
+        elif compatible and restarts > 1:
+            progress["candidates"] = saved["candidates"]
+            reusable_run = saved.get("run")
+            reusable_selected = saved.get("selected")
+            print(f"reusing {len(saved['candidates'])} candidate(s) trained with the same settings", flush=True)
         else:
             print("ignoring progress file from a different configuration", flush=True)
 
@@ -213,7 +249,14 @@ def main() -> None:
         run = Run(args, progress["run"]["seed"], site_mean, scale)
         run.load(progress["run"])
     elif restarts > 1:
-        while len(progress["candidates"]) < restarts:
+
+        def accepted() -> list[int]:
+            return [j for j, c in enumerate(progress["candidates"]) if c["last_loss"] < args.accept_loss]
+
+        if accepted():  # candidates after the first accepted one are not part of this run
+            progress["candidates"] = progress["candidates"][: accepted()[0] + 1]
+        progress["candidates"] = progress["candidates"][:restarts]
+        while len(progress["candidates"]) < restarts and not accepted():
             j = len(progress["candidates"])
             cand = Run(args, args.seed + SEED_STRIDE * j, site_mean, scale)
             for _ in range(select_epochs):
@@ -221,11 +264,19 @@ def main() -> None:
             progress["candidates"].append(cand.state())
             save_progress(progress_path, progress)
         losses = [c["last_loss"] for c in progress["candidates"]]
-        best = int(np.argmin(losses))
+        best = accepted()[0] if accepted() else int(np.argmin(losses))
         progress["selected"] = best
-        print(f"selection after {select_epochs} epochs: losses={[f'{v:.6g}' for v in losses]} -> candidate {best}", flush=True)
+        print(
+            f"selection after {select_epochs} epochs (accept below {args.accept_loss}): "
+            f"losses={[f'{v:.6g}' for v in losses]} -> candidate {best}",
+            flush=True,
+        )
         run = Run(args, progress["candidates"][best]["seed"], site_mean, scale)
-        run.load(progress["candidates"][best])
+        if reusable_run is not None and reusable_selected == best and reusable_run.get("seed") == progress["candidates"][best]["seed"]:
+            run.load(reusable_run)
+            print(f"continuing the saved main run of candidate {best} from epoch {run.epoch}", flush=True)
+        else:
+            run.load(progress["candidates"][best])
     else:
         run = Run(args, args.seed, site_mean, scale)
     selection = [{"seed": c["seed"], "train_mse_z_after_selection_epochs": c["last_loss"]} for c in progress["candidates"]]

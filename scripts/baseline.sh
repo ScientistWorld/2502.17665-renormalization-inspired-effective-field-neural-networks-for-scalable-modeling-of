@@ -6,7 +6,8 @@
 # Usage:
 #   bash scripts/baseline.sh dnn   # three_spin_binary: same-width DNN (2 x 105)  -> binary_dnn.pt
 #   bash scripts/baseline.sh de    # double_exchange: symmetrized DNN (C=3, 3 layers, same training
-#                                  #   and initialization selection as the EFNN)    -> de_dnn.pt
+#                                  #   and initialization selection as the EFNN; it never
+#                                  #   leaves the plateau, so the best of 20 is kept) -> de_dnn.pt
 #                                  #   and the paper's effective model (Eq. 3 restricted to 5x5
 #                                  #   tiles, fitted by regularized least squares)  -> de_effective_model.pt
 
@@ -59,8 +60,9 @@ case "$WHAT" in
       --batch-size "${BATCH_SIZE:-256}" \
       --lr "${LR:-0.002}" \
       --lr-gamma "${LR_GAMMA:-0.97}" \
-      --restarts "${RESTARTS:-4}" \
+      --restarts "${RESTARTS:-20}" \
       --select-epochs "${SELECT_EPOCHS:-20}" \
+      --accept-loss "${ACCEPT_LOSS:-0.02}" \
       --seed "$SEED" \
       --threads "${THREADS_SET:-1}" \
       --output checkpoints/baselines/de_dnn.pt \

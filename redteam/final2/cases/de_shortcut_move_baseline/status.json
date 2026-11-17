@@ -7,13 +7,13 @@
   "train": {
     "command": "bash scripts/evaluate_train.sh",
     "exit": 0,
-    "seconds": 22.37,
+    "seconds": 12.06,
     "scores_written": true
   },
   "test": {
     "command": "bash scripts/evaluate_test.sh",
     "exit": 0,
-    "seconds": 24.82,
+    "seconds": 15.05,
     "scores_written": true
   }
 }

@@ -6,13 +6,13 @@
   "train": {
     "command": "bash scripts/evaluate_train.sh",
     "exit": 0,
-    "seconds": 22.92,
+    "seconds": 14.01,
     "scores_written": true
   },
   "test": {
     "command": "bash scripts/evaluate_test.sh",
     "exit": 0,
-    "seconds": 24.16,
+    "seconds": 13.93,
     "scores_written": true
   }
 }

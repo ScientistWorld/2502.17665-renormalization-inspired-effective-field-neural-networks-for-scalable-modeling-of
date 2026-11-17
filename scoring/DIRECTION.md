@@ -12,8 +12,9 @@ so that a model:
 
 ## Direction Scope
 Future work should make the predictor more accurate on unseen configurations, more
-robust across lattice sizes and across the energy range, within the same size budget
-and the same training data. The main experiment (`double_exchange`, weight 0.8) is a
+robust across lattice sizes and across the energy range, within the same size and
+compute budgets and the same training data. Only `double_exchange` rewards improvement;
+`three_spin_binary` is floored at the reference and only penalizes regressions. The main experiment (`double_exchange`, weight 0.8) is a
 surrogate for an expensive quantum calculation. Neural architectures,
 physics-motivated features or expansions, and hybrids of the two are all in scope, as
 long as the model is learned from the provided samples.
@@ -36,8 +37,12 @@ evaluators.
     kernel-polynomial or Chebyshev expansions of the matrix, or determinants);
   - generating labels for configurations outside the public files.
 
-  The evaluator rejects models that call dense linear-algebra solvers. Hand-written
-  equivalents are equally out of bounds, and reviewers check for them.
+  The evaluator rejects models that call dense linear-algebra solvers, and counts the
+  arithmetic of every forward pass: at most 50,000 work units per lattice site, several
+  times what a learned surrogate needs and far below any diagonalization of the
+  2L^2 x 2L^2 electron matrix. Hand-written equivalents that evade these checks (for
+  example scalar code outside tensor operations) are equally out of bounds, and
+  reviewers check for them.
 - **three_spin_binary**: do not build the predictor from an explicit polynomial
   expansion of the spins (for example linear or kernel regression on enumerated
   products of up to three spins, or fitting one coefficient per site triple). The

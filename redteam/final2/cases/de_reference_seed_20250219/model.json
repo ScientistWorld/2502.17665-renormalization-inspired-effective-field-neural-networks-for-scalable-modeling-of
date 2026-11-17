@@ -10,15 +10,16 @@
   "lr": 0.002,
   "lr_gamma": 0.97,
   "seed": 20250219,
-  "restarts": 4,
+  "restarts": 24,
   "select_epochs": 20,
+  "accept_loss": 0.02,
   "threads": 1,
   "train_limit": 0,
   "init_checkpoint": null,
   "output": "redteam/final2/cases/de_reference_seed_20250219/model.pt",
   "checkpoint": "redteam/final2/cases/de_reference_seed_20250219/checkpoint.pt",
   "progress": null,
-  "selected_seed": 21250219,
+  "selected_seed": 37250219,
   "selection": [
     {
       "seed": 20250219,
@@ -35,14 +36,70 @@
     {
       "seed": 23250219,
       "train_mse_z_after_selection_epochs": 0.02501459005276362
+    },
+    {
+      "seed": 24250219,
+      "train_mse_z_after_selection_epochs": 0.025287719431519508
+    },
+    {
+      "seed": 25250219,
+      "train_mse_z_after_selection_epochs": 0.024526541225115456
+    },
+    {
+      "seed": 26250219,
+      "train_mse_z_after_selection_epochs": 0.02409928581813971
+    },
+    {
+      "seed": 27250219,
+      "train_mse_z_after_selection_epochs": 0.02251179861227671
+    },
+    {
+      "seed": 28250219,
+      "train_mse_z_after_selection_epochs": 0.02511132590075334
+    },
+    {
+      "seed": 29250219,
+      "train_mse_z_after_selection_epochs": 0.02568000156780084
+    },
+    {
+      "seed": 30250219,
+      "train_mse_z_after_selection_epochs": 0.02622526452044646
+    },
+    {
+      "seed": 31250219,
+      "train_mse_z_after_selection_epochs": 0.025129150941967965
+    },
+    {
+      "seed": 32250219,
+      "train_mse_z_after_selection_epochs": 0.024759758618474008
+    },
+    {
+      "seed": 33250219,
+      "train_mse_z_after_selection_epochs": 0.026138120753566425
+    },
+    {
+      "seed": 34250219,
+      "train_mse_z_after_selection_epochs": 0.025716124068697294
+    },
+    {
+      "seed": 35250219,
+      "train_mse_z_after_selection_epochs": 0.025136829792459806
+    },
+    {
+      "seed": 36250219,
+      "train_mse_z_after_selection_epochs": 0.02593752905925115
+    },
+    {
+      "seed": 37250219,
+      "train_mse_z_after_selection_epochs": 0.009816414445141952
     }
   ],
   "metrics": {
-    "best_train_mse_z": 0.012940149466196696,
+    "best_train_mse_z": 0.00474107468004028,
     "param_count": 3412.0,
     "export_gap": 0.0,
-    "dev_L10_relative_error": 0.00194748233915473,
-    "dev_L16_relative_error": 0.0014333204739899056,
-    "dev_L24_relative_error": 0.0008957988304934256
+    "dev_L10_relative_error": 0.001226145816909393,
+    "dev_L16_relative_error": 0.0008725439893069403,
+    "dev_L24_relative_error": 0.0006161642544317426
   }
 }

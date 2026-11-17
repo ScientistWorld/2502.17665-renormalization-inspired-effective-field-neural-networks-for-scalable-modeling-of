@@ -18,11 +18,17 @@ What is held fixed:
 - the training data;
 - a small budget on stored values, so gains come from better modelling rather than
   capacity;
-- two frozen comparison models: an ordinary deep network and an explicit
-  spin-interaction expansion.
+- a budget on the arithmetic each prediction may spend per lattice site, counted
+  deterministically from the operations the model runs. It is generous for a learned
+  surrogate and far too small to solve the electronic problem inside the model, which is
+  the cost the surrogate exists to avoid;
+- two frozen comparison models: an ordinary deep network, and the paper's explicit
+  spin-interaction expansion restricted to local tiles (defined on the training lattice
+  size only).
 
-Models that compute the energy by diagonalization inside the model, fail on a lattice
-size, or are no better than a constant are reported as failed.
+Models that compute the energy by diagonalization inside the model, exceed a budget,
+fail on a lattice size, or are no better than a constant are failed. A failed run
+receives the worst value of every metric (a constant predictor's error), never a gap.
 
 ## three_spin_binary (weight 0.2)
 Establishes whether a learned energy predictor can model a fixed binary many-body
@@ -37,5 +43,9 @@ neural-network baseline of the same width that is frozen inside the evaluator.
 
 What is held fixed: the training data and a budget on stored values.
 
-This experiment carries a low weight. Its target is exactly a cubic polynomial of the
-spins, so it checks the architecture comparison rather than open-ended modelling.
+This experiment carries a low weight and is a non-regression check. Its target is
+exactly a cubic polynomial of the spins, so accuracy beyond the paper's reference can
+be reached without learning anything that transfers. Every metric is therefore floored
+at the reference's own value: a method as accurate as the reference ties it, a less
+accurate one loses rank, and nothing is gained by going further. Failed runs receive the
+worst value of every metric.

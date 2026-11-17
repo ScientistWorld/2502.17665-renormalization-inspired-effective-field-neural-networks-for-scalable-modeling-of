@@ -10,8 +10,9 @@
   "lr": 0.002,
   "lr_gamma": 0.97,
   "seed": 20250218,
-  "restarts": 4,
+  "restarts": 24,
   "select_epochs": 20,
+  "accept_loss": 0.02,
   "threads": 1,
   "train_limit": 0,
   "init_checkpoint": null,
@@ -23,18 +24,6 @@
     {
       "seed": 20250218,
       "train_mse_z_after_selection_epochs": 0.01056416383087635
-    },
-    {
-      "seed": 21250218,
-      "train_mse_z_after_selection_epochs": 0.025885867218176525
-    },
-    {
-      "seed": 22250218,
-      "train_mse_z_after_selection_epochs": 0.02552785057326158
-    },
-    {
-      "seed": 23250218,
-      "train_mse_z_after_selection_epochs": 0.025296994915604592
     }
   ],
   "metrics": {

@@ -225,3 +225,21 @@ epoch=150 train_mse_z=0.00435919 lr=2.07e-05 seconds=9.4
 }
 seed 20250218 already trained
 seed 20250218 already trained
+=== round 2 2026-11-17T01:48:15-05:00
+model=efnn C=3 layers=3 kernel=5 epochs=150 batch=256 lr=0.002 gamma=0.97 seed=20250218 restarts=24 select_epochs=20 accept_loss=0.02 train_rows=30000 site_mean=-0.511517 scale=0.883989
+reusing 4 candidate(s) trained with the same settings
+selection after 20 epochs (accept below 0.02): losses=['0.0105642'] -> candidate 0
+continuing the saved main run of candidate 0 from epoch 145
+epoch=146 train_mse_z=0.00437995 lr=2.34e-05 seconds=22.3
+epoch=147 train_mse_z=0.00436384 lr=2.27e-05 seconds=22.2
+epoch=148 train_mse_z=0.00435932 lr=2.2e-05 seconds=16.8
+epoch=149 train_mse_z=0.00436235 lr=2.14e-05 seconds=23.7
+epoch=150 train_mse_z=0.00435919 lr=2.07e-05 seconds=55.3
+{
+  "best_train_mse_z": 0.004359186042596897,
+  "param_count": 3412.0,
+  "export_gap": 0.0,
+  "dev_L10_relative_error": 0.0011969009543865057,
+  "dev_L16_relative_error": 0.0007872344750311785,
+  "dev_L24_relative_error": 0.0005052460991759261
+}

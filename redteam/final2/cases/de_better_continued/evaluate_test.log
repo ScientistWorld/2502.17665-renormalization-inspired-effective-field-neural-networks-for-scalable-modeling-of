@@ -15,9 +15,9 @@
           "param_count": 1596,
           "payload_bytes": 10092,
           "pickles_parsed": true,
-          "rmse_L10": 0.13620981173520133,
-          "rmse_L16": 0.2154383185178264,
-          "rmse_L24": 0.352632657349719,
+          "rmse_L10": 0.1364158780471366,
+          "rmse_L16": 0.21603197324174703,
+          "rmse_L24": 0.3531953268066368,
           "rows_L10": 4000,
           "rows_L16": 600,
           "rows_L24": 200,
@@ -86,9 +86,9 @@
       "results": {
         "dnn": {
           "param_count": 1596.0,
-          "relative_error_L10": 0.0026632644001427543,
-          "relative_error_L16": 0.0016448105899779847,
-          "relative_error_L24": 0.0011972984359031808
+          "relative_error_L10": 0.002667293545074786,
+          "relative_error_L16": 0.0016493429757829467,
+          "relative_error_L24": 0.0011992088751284114
         },
         "effective_model": {
           "param_count": 213201.0,

@@ -27,4 +27,9 @@ Secondary claims: the architecture remains effective for continuous spin inputs,
   without the S_0 injections), trained by `method/train_double_exchange.py`
   (`bash scripts/method.sh de`): C = 3 channels, 3 layers, 5 x 5 kernels (3,412
   parameters), batch 256, Adam lr 2e-3 decaying by 0.97 per epoch, 150 epochs,
-  weights with the lowest training loss.
+  weights with the lowest training loss. Initialization is selected on training data
+  only: every run first settles on a plateau (standardized training MSE about 0.025,
+  where the same-size DNN ends); random initializations are trained in turn for the
+  first 20 epochs, the first whose training loss is below 0.02 is kept and trained to
+  the end of the same schedule (at most 24 tried, else the lowest). The DNN comparison
+  uses the same procedure.

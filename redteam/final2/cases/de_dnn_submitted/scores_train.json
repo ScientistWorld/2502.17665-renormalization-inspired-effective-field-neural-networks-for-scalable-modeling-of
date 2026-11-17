@@ -15,9 +15,9 @@
           "param_count": 1596,
           "payload_bytes": 10092,
           "pickles_parsed": true,
-          "rmse_L10": 0.13636383026189122,
-          "rmse_L16": 0.23950452685602058,
-          "rmse_L24": 0.31514160601015495,
+          "rmse_L10": 0.13655019668170496,
+          "rmse_L16": 0.23970405954188592,
+          "rmse_L24": 0.3149772559979925,
           "rows_L10": 2000,
           "rows_L16": 300,
           "rows_L24": 100,
@@ -54,9 +54,9 @@
           "param_count": 1596,
           "payload_bytes": 10092,
           "pickles_parsed": true,
-          "rmse_L10": 0.13636383026189122,
-          "rmse_L16": 0.23950452685602058,
-          "rmse_L24": 0.31514160601015495,
+          "rmse_L10": 0.13655019668170496,
+          "rmse_L16": 0.23970405954188592,
+          "rmse_L24": 0.3149772559979925,
           "rows_L10": 2000,
           "rows_L16": 300,
           "rows_L24": 100,
@@ -86,9 +86,9 @@
       "results": {
         "dnn": {
           "param_count": 1596.0,
-          "relative_error_L10": 0.0026670320563534963,
-          "relative_error_L16": 0.0018300730463002256,
-          "relative_error_L24": 0.0010699914955342362
+          "relative_error_L10": 0.0026706770494203265,
+          "relative_error_L16": 0.0018315976913457765,
+          "relative_error_L24": 0.0010694334825269052
         },
         "effective_model": {
           "param_count": 213201.0,
@@ -96,9 +96,9 @@
         },
         "m": {
           "param_count": 1596.0,
-          "relative_error_L10": 0.0026670320563534963,
-          "relative_error_L16": 0.0018300730463002256,
-          "relative_error_L24": 0.0010699914955342362
+          "relative_error_L10": 0.0026706770494203265,
+          "relative_error_L16": 0.0018315976913457765,
+          "relative_error_L24": 0.0010694334825269052
         }
       }
     },

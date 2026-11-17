@@ -5,4 +5,4 @@ action: submit
 gpus: 0
 test: false
 milestone: core_claim
-notes: "Final audit: train DE reference (initialization selection, 3 seeds), DNN + paper's tile effective model baselines, better/weaker variants; score ~32 cases (variants, expansion variants, shortcuts incl. Chebyshev free-energy probe) through evaluate_train/test; regenerate official scores; summarize; validate."
+notes: "Round-2 audit: DE initialization search (first of up to 24 candidates to leave the plateau), retrain reference/seeds/DNN baseline from final code reusing identical round-1 candidates, rebuild and rescore all cases, official scores, summary, validate."

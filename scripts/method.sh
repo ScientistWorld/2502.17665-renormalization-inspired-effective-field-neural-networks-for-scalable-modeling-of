@@ -6,6 +6,10 @@
 # Usage:
 #   bash scripts/method.sh binary   # 15-site three-spin model  -> outputs/binary_efnn.pt
 #   bash scripts/method.sh de       # double-exchange model     -> outputs/de_efnn.pt
+#
+# double_exchange: 4 random initializations train for 20 epochs each; the one with the
+# lowest training loss continues the same 150-epoch schedule (selection uses training
+# data only; RESTARTS=1 trains a single initialization).
 
 set -e
 
@@ -14,7 +18,9 @@ export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 TASK="${1:-binary}"
 SEED="${SEED:-20250217}"
-THREADS="${THREADS:-2}"
+# Thread count changes floating-point reduction order and hence the trained weights:
+# the stored references use 2 threads for three_spin_binary and 1 for double_exchange.
+THREADS_SET="${THREADS:-}"
 
 mkdir -p checkpoints outputs
 
@@ -30,7 +36,7 @@ case "$TASK" in
       --lr "${LR:-0.001}" \
       --lr-gamma "${LR_GAMMA:-0.997}" \
       --seed "$SEED" \
-      --threads "$THREADS" \
+      --threads "${THREADS_SET:-2}" \
       --output outputs/binary_efnn.pt \
       --checkpoint checkpoints/binary_efnn.pt
     ;;
@@ -44,8 +50,10 @@ case "$TASK" in
       --batch-size "${BATCH_SIZE:-256}" \
       --lr "${LR:-0.002}" \
       --lr-gamma "${LR_GAMMA:-0.97}" \
+      --restarts "${RESTARTS:-4}" \
+      --select-epochs "${SELECT_EPOCHS:-20}" \
       --seed "$SEED" \
-      --threads "$THREADS" \
+      --threads "${THREADS_SET:-1}" \
       --output outputs/de_efnn.pt \
       --checkpoint checkpoints/de_efnn.pt
     ;;

@@ -5,8 +5,10 @@
 #
 # Usage:
 #   bash scripts/baseline.sh dnn   # three_spin_binary: same-width DNN (2 x 105)  -> binary_dnn.pt
-#   bash scripts/baseline.sh de    # double_exchange: symmetrized DNN (C=3, 3 layers) -> de_dnn.pt
-#                                  #   and the paper's effective model (Eq. 3)      -> de_effective_model.pt
+#   bash scripts/baseline.sh de    # double_exchange: symmetrized DNN (C=3, 3 layers, same training
+#                                  #   and initialization selection as the EFNN)    -> de_dnn.pt
+#                                  #   and the paper's effective model (Eq. 3 restricted to 5x5
+#                                  #   tiles, fitted by regularized least squares)  -> de_effective_model.pt
 
 set -e
 
@@ -15,7 +17,9 @@ export PYTHONPATH="/home/user:${PYTHONPATH:-}"
 
 WHAT="${1:-dnn}"
 SEED="${SEED:-20250217}"
-THREADS="${THREADS:-2}"
+# Thread count changes floating-point reduction order and hence the trained weights:
+# the stored references use 2 threads for three_spin_binary and 1 for double_exchange.
+THREADS_SET="${THREADS:-}"
 mkdir -p checkpoints/baselines
 
 freeze() {  # freeze <file name>
@@ -40,7 +44,7 @@ case "$WHAT" in
       --lr "${LR:-0.001}" \
       --lr-gamma "${LR_GAMMA:-0.995}" \
       --seed "$SEED" \
-      --threads "$THREADS" \
+      --threads "${THREADS_SET:-2}" \
       --output "checkpoints/baselines/binary_${WHAT}.pt" \
       --checkpoint "checkpoints/baselines/binary_${WHAT}_state.pt"
     freeze "binary_${WHAT}.pt"
@@ -55,12 +59,15 @@ case "$WHAT" in
       --batch-size "${BATCH_SIZE:-256}" \
       --lr "${LR:-0.002}" \
       --lr-gamma "${LR_GAMMA:-0.97}" \
+      --restarts "${RESTARTS:-4}" \
+      --select-epochs "${SELECT_EPOCHS:-20}" \
       --seed "$SEED" \
-      --threads "$THREADS" \
+      --threads "${THREADS_SET:-1}" \
       --output checkpoints/baselines/de_dnn.pt \
       --checkpoint checkpoints/baselines/de_dnn_state.pt
     freeze de_dnn.pt
-    python baseline/effective_model_de.py --threads "$THREADS" --output checkpoints/baselines/de_effective_model.pt
+    python baseline/effective_model_de.py --threads "${THREADS_SET:-1}" --output checkpoints/baselines/de_effective_model.pt \
+      --report checkpoints/baselines/de_effective_model.fit.json
     freeze de_effective_model.pt
     ;;
   *)

@@ -6,11 +6,14 @@ float32 spins of shape (N, 15) in {0, 1} to energies of shape (N,). This scorer 
 each submission on the public development rows (``data/three_spin_binary/dev.csv``:
 2,000 configurations that never occur in the training file), recomputes every scored
 number from the raw predictions, measures the model's stored size from the archive,
-scores the frozen comparison baseline(s) in ``eval/train/baselines``, and marks a run
-as failed (no metrics, exit status 1) when it cannot be loaded, returns the wrong
-shape or a non-finite value, exceeds the size budget, or is no better than the best
-constant predictor (R^2 <= 0). The hidden test applies the same contract to held-out
-configurations.
+scores the frozen comparison baseline(s) in ``eval/train/baselines``, floors every
+scored metric at the paper's reference model's own value on this slice
+(``REFERENCE_FLOOR``; the target is exactly a cubic polynomial of the spins, so this
+experiment only penalizes regressions), and marks a run as failed (exit status 1) when
+it cannot be loaded, returns the wrong shape or a non-finite value, exceeds the size
+budget, or is no better than the best constant predictor (R^2 <= 0). A failed run is
+scored with the worst value of every metric. The hidden test applies the same contract
+to held-out configurations.
 
 Run with no arguments from the workspace root: ``bash scripts/evaluate_train.sh``.
 """
@@ -38,6 +41,13 @@ DEV_CSV = HERE.parents[1] / "data" / "three_spin_binary" / "dev.csv"
 BASELINE_DIR = HERE / "baselines"
 OUTPUTS_DIR = Path("outputs")
 DEFAULT_OUTPUT = Path("scoring/scores_train.json")
+# This experiment is a non-regression check. Its target is exactly a cubic polynomial of
+# the spins, so regression on enumerated spin products reproduces it to rounding error
+# without learning anything that transfers. Accuracy beyond the paper's reference
+# architecture therefore earns nothing: every scored metric is floored at the reference
+# model's own value on this slice (raw values are kept under _artifacts). Worse accuracy
+# still costs rank.
+REFERENCE_FLOOR = {"relative_error": 0.029986582799004558, "mae": 0.06760286649695968, "tail_rmse": 0.08572214157730162}
 
 PARAM_BUDGET = 100_000
 PAYLOAD_BUDGET_BYTES = 128 * 1024
@@ -230,6 +240,20 @@ def metric_bundle(y_true: np.ndarray, y_pred: np.ndarray) -> dict[str, float]:
     }
 
 
+def worst_metrics(y: np.ndarray) -> dict[str, float]:
+    """Score of a failed run: the constant (mean) predictor's errors and the full size budget."""
+
+    err = np.full_like(y, float(np.mean(y))) - y
+    cutoff = float(np.quantile(np.abs(y), 0.75))
+    tail = err[np.abs(y) >= cutoff]
+    return {
+        "relative_error": float(np.std(y)) / abs(float(np.mean(y))),
+        "mae": float(np.mean(np.abs(err))),
+        "tail_rmse": float(np.sqrt(np.mean(tail * tail))),
+        "param_count": float(PARAM_BUDGET),
+    }
+
+
 def score_model(path: Path, x: np.ndarray, y: np.ndarray) -> tuple[dict[str, float], dict]:
     archive = inspect_archive(path)
     if archive["forbidden_ops"]:
@@ -251,19 +275,29 @@ def score_model(path: Path, x: np.ndarray, y: np.ndarray) -> tuple[dict[str, flo
             f"RMSE {metrics['_rmse']:.6g} is no better than the best constant predictor ({constant_rmse:.6g}); task failed"
         )
     rmse = metrics.pop("_rmse")
+    worst = worst_metrics(y)
+    raw = dict(metrics)
+    for key in REFERENCE_FLOOR:
+        metrics[key] = min(max(raw[key], REFERENCE_FLOOR[key]), worst[key])
     metrics["param_count"] = float(archive["param_count"])
     details = dict(archive)
     details.update({"rmse": rmse, "constant_predictor_rmse": constant_rmse, "rows": int(y.shape[0])})
+    details.update({f"raw_{k}": v for k, v in raw.items()})
+    details["reference_floor"] = dict(REFERENCE_FLOOR)
     return metrics, details
 
 
-def discover(outputs_dir: Path) -> tuple[list[tuple[str, Path, str]], dict[str, str]]:
+def baseline_names() -> set[str]:
+    return {p.stem[len(TASK) + 1 :] for p in BASELINE_DIR.glob(f"{TASK}_*.pt") if "." not in p.stem[len(TASK) + 1 :]}
+
+
+def discover(outputs_dir: Path, reserved_extra: set[str] | None = None) -> tuple[list[tuple[str, Path, str]], dict[str, str]]:
     baselines = []
     for path in sorted(BASELINE_DIR.glob(f"{TASK}_*.pt")):
         name = path.stem[len(TASK) + 1 :]
         if name and "." not in name:
             baselines.append((name, path, "baseline"))
-    reserved = {name for name, _, _ in baselines}
+    reserved = {name for name, _, _ in baselines} | set(reserved_extra or ())
     submitted = []
     ignored: dict[str, str] = {}
     for path in sorted(outputs_dir.glob(f"{TASK}_*.pt")):
@@ -277,7 +311,7 @@ def discover(outputs_dir: Path) -> tuple[list[tuple[str, Path, str]], dict[str, 
     return baselines + submitted, ignored
 
 
-def score_experiment(outputs_dir: Path) -> dict:
+def score_experiment(outputs_dir: Path, reserved_extra: set[str] | None = None) -> dict:
     """Score every ``outputs_dir/binary_<name>.pt`` and the frozen baselines.
 
     Returns ``{"experiment", "block", "failures", "ignored", "n_submitted"}``; ``block``
@@ -285,13 +319,15 @@ def score_experiment(outputs_dir: Path) -> dict:
     """
 
     x, y = load_dev_set()
-    entries, ignored = discover(outputs_dir)
+    entries, ignored = discover(outputs_dir, reserved_extra)
     block: dict = {
         "_meta": {
             "slice": SLICE,
             "rows": int(y.shape[0]),
             "param_budget": PARAM_BUDGET,
             "payload_budget_bytes": PAYLOAD_BUDGET_BYTES,
+            "reference_floor": dict(REFERENCE_FLOOR),
+            "failed_run_scores": worst_metrics(y),
             "rows_are": "public dev configurations (absent from the training file)",
             "submission_pattern": f"{outputs_dir}/{TASK}_<name>.pt",
         },
@@ -305,6 +341,9 @@ def score_experiment(outputs_dir: Path) -> dict:
         except RunFailure as exc:
             failures[name] = str(exc)
             print(f"FAILED {EXPERIMENT}/{name} ({path}): {exc}", file=sys.stderr)
+            if kind != "baseline":
+                block["results"][name] = worst_metrics(y)
+                block["_artifacts"][name] = {"model": str(path), "kind": kind, "failed": str(exc), "scored_as": "failed run: worst value of every metric"}
             continue
         block["results"][name] = metrics
         details.update({"model": str(path), "kind": kind})
@@ -313,9 +352,12 @@ def score_experiment(outputs_dir: Path) -> dict:
         print(f"warning: ignored {path}: {reason}", file=sys.stderr)
     return {
         "experiment": EXPERIMENT,
+        "task": TASK,
         "block": block,
         "failures": failures,
         "ignored": ignored,
+        "worst": worst_metrics(y),
+        "submitted": sorted(name for name, _, kind in entries if kind == "submitted"),
         "n_submitted": sum(1 for _, _, kind in entries if kind == "submitted"),
     }
 

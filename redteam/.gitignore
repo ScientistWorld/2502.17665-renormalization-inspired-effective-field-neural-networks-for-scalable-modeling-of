@@ -5,3 +5,7 @@ __pycache__/
 *.npz
 
 !hardening/*.log
+!final2/*.log
+!final2/round1_best_of_4/*.log
+!final2/cases/*/*.log
+!final2/smoke/*.log

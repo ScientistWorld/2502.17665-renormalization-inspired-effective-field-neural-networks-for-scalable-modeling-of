@@ -1,0 +1,152 @@
+=== smoke start 2026-11-16T22:04:40-05:00 nproc=1 torch=2.12.0+cpu
+redteam/final2/smoke.sh: line 12: free: command not found
+model name	: AMD EPYC 9654 96-Core Processor
+tile_algebra exit=0 seconds=6
+checks exit=1 seconds=12
+train exit=0 seconds=14
+train_rerun exit=0 seconds=17
+train_continue exit=0 seconds=24
+train_dnn exit=0 seconds=16
+tile_fit exit=0 seconds=16
+tile_timing exit=0 seconds=8
+score_test exit=1 seconds=13
+score_train exit=1 seconds=11
+test {
+ "double_exchange": {
+  "dnn": {
+   "param_count": 1596.0,
+   "relative_error_L10": 0.002663263236571025,
+   "relative_error_L16": 0.0016448101486115077,
+   "relative_error_L24": 0.0011972968038096007
+  },
+  "effective_model": {
+   "param_count": 1091.0,
+   "relative_error_L10": 0.0011660510025291986
+  },
+  "efnn": {
+   "param_count": 3414.0,
+   "relative_error_L10": 0.0012040884999493804,
+   "relative_error_L16": 0.0007649396282560563,
+   "relative_error_L24": 0.0006064190599653055
+  },
+  "nan": {
+   "param_count": 4000.0,
+   "relative_error_L10": 0.01716023738691093,
+   "relative_error_L16": 0.010679855089323825,
+   "relative_error_L24": 0.007344907067232781
+  },
+  "poly": {
+   "param_count": 4000.0,
+   "relative_error_L10": 0.01716023738691093,
+   "relative_error_L16": 0.010679855089323825,
+   "relative_error_L24": 0.007344907067232781
+  }
+ },
+ "three_spin_binary": {
+  "dnn": {
+   "mae": 1.1496152010446494,
+   "param_count": 12918.0,
+   "relative_error": 0.49868271753422583,
+   "tail_rmse": 1.5078377145951478
+  },
+  "efnn": {
+   "mae": 0.06704212363992415,
+   "param_count": 95762.0,
+   "relative_error": 0.029493604412623508,
+   "tail_rmse": 0.0886144761785187
+  },
+  "nan": {
+   "mae": 6.071556158655891,
+   "param_count": 100000.0,
+   "relative_error": 2.8077633527940695,
+   "tail_rmse": 14.045000906060986
+  },
+  "poly": {
+   "mae": 0.06704212363992415,
+   "param_count": 3726.0,
+   "relative_error": 0.029493604412623508,
+   "tail_rmse": 0.0886144761785187
+  }
+ }
+}
+test failures {
+ "double_exchange": {
+  "nan": "4000 non-finite predictions on 10x10 lattices",
+  "poly": "no outputs/de_poly.pt submitted for this experiment"
+ },
+ "three_spin_binary": {
+  "nan": "no outputs/binary_nan.pt submitted for this experiment"
+ }
+}
+test double_exchange {'dnn': {}, 'effective_model': {}, 'efnn': {'compute_budget_per_site': 50000.0, 'compute_per_site_L10': 6783.6526, 'compute_per_site_L16': 6553.415234375, 'compute_per_site_L24': 6437.664496527777}, 'nan': {}, 'poly': {}}
+test three_spin_binary {'dnn': {'raw_mae': 1.1496152010446494, 'raw_relative_error': 0.49868271753422583, 'raw_tail_rmse': 1.5078377145951478}, 'efnn': {'raw_mae': 0.06704212363992415, 'raw_relative_error': 0.029493604412623508, 'raw_tail_rmse': 0.0886144761785187}, 'nan': {}, 'poly': {'raw_mae': 5.243539846876099e-07, 'raw_relative_error': 2.7979329652231756e-07, 'raw_tail_rmse': 1.224770406145572e-06}}
+train {
+ "double_exchange": {
+  "dnn": {
+   "param_count": 1596.0,
+   "relative_error_L10": 0.0026670306830911183,
+   "relative_error_L16": 0.001830071382394582,
+   "relative_error_L24": 0.0010699981383011632
+  },
+  "effective_model": {
+   "param_count": 1091.0,
+   "relative_error_L10": 0.001148180704773531
+  },
+  "efnn": {
+   "param_count": 3414.0,
+   "relative_error_L10": 0.001181819870024279,
+   "relative_error_L16": 0.0008013341131607992,
+   "relative_error_L24": 0.0005660376991311427
+  },
+  "nan": {
+   "param_count": 4000.0,
+   "relative_error_L10": 0.017465864359140788,
+   "relative_error_L16": 0.011245398825818265,
+   "relative_error_L24": 0.008224395344093883
+  },
+  "poly": {
+   "param_count": 4000.0,
+   "relative_error_L10": 0.017465864359140788,
+   "relative_error_L16": 0.011245398825818265,
+   "relative_error_L24": 0.008224395344093883
+  }
+ },
+ "three_spin_binary": {
+  "dnn": {
+   "mae": 1.1406587208190992,
+   "param_count": 12918.0,
+   "relative_error": 0.4980023156485842,
+   "tail_rmse": 1.475535485842126
+  },
+  "efnn": {
+   "mae": 0.06760286649695968,
+   "param_count": 95762.0,
+   "relative_error": 0.029986582799004558,
+   "tail_rmse": 0.08572214157730162
+  },
+  "nan": {
+   "mae": 6.035762825288999,
+   "param_count": 100000.0,
+   "relative_error": 2.8167767872283567,
+   "tail_rmse": 13.94807813793418
+  },
+  "poly": {
+   "mae": 0.06760286649695968,
+   "param_count": 3726.0,
+   "relative_error": 0.029986582799004558,
+   "tail_rmse": 0.08572214157730162
+  }
+ }
+}
+train failures {
+ "double_exchange": {
+  "nan": "2000 non-finite predictions on 10x10 lattices",
+  "poly": "no outputs/de_poly.pt submitted for this experiment"
+ },
+ "three_spin_binary": {
+  "nan": "no outputs/binary_nan.pt submitted for this experiment"
+ }
+}
+train double_exchange {'dnn': {}, 'effective_model': {}, 'efnn': {'compute_budget_per_site': 50000.0, 'compute_per_site_L10': 6783.6526, 'compute_per_site_L16': 6553.415234375, 'compute_per_site_L24': 6437.664496527777}, 'nan': {}, 'poly': {}}
+train three_spin_binary {'dnn': {'raw_mae': 1.1406587208190992, 'raw_relative_error': 0.4980023156485842, 'raw_tail_rmse': 1.475535485842126}, 'efnn': {'raw_mae': 0.06760286649695968, 'raw_relative_error': 0.029986582799004558, 'raw_tail_rmse': 0.08572214157730162}, 'nan': {}, 'poly': {'raw_mae': 5.898585251844224e-07, 'raw_relative_error': 2.9926383458845637e-07, 'raw_tail_rmse': 1.1997298194919665e-06}}
+=== smoke done 2026-11-16T22:07:14-05:00

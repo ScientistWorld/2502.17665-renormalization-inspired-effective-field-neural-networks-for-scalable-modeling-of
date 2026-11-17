@@ -1,0 +1,14 @@
+model=dnn C=3 layers=3 kernel=5 epochs=3 batch=256 lr=0.002 gamma=0.97 seed=20250217 restarts=2 select_epochs=1 train_rows=2000 site_mean=-0.511665 scale=0.899252
+candidate=0 seed=20250217 epoch=1 train_mse_z=14.1413 lr=0.00194 seconds=0.3
+candidate=1 seed=21250217 epoch=1 train_mse_z=9.93113 lr=0.00194 seconds=0.3
+selection after 1 epochs: losses=['14.1413', '9.93113'] -> candidate 1
+epoch=2 train_mse_z=2.08688 lr=0.00188 seconds=0.4
+epoch=3 train_mse_z=1.24138 lr=0.00183 seconds=0.4
+{
+  "best_train_mse_z": 1.241376606941223,
+  "param_count": 1594.0,
+  "export_gap": 0.0,
+  "dev_L10_relative_error": 0.01871657486653218,
+  "dev_L16_relative_error": 0.01282633120559673,
+  "dev_L24_relative_error": 0.010069708961959495
+}

@@ -1,0 +1,33 @@
+prev_reference {"L10": {"work_per_site": 6783.6526, "ops": 225, "seconds": 6.369}, "L16": {"work_per_site": 6553.415234375, "ops": 225, "seconds": 0.015}, "L24": {"work_per_site": 6437.664496527777, "ops": 225, "seconds": 0.014}}
+prev_dnn {"L10": {"work_per_site": 2795.99788, "ops": 173, "seconds": 0.012}, "L16": {"work_per_site": 2664.933359375, "ops": 173, "seconds": 0.007}, "L24": {"work_per_site": 2599.0457465277777, "ops": 173, "seconds": 0.009}}
+ti_expansion_227 {"L10": {"work_per_site": 1177.20668, "ops": 3285, "seconds": 0.103}, "L16": {"work_per_site": 1198.200546875, "ops": 3285, "seconds": 0.057}, "L24": {"work_per_site": 1202.4467881944445, "ops": 3285, "seconds": 0.055}}
+ti_expansion_1847 {"L10": {"work_per_site": 7903.49388, "ops": 5577, "seconds": 0.166}, "L16": {"work_per_site": 7869.792734375, "ops": 5577, "seconds": 0.135}, "L24": {"work_per_site": 7857.781857638889, "ops": 5577, "seconds": 0.132}}
+Traceback (most recent call last):
+  File "/home/user/redteam/final2/smoke_checks.py", line 102, in <module>
+    main()
+  File "/home/user/redteam/final2/smoke_checks.py", line 69, in main
+    cheb = torch.jit.script(ChebyshevFreeEnergy(700).eval())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/torch/jit/_script.py", line 1498, in script
+    ret = _script_impl(
+          ^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/torch/jit/_script.py", line 1196, in _script_impl
+    return torch.jit._recursive.create_script_module(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/torch/jit/_recursive.py", line 566, in create_script_module
+    return create_script_module_impl(nn_module, concrete_type, stubs_fn)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/site-packages/torch/jit/_recursive.py", line 638, in create_script_module_impl
+    create_methods_and_properties_from_stubs(
+  File "/usr/local/lib/python3.11/site-packages/torch/jit/_recursive.py", line 473, in create_methods_and_properties_from_stubs
+    concrete_type._create_methods_and_properties(
+RuntimeError: 
+python value of type 'float' cannot be used as a value. Perhaps it is a closed over global variable? If so, please consider passing it in as an argument or use a local variable instead.:
+  File "/home/user/redteam/final2/probes_de2.py", line 69
+        m = g.shape[1]
+        eye = torch.eye(m, dtype=torch.complex128).unsqueeze(0).expand(g.shape[0], m, m)
+        x = (g - CENTER * eye) / HALF
+                 ~~~~~~ <--- HERE
+        t0 = eye
+        t1 = x
+

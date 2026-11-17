@@ -1,0 +1,13 @@
+model=efnn C=3 layers=3 kernel=5 epochs=3 batch=256 lr=0.002 gamma=0.97 seed=20250217 restarts=1 select_epochs=0 train_rows=30000 site_mean=-0.511517 scale=0.883989
+epoch=1 train_mse_z=0.471346 lr=0.00194 seconds=13.0
+epoch=2 train_mse_z=0.0300256 lr=0.00188 seconds=10.7
+epoch=3 train_mse_z=0.0267015 lr=0.00183 seconds=12.8
+{
+  "best_train_mse_z": 0.026701495603720347,
+  "param_count": 3412.0,
+  "export_gap": 0.0,
+  "dev_L10_relative_error": 0.002736462478201778,
+  "dev_L16_relative_error": 0.0019110543522920594,
+  "dev_L24_relative_error": 0.0011559659375539573
+}
+weaker already trained

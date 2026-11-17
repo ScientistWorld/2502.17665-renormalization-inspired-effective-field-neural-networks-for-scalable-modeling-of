@@ -1,0 +1,16 @@
+model=efnn C=3 layers=3 kernel=5 epochs=4 batch=256 lr=0.002 gamma=0.97 seed=20250217 restarts=2 select_epochs=2 train_rows=2000 site_mean=-0.511665 scale=0.899252
+candidate=0 seed=20250217 epoch=1 train_mse_z=1.46773 lr=0.00194 seconds=0.7
+candidate=0 seed=20250217 epoch=2 train_mse_z=1.0738 lr=0.00188 seconds=0.6
+candidate=1 seed=21250217 epoch=1 train_mse_z=1.09279 lr=0.00194 seconds=0.6
+candidate=1 seed=21250217 epoch=2 train_mse_z=0.996008 lr=0.00188 seconds=0.6
+selection after 2 epochs: losses=['1.0738', '0.996008'] -> candidate 1
+epoch=3 train_mse_z=0.962147 lr=0.00183 seconds=0.6
+epoch=4 train_mse_z=0.744243 lr=0.00177 seconds=0.6
+{
+  "best_train_mse_z": 0.7442425718307495,
+  "param_count": 3412.0,
+  "export_gap": 0.0,
+  "dev_L10_relative_error": 0.013130914658976998,
+  "dev_L16_relative_error": 0.008622807237507378,
+  "dev_L24_relative_error": 0.00599454545991478
+}

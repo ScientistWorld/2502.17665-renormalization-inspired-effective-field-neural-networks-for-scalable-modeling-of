@@ -1,0 +1,187 @@
+{
+  "_meta": {
+    "slice": "test"
+  },
+  "experiments": {
+    "double_exchange": {
+      "_artifacts": {
+        "dnn": {
+          "constant_predictor_rmse_L10": 0.87764200342903,
+          "constant_predictor_rmse_L16": 1.398854090846273,
+          "constant_predictor_rmse_L24": 2.1632485430846007,
+          "forbidden_ops": [],
+          "kind": "baseline",
+          "model": "/home/user/eval/test/baselines/de_dnn.pt",
+          "param_count": 1596,
+          "payload_bytes": 10092,
+          "pickles_parsed": true,
+          "rmse_L10": 0.13620981173520133,
+          "rmse_L16": 0.2154383185178264,
+          "rmse_L24": 0.352632657349719,
+          "rows_L10": 4000,
+          "rows_L16": 600,
+          "rows_L24": 200,
+          "storage_bytes": 6384,
+          "stored_elements": 1596
+        },
+        "effective_model": {
+          "constant_predictor_rmse_L10": 0.87764200342903,
+          "forbidden_ops": [],
+          "kind": "baseline",
+          "model": "/home/user/eval/test/baselines/de_effective_model.pt",
+          "param_count": 213201,
+          "payload_bytes": 1986,
+          "pickles_parsed": true,
+          "rmse_L10": 0.5508345817577026,
+          "rows_L10": 4000,
+          "scored_sizes": [
+            "L10"
+          ],
+          "storage_bytes": 852804,
+          "stored_elements": 213201
+        },
+        "m": {
+          "compute_budget_per_site": 50000.0,
+          "compute_per_site_L10": 6783.6526,
+          "compute_per_site_L16": 6553.415234375,
+          "compute_per_site_L24": 6437.664496527777,
+          "constant_predictor_rmse_L10": 0.87764200342903,
+          "constant_predictor_rmse_L16": 1.398854090846273,
+          "constant_predictor_rmse_L24": 2.1632485430846007,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/de_m.pt",
+          "param_count": 3414,
+          "payload_bytes": 13332,
+          "pickles_parsed": true,
+          "rmse_L10": 0.061581819620250625,
+          "rmse_L16": 0.10019227033390012,
+          "rmse_L24": 0.1786047305923121,
+          "rows_L10": 4000,
+          "rows_L16": 600,
+          "rows_L24": 200,
+          "storage_bytes": 13656,
+          "stored_elements": 3414
+        }
+      },
+      "_meta": {
+        "compute_budget_per_site": 50000.0,
+        "failed_run_scores": {
+          "param_count": 4000.0,
+          "relative_error_L10": 0.01716023738691093,
+          "relative_error_L16": 0.010679855089323825,
+          "relative_error_L24": 0.007344907067232781
+        },
+        "param_budget": 4000,
+        "payload_budget_bytes": 131072,
+        "rows": {
+          "L10": 4000,
+          "L16": 600,
+          "L24": 200
+        },
+        "rows_are": "hidden configurations of uniformly random unit spins on periodic 10x10, 16x16 and 24x24 lattices",
+        "slice": "test",
+        "submission_pattern": "outputs/de_<name>.pt"
+      },
+      "results": {
+        "dnn": {
+          "param_count": 1596.0,
+          "relative_error_L10": 0.0026632644001427543,
+          "relative_error_L16": 0.0016448105899779847,
+          "relative_error_L24": 0.0011972984359031808
+        },
+        "effective_model": {
+          "param_count": 213201.0,
+          "relative_error_L10": 0.010770282355391323
+        },
+        "m": {
+          "param_count": 3414.0,
+          "relative_error_L10": 0.0012040884999493804,
+          "relative_error_L16": 0.0007649396282560563,
+          "relative_error_L24": 0.0006064190599653055
+        }
+      }
+    },
+    "three_spin_binary": {
+      "_artifacts": {
+        "dnn": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "baseline",
+          "model": "/home/user/eval/test/baselines/binary_dnn.pt",
+          "param_count": 12918,
+          "payload_bytes": 4416,
+          "pickles_parsed": true,
+          "raw_mae": 1.1496152010446494,
+          "raw_relative_error": 0.49868271753422583,
+          "raw_tail_rmse": 1.5078377145951478,
+          "reference_floor": {
+            "mae": 0.06704212363992415,
+            "relative_error": 0.029493604412623508,
+            "tail_rmse": 0.0886144761785187
+          },
+          "rmse": 1.4397300712329408,
+          "rows": 18162,
+          "storage_bytes": 51672,
+          "stored_elements": 12918
+        },
+        "m": {
+          "constant_predictor_rmse": 8.106198971385057,
+          "forbidden_ops": [],
+          "kind": "submitted",
+          "model": "outputs/binary_m.pt",
+          "param_count": 3726,
+          "payload_bytes": 2110,
+          "pickles_parsed": true,
+          "raw_mae": 5.243539846876099e-07,
+          "raw_relative_error": 2.7979329652231756e-07,
+          "raw_tail_rmse": 1.224770406145572e-06,
+          "reference_floor": {
+            "mae": 0.06704212363992415,
+            "relative_error": 0.029493604412623508,
+            "tail_rmse": 0.0886144761785187
+          },
+          "rmse": 8.077817990653117e-07,
+          "rows": 18162,
+          "storage_bytes": 14904,
+          "stored_elements": 2151
+        }
+      },
+      "_meta": {
+        "failed_run_scores": {
+          "mae": 6.071556158655891,
+          "param_count": 100000.0,
+          "relative_error": 2.8077633527940695,
+          "tail_rmse": 14.045000906060986
+        },
+        "param_budget": 100000,
+        "payload_budget_bytes": 131072,
+        "reference_floor": {
+          "mae": 0.06704212363992415,
+          "relative_error": 0.029493604412623508,
+          "tail_rmse": 0.0886144761785187
+        },
+        "rows": 18162,
+        "rows_are": "all 15-site configurations absent from the public train and dev files",
+        "slice": "test",
+        "submission_pattern": "outputs/binary_<name>.pt"
+      },
+      "results": {
+        "dnn": {
+          "mae": 1.1496152010446494,
+          "param_count": 12918.0,
+          "relative_error": 0.49868271753422583,
+          "tail_rmse": 1.5078377145951478
+        },
+        "m": {
+          "mae": 0.06704212363992415,
+          "param_count": 3726.0,
+          "relative_error": 0.029493604412623508,
+          "tail_rmse": 0.0886144761785187
+        }
+      }
+    }
+  }
+}
+
+--- stderr ---

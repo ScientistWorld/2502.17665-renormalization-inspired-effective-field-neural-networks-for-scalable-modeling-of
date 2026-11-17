@@ -1,0 +1,11 @@
+{
+  "independent_features": 181801,
+  "kernel_apply_rel_err": 7.680963564610495e-16,
+  "cg_err": 7.521652571618187e-18,
+  "cg_iterations": 11,
+  "primal_vs_explicit": 1.3322676295501878e-15,
+  "coefficients": 213201,
+  "torchscript_vs_fit": 1.223990270249331e-09,
+  "scale": 2.180383941232188
+}
+TILE ALGEBRA OK

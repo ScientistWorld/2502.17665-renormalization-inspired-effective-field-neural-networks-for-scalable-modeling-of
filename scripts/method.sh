@@ -10,7 +10,7 @@
 # double_exchange: initialization is selected on training data only. Random
 # initializations train in turn for the first 20 epochs of the schedule; the first whose
 # standardized training MSE is below 0.02 (it has left the plateau every run first
-# settles on) continues the same 150-epoch schedule; after 20 candidates without one,
+# settles on) continues the same 150-epoch schedule; after 24 candidates without one,
 # the lowest-loss candidate continues (RESTARTS=1 trains a single initialization).
 
 set -e
@@ -52,7 +52,7 @@ case "$TASK" in
       --batch-size "${BATCH_SIZE:-256}" \
       --lr "${LR:-0.002}" \
       --lr-gamma "${LR_GAMMA:-0.97}" \
-      --restarts "${RESTARTS:-20}" \
+      --restarts "${RESTARTS:-24}" \
       --select-epochs "${SELECT_EPOCHS:-20}" \
       --accept-loss "${ACCEPT_LOSS:-0.02}" \
       --seed "$SEED" \

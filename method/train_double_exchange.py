@@ -55,7 +55,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--lr", type=float, default=2e-3)
     p.add_argument("--lr-gamma", type=float, default=0.97)
     p.add_argument("--seed", type=int, default=20250217, help="initialization and minibatch seed (data are fixed)")
-    p.add_argument("--restarts", type=int, default=20, help="most initializations tried (see module docstring)")
+    p.add_argument("--restarts", type=int, default=24, help="most initializations tried (see module docstring)")
     p.add_argument("--select-epochs", type=int, default=20, help="epochs each initialization trains before selection")
     p.add_argument("--accept-loss", type=float, default=0.02, help="training MSE (standardized) that accepts a candidate")
     p.add_argument("--threads", type=int, default=1)
